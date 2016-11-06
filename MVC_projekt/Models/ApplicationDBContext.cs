@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MVC_projekt.Models
 {
-    public class MyDBContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public MyDBContext() : base("Database") { }
+        public ApplicationDbContext()
+            : base("DefaultConnection", throwIfV1Schema: false)
+        {
+            Database.SetInitializer<ApplicationDbContext>(null);
+            Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
+        }
 
-        public DbSet<Account> Accounts { get; set; }
+
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorGroup> AuthorGroups { get; set; }
@@ -18,19 +26,25 @@ namespace MVC_projekt.Models
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<BookItem> BookItems { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<Fee>Fees { get; set; }
+        public DbSet<Fee> Fees { get; set; }
         public DbSet<Label> Labels { get; set; }
         public DbSet<LabelGroup> LabelGroups { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<SearchResult> SearchResults { get; set; }
+
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<BookItem>()
                 .HasOptional(s => s.Category)
                 .WithRequired(ad => ad.BookItem);
-
+            base.OnModelCreating(modelBuilder);
         }
 
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
     }
 }

@@ -10,6 +10,6 @@ namespace MVC_projekt.Models
         public int SearchResultID { get; set; }
 
         public virtual BookItem BookItem { get; set; }
-        public virtual Account Account { get; set; }
+        public virtual ApplicationUser Account { get; set; }
     }
 }

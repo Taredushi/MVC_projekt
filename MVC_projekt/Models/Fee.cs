@@ -13,7 +13,7 @@ namespace MVC_projekt.Models
         public double Amount { get; set; }
         public bool Paid { get; set; }
 
-        public virtual Account Account { get; set; }
+        public virtual ApplicationUser Account { get; set; }
 
     }
 }
