@@ -13,6 +13,8 @@ namespace MVC_projekt.Models
         [Index(IsUnique = true)]
         public int ISBN { get; set; }
         public string Descryption { get; set; }
+        public string Publisher { get; set; }
+        public int ReleaseDate { get; set; }
 
         public virtual Category Category { get; set; }
         public virtual IEnumerable<Book> Books { get; set; }
