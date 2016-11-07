@@ -11,7 +11,7 @@ namespace MVC_projekt.Models
         public DateTime OrderDate { get; set; }
         public DateTime ReturnDate { get; set; }
 
-        public virtual ApplicationUser Account { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual Book Book { get; set; }
     }
 }

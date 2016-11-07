@@ -7,13 +7,13 @@ namespace MVC_projekt.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class pierwsza : IMigrationMetadata
+    public sealed partial class init : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(pierwsza));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(init));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611062256134_pierwsza"; }
+            get { return "201611071227501_init"; }
         }
         
         string IMigrationMetadata.Source

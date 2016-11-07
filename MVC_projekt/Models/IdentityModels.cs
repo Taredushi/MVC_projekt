@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,6 +17,12 @@ namespace MVC_projekt.Models
 
         [Required(ErrorMessage = "Nazwisko jest wymagane")]
         public string Surname { get; set; }
+
+        public virtual IEnumerable<Fee> Fees { get; set; }
+        public virtual IEnumerable<Order> Orders { get; set; }
+        public virtual IEnumerable<Booking> Bookings { get; set; }
+        public virtual IEnumerable<SearchResult> SearchResults { get; set; }
+
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

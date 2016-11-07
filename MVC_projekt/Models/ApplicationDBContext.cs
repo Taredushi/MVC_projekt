@@ -18,7 +18,6 @@ namespace MVC_projekt.Models
             Configuration.LazyLoadingEnabled = false;
         }
 
-
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<AuthorGroup> AuthorGroups { get; set; }
@@ -46,5 +45,6 @@ namespace MVC_projekt.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }
