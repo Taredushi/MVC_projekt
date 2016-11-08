@@ -18,6 +18,42 @@ namespace MVC_projekt.Controllers
     public class UserController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+
+        public UserController()
+        {
+        }
+
+        public UserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        {
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: User
         public ActionResult Index()
@@ -41,6 +77,7 @@ namespace MVC_projekt.Controllers
         }
 
         // GET: User/Create
+        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();
@@ -48,17 +85,31 @@ namespace MVC_projekt.Controllers
 
         // POST: User/Create
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ApplicationUser user)
+        public async Task<ActionResult> Create(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Name = model.Name, Surname = model.Surname };
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    return RedirectToAction("Index");
+                }
+                //AddErrors(result);
             }
 
-            return View(user);
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         // GET: User/Edit/5
