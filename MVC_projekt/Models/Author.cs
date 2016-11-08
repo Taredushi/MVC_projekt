@@ -13,6 +13,6 @@ namespace MVC_projekt.Models
         public string Name { get; set; }
         public string Surname { get; set; }
 
-        public virtual IEnumerable<AuthorGroup> AuthorGroups { get; set; }
+        public virtual ICollection<AuthorGroup> AuthorGroups { get; set; }
     }
 }

@@ -18,10 +18,10 @@ namespace MVC_projekt.Models
         [Required(ErrorMessage = "Nazwisko jest wymagane")]
         public string Surname { get; set; }
 
-        public virtual IEnumerable<Fee> Fees { get; set; }
-        public virtual IEnumerable<Order> Orders { get; set; }
-        public virtual IEnumerable<Booking> Bookings { get; set; }
-        public virtual IEnumerable<SearchResult> SearchResults { get; set; }
+        public virtual ICollection<Fee> Fees { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
+        public virtual ICollection<SearchResult> SearchResults { get; set; }
 
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

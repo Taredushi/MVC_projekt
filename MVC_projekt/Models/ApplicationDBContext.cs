@@ -13,7 +13,7 @@ namespace MVC_projekt.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            Database.SetInitializer<ApplicationDbContext>(null);
+            //Database.SetInitializer<ApplicationDbContext>(null);
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
         }
@@ -35,9 +35,7 @@ namespace MVC_projekt.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BookItem>()
-                .HasOptional(s => s.Category)
-                .WithRequired(ad => ad.BookItem);
+
             base.OnModelCreating(modelBuilder);
         }
 
