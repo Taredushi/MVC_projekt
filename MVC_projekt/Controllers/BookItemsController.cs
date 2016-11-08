@@ -17,8 +17,7 @@ namespace MVC_projekt.Controllers
         // GET: BookItems
         public ActionResult Index()
         {
-            var bookItems = db.BookItems.Include(b => b.Category);
-            return View(bookItems.ToList());
+            return View(db.BookItems.ToList());
         }
 
         // GET: BookItems/Details/5
@@ -33,13 +32,18 @@ namespace MVC_projekt.Controllers
             {
                 return HttpNotFound();
             }
+
+            var authors =
+                db.Authors.Where(x => x.AuthorGroups.Any(y => y.BookItem.BookItemID == bookItem.BookItemID)).ToList();
+
+            ViewBag.Authors = authors;
+
             return View(bookItem);
         }
 
         // GET: BookItems/Create
         public ActionResult Create()
         {
-            ViewBag.BookItemID = new SelectList(db.Categories, "CategoryID", "Name");
             return View();
         }
 
@@ -57,7 +61,6 @@ namespace MVC_projekt.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BookItemID = new SelectList(db.Categories, "CategoryID", "Name", bookItem.BookItemID);
             return View(bookItem);
         }
 
@@ -73,7 +76,6 @@ namespace MVC_projekt.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BookItemID = new SelectList(db.Categories, "CategoryID", "Name", bookItem.BookItemID);
             return View(bookItem);
         }
 
@@ -90,7 +92,6 @@ namespace MVC_projekt.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.BookItemID = new SelectList(db.Categories, "CategoryID", "Name", bookItem.BookItemID);
             return View(bookItem);
         }
 

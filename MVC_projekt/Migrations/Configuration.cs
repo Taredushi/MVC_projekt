@@ -239,20 +239,18 @@ namespace MVC_projekt.Migrations
             {
                 new AuthorGroup()
                 {
-                    Author = context.Authors.ToList().Find(x => x.Surname.Equals("Pilipiuk")),
-                    BookItem =
-                        context.BookItems.ToList().Find(x => x.ISBN == 9788360505113)
+                    Author = context.Authors.Single(x=>x.Surname.Equals("Pilipiuk")),
+                    BookItem = context.BookItems.Single(x => x.ISBN == 9788360505113)
                 },
                 new AuthorGroup()
                 {
-                    Author = context.Authors.Find(context.Authors.ToList().FindIndex(x => x.Surname.Equals("Sapkowski"))),
-                    BookItem = context.BookItems.ToList().Find(x => x.ISBN == 8370541291)
+                    Author = context.Authors.Single(x=>x.Surname.Equals("Sapkowski")),
+                    BookItem = context.BookItems.Single(x => x.ISBN == 8370541291)
                 },
                 new AuthorGroup()
                 {
-                    Author = context.Authors.Find(context.Authors.ToList().FindIndex(x => x.Surname.Equals("Grubb"))),
-                    BookItem =
-                        context.BookItems.ToList().Find(x => x.ISBN == 83705412911)
+                    Author = context.Authors.Single(x=>x.Surname.Equals("Grubb")),
+                    BookItem = context.BookItems.Single(x => x.ISBN == 83705412911)
                 }
             };
 
@@ -267,10 +265,7 @@ namespace MVC_projekt.Migrations
                     var groups = authorGroup.FindAll(x => x.Author.AuthorID == author.AuthorID);
                     foreach (var arg in groups)
                     {
-                        if (!author.AuthorGroups.Contains(arg))
-                        {
-                            author.AuthorGroups.Add(arg);
-                        }
+                        author.AuthorGroups.Add(arg);
                     }
                 }
                 context.SaveChanges();
@@ -281,10 +276,7 @@ namespace MVC_projekt.Migrations
                     var groups = authorGroup.FindAll(x => x.BookItem.BookItemID == book.BookItemID);
                     foreach (var arg in groups)
                     {
-                        if (!book.AuthorGroups.Contains(arg))
-                        {
-                            book.AuthorGroups.Add(arg);
-                        }
+                        book.AuthorGroups.Add(arg);
                     }
                 }
                 context.SaveChanges();
@@ -335,17 +327,20 @@ namespace MVC_projekt.Migrations
                 new Author()
                 {
                     Name = "Andrzej",
-                    Surname = "Pilipiuk"
+                    Surname = "Pilipiuk",
+                    AuthorGroups = new List<AuthorGroup>()
                 },
                 new Author()
                 {
                     Name = "Andrzej",
-                    Surname = "Sapkowski"
+                    Surname = "Sapkowski",
+                    AuthorGroups = new List<AuthorGroup>()
                 },
                 new Author()
                 {
                     Name = "Jeff",
-                    Surname = "Grubb"
+                    Surname = "Grubb",
+                    AuthorGroups = new List<AuthorGroup>()
                 },
 
             };

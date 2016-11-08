@@ -32,13 +32,6 @@ namespace MVC_projekt.Models
         public DbSet<SearchResult> SearchResults { get; set; }
 
 
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-
-            base.OnModelCreating(modelBuilder);
-        }
-
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
