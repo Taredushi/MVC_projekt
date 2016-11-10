@@ -41,6 +41,7 @@ namespace MVC_projekt.Migrations
             SeedCategory(context);
             SeedBooks(context);
             SeedAuthorGroups(context);
+            SeedLabels(context);
         }
 
         private void SeedRoles(MVC_projekt.Models.ApplicationDbContext context)
@@ -48,23 +49,17 @@ namespace MVC_projekt.Migrations
             var roleStore = new RoleStore<IdentityRole>(context);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
 
-            var adminrole = roleManager.FindByName("Admin");
-            if (adminrole == null)
+            if (!roleManager.RoleExists("Admin"))
             {
-                adminrole = new IdentityRole("Admin");
-                roleManager.Create(adminrole);
+                roleManager.Create(new IdentityRole("Admin"));
             }
-            var employeerole = roleManager.FindByName("Employee");
-            if (employeerole == null)
+            if (!roleManager.RoleExists("Employee"))
             {
-                employeerole = new IdentityRole("Employee");
-                roleManager.Create(employeerole);
+                roleManager.Create(new IdentityRole("Employee"));
             }
-            var userrole = roleManager.FindByName("User");
-            if (userrole == null)
+            if (!roleManager.RoleExists("User"))
             {
-                userrole = new IdentityRole("User");
-                roleManager.Create(userrole);
+                roleManager.Create(new IdentityRole("User"));
             }
         }
 
@@ -79,12 +74,9 @@ namespace MVC_projekt.Migrations
                 {
                     Name = "Jan",
                     Surname = "Kowalski",
-                    UserName = "admin@admin.net",
+                    UserName = "admin",
                     Email = "admin@admin.net",
                     PasswordHash = passwordHash.HashPassword("admin"),
-                    Bookings = new List<Booking>(),
-                    Orders = new List<Order>(),
-                    Fees = new List<Fee>()
                 };
 
                 var result = userManager.Create(user);
@@ -101,12 +93,9 @@ namespace MVC_projekt.Migrations
                 {
                     Name = "Jan",
                     Surname = "Nowak",
-                    UserName = "bibliotekarz@bibliotekarz.net",
+                    UserName = "bibliotekarz",
                     Email = "bibliotekarz@bibliotekarz.net",
                     PasswordHash = passwordHash.HashPassword("bibliotekarz"),
-                    Bookings = new List<Booking>(),
-                    Orders = new List<Order>(),
-                    Fees = new List<Fee>()
                 };
 
                 var result = userManager.Create(user);
@@ -123,12 +112,9 @@ namespace MVC_projekt.Migrations
                 {
                     Name = "Jan",
                     Surname = "Zegarek",
-                    UserName = "user@user.net",
+                    UserName = "user",
                     Email = "user@user.net",
                     PasswordHash = passwordHash.HashPassword("user"),
-                    Bookings = new List<Booking>(),
-                    Orders = new List<Order>(),
-                    Fees = new List<Fee>()
                 };
 
                 var result = userManager.Create(user);
@@ -142,7 +128,6 @@ namespace MVC_projekt.Migrations
         private void SeedFees(MVC_projekt.Models.ApplicationDbContext context)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
             var fees = new List<Fee>()
             {
                 new Fee()
@@ -150,173 +135,24 @@ namespace MVC_projekt.Migrations
                     Amount = 10.50,
                     Date = new DateTime(2016, 10, 10),
                     Paid = false,
-                    ApplicationUser = userManager.FindByEmail("user@user.net")
+                    ApplicationUser = userManager.FindByName("user")
                 },
                 new Fee()
                 {
                     Amount = 5,
                     Date = new DateTime(2016, 08, 10),
                     Paid = true,
-                    ApplicationUser = userManager.FindByEmail("user@user.net")
+                    ApplicationUser = userManager.FindByName("user")
                 }
             };
-            if (!context.Fees.Any())
+
+            foreach (var fee in fees)
             {
-                context.Fees.AddRange(fees);
-                context.SaveChanges();
-                var user = userManager.FindByEmail("user@user.net");
-                user.Fees.Add(fees[0]);
-                user.Fees.Add(fees[1]);
+                context.Set<Fee>().AddOrUpdate(fee);
             }
  
             context.SaveChanges();
 
-        }
-
-        private void SeedBooks(MVC_projekt.Models.ApplicationDbContext context)
-        {
-            //dodanie do BookItem
-            var books = new List<BookItem>()
-            {
-                new BookItem()
-                {
-                    Title = "Wieszaæ ka¿dy mo¿e",
-                    Descryption = "\bWieszaæ ka¿dy mo¿e" + " – pi¹ta z cyklu ksi¹¿ek Andrzeja Pilipiuka opowiadaj¹cych o egzorcyœcie amatorze, bimbrowniku, zamieszkuj¹cym Stary Majdan zapad³¹ wieœ na œcianie wschodniej – Jakubie Wêdrowyczu, wydana w 2006 roku.",
-                    ISBN = 9788360505113,
-                    Publisher = "Fabryka S³ów",
-                    ReleaseDate = 2016,
-                    Category = context.Categories.ToList().Find(x=>x.Name.Equals("Polska")),
-                    Attachments = new List<Attachment>(),
-                    AuthorGroups = new List<AuthorGroup>(),
-                    Books = new List<Book>(),
-                    LabelGroups = new List<LabelGroup>()
-                },
-                new BookItem()
-                {
-                    Title = "Pani jeziora",
-                    Descryption = "\bPani Jeziora" + " – powieœæ z gatunku fantasy, napisana przez Andrzeja Sapkowskiego, wydana w 1999. Jest ostatni¹ z piêciu czêœci sagi o wiedŸminie.",
-                    ISBN = 8370541291,
-                    Publisher = "SuperNowa",
-                    ReleaseDate = 1999,
-                    Category = context.Categories.ToList().Find(x=>x.Name.Equals("Polska")),
-                    Attachments = new List<Attachment>(),
-                    AuthorGroups = new List<AuthorGroup>(),
-                    Books = new List<Book>(),
-                    LabelGroups = new List<LabelGroup>()
-                },
-                new BookItem()
-                {
-                    Title = "Starcraft. Krucjata Liberty'ego",
-                    Descryption = "W odleg³ej przysz³oœci, 60 000 lat œwietlnych od Ziemi, luŸna konfederacja ziemskich wygnañców zmaga siê z zagadkowymi Protossami i bezwzglêdnym Rojem Zergów. Ka¿dy gatunek walczy o przetrwanie poœród gwiazd, w wojnie, która wieœci pocz¹tek najlepszego rozdzia³u w historii ludzkoœci - albo przepowiada jej gwa³towny, krwawy koniec.\n" 
-                    + "Danny Liberty by³ dobrym reporterem... zbyt dobrym. Kiedy jego œledztwo zaprowadzi³o go zbyt blisko serca skorumpowanej Konfederacji Cz³owieka, zmuszony by³ dokonaæ prostego wyboru: kontynuowaæ publikowanie dotychczasowych reporta¿y, b¹dŸ te¿ przyj¹æ nowe, ryzykowne zadanie towarzyszenia Marines na pierwszej linii w Sektorze Koprulu. Podjêcie decyzji trwa³o krótko...\n" 
-                    + "Za atakami Zergów i Protossów kryje siê d³uga historia, ale ka¿dy kawa³ek informacji jeszcze bardziej gmatwa tajemnicê. Wrzucony w sam œrodek wojny, od której wyniku bêdzie zale¿a³ los ludzkoœci, Danny Liberty pewien jest jedynie tego, ¿e chc¹c prze¿yæ, ufaæ mo¿e tylko sobie...",
-                    ISBN = 83705412911,
-                    Publisher = "Wydawnictwo Isa",
-                    ReleaseDate = 2001,
-                    Category = context.Categories.ToList().Find(x=>x.Name.Equals("Zagraniczna")),
-                    Attachments = new List<Attachment>(),
-                    AuthorGroups = new List<AuthorGroup>(),
-                    Books = new List<Book>(),
-                    LabelGroups = new List<LabelGroup>()
-                }
-            };
-            if (!context.BookItems.Any())
-            {
-                context.BookItems.AddRange(books);
-                context.SaveChanges();
-
-                context.Categories.ToList().Find(x => x.Name.Equals("Polska")).BookItem.Add(books[0]);
-                context.Categories.ToList().Find(x => x.Name.Equals("Polska")).BookItem.Add(books[1]);
-                context.Categories.ToList().Find(x => x.Name.Equals("Zagraniczna")).BookItem.Add(books[2]);
-                context.SaveChanges();
-            }
-        }
-
-        private void SeedAuthorGroups(ApplicationDbContext context)
-        {
-            //dodanie do AuthorGroup
-            var authorGroup = new List<AuthorGroup>()
-            {
-                new AuthorGroup()
-                {
-                    Author = context.Authors.Single(x=>x.Surname.Equals("Pilipiuk")),
-                    BookItem = context.BookItems.Single(x => x.ISBN == 9788360505113)
-                },
-                new AuthorGroup()
-                {
-                    Author = context.Authors.Single(x=>x.Surname.Equals("Sapkowski")),
-                    BookItem = context.BookItems.Single(x => x.ISBN == 8370541291)
-                },
-                new AuthorGroup()
-                {
-                    Author = context.Authors.Single(x=>x.Surname.Equals("Grubb")),
-                    BookItem = context.BookItems.Single(x => x.ISBN == 83705412911)
-                }
-            };
-
-            if (!context.AuthorGroups.Any())
-            {
-                context.AuthorGroups.AddRange(authorGroup);
-                context.SaveChanges();
-
-                //dodanie listy grup do Author
-                foreach (var author in context.Authors)
-                {
-                    var groups = authorGroup.FindAll(x => x.Author.AuthorID == author.AuthorID);
-                    foreach (var arg in groups)
-                    {
-                        author.AuthorGroups.Add(arg);
-                    }
-                }
-                context.SaveChanges();
-
-                //dodanie listy grup do BookItem
-                foreach (var book in context.BookItems)
-                {
-                    var groups = authorGroup.FindAll(x => x.BookItem.BookItemID == book.BookItemID);
-                    foreach (var arg in groups)
-                    {
-                        book.AuthorGroups.Add(arg);
-                    }
-                }
-                context.SaveChanges();
-            }
-        }
-
-        private void SeedCategory(ApplicationDbContext context)
-        {
-            if (!context.Categories.Any())
-            {
-                //dodanie do Category
-                context.Categories.Add(new Category()
-                {
-                    Name = "Fantastyka",
-                    BookItem = new List<BookItem>()
-                });
-                context.SaveChanges();
-
-                
-            }
-            if (context.Categories.Count() == 1)
-            {
-                var categories = new List<Category>()
-                {
-                    new Category()
-                    {
-                        Name = "Zagraniczna",
-                        Parent = context.Categories.Find(1),
-                        BookItem = new List<BookItem>()
-                    },
-                    new Category()
-                    {
-                        Name = "Polska",
-                        Parent = context.Categories.Find(1),
-                        BookItem = new List<BookItem>()
-                    }
-                };
-                context.Categories.AddRange(categories);
-                context.SaveChanges();
-            }
         }
 
         private void SeedAuthor(MVC_projekt.Models.ApplicationDbContext context)
@@ -326,30 +162,143 @@ namespace MVC_projekt.Migrations
             {
                 new Author()
                 {
+                    AuthorID = 1,
                     Name = "Andrzej",
-                    Surname = "Pilipiuk",
-                    AuthorGroups = new List<AuthorGroup>()
+                    Surname = "Pilipiuk"
                 },
                 new Author()
                 {
+                    AuthorID = 2,
                     Name = "Andrzej",
                     Surname = "Sapkowski",
-                    AuthorGroups = new List<AuthorGroup>()
                 },
                 new Author()
                 {
+                    AuthorID = 3,
                     Name = "Jeff",
                     Surname = "Grubb",
-                    AuthorGroups = new List<AuthorGroup>()
                 },
 
             };
-            if (!context.Authors.Any())
+
+            foreach (var aut in authors)
             {
-                context.Authors.AddRange(authors);
-                context.SaveChanges();
+                context.Set<Author>().AddOrUpdate(aut);
             }
+
+            context.SaveChanges();
         }
+
+        private void SeedCategory(ApplicationDbContext context)
+        {
+            var parent = new Category(){ Name = "Fantastyka" };
+
+            context.Set<Category>().AddOrUpdate(parent);
+            context.SaveChanges();
+
+            var categories = new List<Category>()
+                {
+                    new Category()
+                    {
+                        Name = "Zagraniczna",
+                        Parent = context.Categories.Single(c=>c.Name == "Fantastyka")
+                    },
+                    new Category()
+                    {
+                        Name = "Polska",
+                        Parent = context.Categories.Single(c=>c.Name == "Fantastyka")
+                    }
+                };
+
+            foreach (var cat in categories)
+            {
+                context.Set<Category>().AddOrUpdate(cat);
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SeedBooks(MVC_projekt.Models.ApplicationDbContext context)
+        {
+            var categoryPl = context.Set<Category>().FirstOrDefault(c => c.Name == "Polska").CategoryID;
+            var categoryZ = context.Set<Category>().FirstOrDefault(c => c.Name == "Zagraniczna").CategoryID;
+
+            //dodanie do BookItem
+            var books = new List<BookItem>()
+            {
+                new BookItem()
+                {
+                    BookItemID = 1,
+                    Title = "Wieszac kazdy moze",
+                    Descryption = "\bWieszac kazdy moze" + " – piata z cyklu ksiazek Andrzeja Pilipiuka opowiadajacych o egzorcyscie amatorze, bimbrowniku, zamieszkujacym Stary Majdan zapadla wies na scianie wschodniej – Jakubie Wedrowyczu, wydana w 2006 roku.",
+                    ISBN = 9788360505113,
+                    Publisher = "Fabryka Slow",
+                    ReleaseDate = 2016,
+                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
+                },
+                new BookItem()
+                {
+                    BookItemID = 2,
+                    Title = "Pani jeziora",
+                    Descryption = "\bPani Jeziora" + " – powiesc z gatunku fantasy, napisana przez Andrzeja Sapkowskiego, wydana w 1999. Jest ostatnia z pieciu czesci sagi o wiedzminie.",
+                    ISBN = 8370541291,
+                    Publisher = "SuperNowa",
+                    ReleaseDate = 1999,
+                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl)
+                },
+                new BookItem()
+                {
+                    BookItemID = 3,
+                    Title = "Starcraft. Krucjata Liberty'ego",
+                    Descryption = "W odleglej przyszlosci, 60 000 lat swietlnych od Ziemi, luzna konfederacja ziemskich wygnancow zmaga sie z zagadkowymi Protossami i bezwzglednym Rojem Zergow. Kazdy gatunek walczy o przetrwanie posrod gwiazd, w wojnie, ktora wiesci poczatek najlepszego rozdzialu w historii ludzkosci - albo przepowiada jej gwaltowny, krwawy koniec.\n" 
+                    + "Danny Liberty byl dobrym reporterem... zbyt dobrym. Kiedy jego sledztwo zaprowadzilo go zbyt blisko serca skorumpowanej Konfederacji Czlowieka, zmuszony byl dokonac prostego wyboru: kontynuowac publikowanie dotychczasowych reportazy, badz tez przyjac nowe, ryzykowne zadanie towarzyszenia Marines na pierwszej linii w Sektorze Koprulu. Podjecie decyzji trwalo krotko...\n" 
+                    + "Za atakami Zergow i Protossow kryje sie dluga historia, ale kazdy kawalek informacji jeszcze bardziej gmatwa tajemnice. Wrzucony w sam srodek wojny, od ktorej wyniku bedzie zalezal los ludzkosci, Danny Liberty pewien jest jedynie tego, ze chcac przezyc, ufac moze tylko sobie...",
+                    ISBN = 83705412911,
+                    Publisher = "Wydawnictwo Isa",
+                    ReleaseDate = 2001,
+                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryZ)
+                }
+            };
+
+            foreach (var book in books)
+            {
+                context.Set<BookItem>().AddOrUpdate(book);
+            }
+
+            context.SaveChanges();
+        }
+
+        private void SeedAuthorGroups(ApplicationDbContext context)
+        {
+            //dodanie do AuthorGroup
+            for (int i = 1; i < 4; i++)
+            {
+                var ag = new AuthorGroup()
+                {
+                    AuthorGroupID = i,
+                    Author = context.Authors.Single(a => a.AuthorID == i),
+                    BookItem = context.BookItems.Single(a => a.BookItemID == i)
+                };
+                context.Set<AuthorGroup>().AddOrUpdate(ag);
+            }
+            context.SaveChanges();
+        }
+
+        private void SeedLabels(ApplicationDbContext context)
+        {
+            for (int i = 1; i < 4; i++)
+            {
+                var ag = new Label()
+                {
+                    LabelID = i,
+                    Name = "Label" + i
+                };
+                context.Set<Label>().AddOrUpdate(ag);
+            }
+            context.SaveChanges();
+        }
+
+
     }
 }
 

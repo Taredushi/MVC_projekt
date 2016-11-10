@@ -31,7 +31,6 @@ namespace MVC_projekt.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<SearchResult> SearchResults { get; set; }
 
-
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

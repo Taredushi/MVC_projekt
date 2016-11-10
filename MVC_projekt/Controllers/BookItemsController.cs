@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -27,23 +28,27 @@ namespace MVC_projekt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookItem bookItem = db.BookItems.Find(id);
+            BookItemViewModel bookItem = GetViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id));
             if (bookItem == null)
             {
                 return HttpNotFound();
             }
-
-            var authors =
-                db.Authors.Where(x => x.AuthorGroups.Any(y => y.BookItem.BookItemID == bookItem.BookItemID)).ToList();
-
-            ViewBag.Authors = authors;
-
             return View(bookItem);
         }
 
         // GET: BookItems/Create
         public ActionResult Create()
         {
+            var authors = from a in db.Authors
+                          select new SelectListItem
+                          {
+                              Value = a.AuthorID.ToString(),
+                              Text = a.Name + " " + a.Surname
+                          };
+
+            ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
+            ViewBag.Authors = new SelectList(authors, "Value", "Text");
+            ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
             return View();
         }
 
@@ -52,14 +57,24 @@ namespace MVC_projekt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "BookItemID,Title,ISBN,Descryption,Publisher,ReleaseDate")] BookItem bookItem)
+        public ActionResult Create(BookItemViewModel bookItem)
         {
             if (ModelState.IsValid)
             {
-                db.BookItems.Add(bookItem);
-                db.SaveChanges();
+                CreateBookItem(bookItem);
                 return RedirectToAction("Index");
             }
+
+            var authors = from a in db.Authors
+                          select new SelectListItem
+                          {
+                              Value = a.AuthorID.ToString(),
+                              Text = a.Name + " " + a.Surname
+                          };
+
+            ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
+            ViewBag.Authors = new SelectList(authors, "Value", "Text");
+            ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
 
             return View(bookItem);
         }
@@ -76,6 +91,7 @@ namespace MVC_projekt.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(bookItem);
         }
 
@@ -92,6 +108,7 @@ namespace MVC_projekt.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             return View(bookItem);
         }
 
@@ -117,6 +134,11 @@ namespace MVC_projekt.Controllers
         {
             BookItem bookItem = db.BookItems.Find(id);
             db.BookItems.Remove(bookItem);
+            var ag = db.AuthorGroups.Where(x => x.BookItem.BookItemID == id);
+            foreach (var arg in ag)
+            {
+                db.AuthorGroups.Remove(arg);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -129,5 +151,81 @@ namespace MVC_projekt.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #region Helpers
+
+        private BookItemViewModel GetViewModel(BookItem book)
+        {
+
+            BookItemViewModel bookView = new BookItemViewModel();
+            bookView.ID = book.BookItemID;
+            bookView.Title = book.Title;
+            bookView.ISBN = book.ISBN;
+            bookView.Publisher = book.Publisher;
+            bookView.ReleaseDate = book.ReleaseDate;
+            bookView.Descryption = book.Descryption;
+            bookView.Category = db.Categories.Single(c => c.CategoryID == book.Category.CategoryID);
+            bookView.Authors = db.Authors.Where(a => a.AuthorGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
+            bookView.Labels = db.Labels.Where(a => a.LabelGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
+            bookView.Amount = book.Amount;
+
+            return bookView;
+        }
+
+        private void CreateBookItem(BookItemViewModel bookView)
+        {
+            BookItem bookItem = new BookItem()
+            {
+                Title = bookView.Title,
+                ISBN = bookView.ISBN,
+                Descryption = bookView.Descryption,
+                Publisher = bookView.Publisher,
+                ReleaseDate = bookView.ReleaseDate,
+                Category = db.Categories.Find(bookView.CategoryID),
+                Amount = bookView.Amount
+            };
+
+            db.Set<BookItem>().AddOrUpdate(bookItem);
+            db.SaveChanges();
+
+            var book = db.BookItems.FirstOrDefault(x => x.ISBN == bookItem.ISBN);
+            db.Categories.Find(bookView.CategoryID).BookItem.Add(book);
+
+            foreach (var authorId in bookView.SelectedAuthors)
+            {
+                var author = db.Authors.Single(a => a.AuthorID == authorId);
+                var ag = new AuthorGroup()
+                {
+                    Author = author,
+                    BookItem = db.BookItems.Find(book.BookItemID),
+                };
+                db.Set<AuthorGroup>().AddOrUpdate(ag);
+
+                var group = db.AuthorGroups.FirstOrDefault(a => a.Author.AuthorID == authorId && a.BookItem.BookItemID == book.BookItemID);
+
+                author.AuthorGroups.Add(group);
+                book.AuthorGroups.Add(group);
+            }
+            db.SaveChanges();
+
+            foreach (var labelId in bookView.SelectedLabels)
+            {
+                var label = db.Labels.Single(l => l.LabelID == labelId);
+                var labelgroup = new LabelGroup()
+                {
+                    Label = label,
+                    BookItem = db.BookItems.Find(book.BookItemID),
+                };
+                db.Set<LabelGroup>().AddOrUpdate(labelgroup);
+
+                var group = db.LabelGroups.FirstOrDefault(l => l.Label.LabelID == labelId && l.BookItem.BookItemID == book.BookItemID);
+
+                label.LabelGroups.Add(group);
+                book.LabelGroups.Add(group);
+            }
+            db.SaveChanges();
+        }
+
+        #endregion
     }
 }

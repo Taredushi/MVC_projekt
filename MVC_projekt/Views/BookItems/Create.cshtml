@@ -1,4 +1,5 @@
-﻿@model MVC_projekt.Models.BookItem
+﻿@using System.Web.UI.WebControls
+@model MVC_projekt.Models.BookItemViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -47,10 +48,40 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new {@class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ReleaseDate, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new {@class = "text-danger"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryID, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SelectedAuthors, htmlAttributes: new {@class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedAuthors, ViewBag.Authors as SelectList, new {@class = "select-state", style = "width:300px;"})
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SelectedLabels, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBoxFor(model => model.SelectedLabels, ViewBag.Labels as SelectList, new { @class = "select-state", style = "width:300px;" })
             </div>
         </div>
 
@@ -65,3 +96,18 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/selectize.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/selectize.default.css")" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript">
+        $('.select-state')
+            .selectize({
+                maxItems: 3,
+                plugins: ['remove_button'],
+                delimiter: ',',
+                persist: false
+            });
+    </script>
+}

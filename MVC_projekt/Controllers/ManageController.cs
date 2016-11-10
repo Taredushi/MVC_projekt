@@ -72,7 +72,6 @@ namespace MVC_projekt.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                Fees = GetFeesCollection()
             };
             return View(model);
         }
@@ -324,19 +323,6 @@ namespace MVC_projekt.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
-
-
-        [HttpGet]
-        public ActionResult GetFees()
-        {
-            var fees = GetFeesCollection();
-            if (fees.Count > 0)
-            {
-                return View(fees);
-            }
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
@@ -387,16 +373,6 @@ namespace MVC_projekt.Controllers
                 return user.PhoneNumber != null;
             }
             return false;
-        }
-
-        private List<Fee> GetFeesCollection()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null && user.Fees != null)
-            {
-                return user.Fees.ToList();
-            }
-            return new List<Fee>();
         }
 
         public enum ManageMessageId

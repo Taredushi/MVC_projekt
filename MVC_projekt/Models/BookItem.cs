@@ -16,7 +16,7 @@ namespace MVC_projekt.Models
         public string Title { get; set; }
         [Index(IsUnique = true)]
         public long ISBN { get; set; }
-        
+        public int Amount { get; set; }
         public string Descryption { get; set; }
         public string Publisher { get; set; }
         public int ReleaseDate { get; set; }

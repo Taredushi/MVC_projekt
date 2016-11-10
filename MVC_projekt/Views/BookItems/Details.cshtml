@@ -1,4 +1,4 @@
-﻿@model MVC_projekt.Models.BookItem
+﻿@model MVC_projekt.Models.BookItemViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -11,25 +11,16 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            Author
+            @Html.DisplayNameFor(model => model.Authors)
         </dt>
-        
-        @foreach (var author in @ViewBag.Authors)
+        @foreach (var author in Model.Authors)
         {
             <dd>
-                @author.Surname.ToString()
-                
-                @author.Name.ToString()
+                @author.Surname
+
+                @author.Name
             </dd>
         }
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Title)
@@ -71,9 +62,34 @@
             @Html.DisplayFor(model => model.ReleaseDate)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Labels)
+        </dt>
+        @foreach (var label in Model.Labels)
+        {
+            <dd>
+                @label.Name
+            </dd>
+        }
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.BookItemID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

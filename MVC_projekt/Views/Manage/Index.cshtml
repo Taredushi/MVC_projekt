@@ -84,18 +84,6 @@
                         }
             </dd>*@
         <dt>Opłaty:</dt>
-        <dd>
-            @Model.Fees.Count 
-            [
-            @if (Model.Fees.Count > 0)
-            {
 
-                @Html.ActionLink("Zobacz opłaty", "GetFees")
-            }
-            else
-            {
-                @Html.ActionLink("Zobacz opłaty", "Index")
-            }]
-        </dd>
     </dl>
 </div>

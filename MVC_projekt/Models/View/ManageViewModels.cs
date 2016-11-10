@@ -12,7 +12,6 @@ namespace MVC_projekt.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
-        public List<Fee> Fees { get; set; }
     }
 
     public class ManageLoginsViewModel
