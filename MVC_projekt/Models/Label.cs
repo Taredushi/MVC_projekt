@@ -7,6 +7,11 @@ namespace MVC_projekt.Models
 {
     public class Label
     {
+        public Label()
+        {
+            this.LabelGroups = new HashSet<LabelGroup>();
+        }
+
         public int LabelID { get; set; }
         public string Name { get; set; }
 

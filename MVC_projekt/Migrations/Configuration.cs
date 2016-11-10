@@ -192,11 +192,12 @@ namespace MVC_projekt.Migrations
         private void SeedCategory(ApplicationDbContext context)
         {
             var parent = new Category(){ Name = "Fantastyka" };
+            if (context.Categories.FirstOrDefault(x => x.Name.Equals("Fantastyka")) == null)
+            {
+                context.Set<Category>().AddOrUpdate(parent);
+                context.SaveChanges();
 
-            context.Set<Category>().AddOrUpdate(parent);
-            context.SaveChanges();
-
-            var categories = new List<Category>()
+                var categories = new List<Category>()
                 {
                     new Category()
                     {
@@ -210,12 +211,13 @@ namespace MVC_projekt.Migrations
                     }
                 };
 
-            foreach (var cat in categories)
-            {
-                context.Set<Category>().AddOrUpdate(cat);
-            }
+                foreach (var cat in categories)
+                {
+                    context.Set<Category>().AddOrUpdate(cat);
+                }
 
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
 
         private void SeedBooks(MVC_projekt.Models.ApplicationDbContext context)
@@ -235,6 +237,7 @@ namespace MVC_projekt.Migrations
                     Publisher = "Fabryka Slow",
                     ReleaseDate = 2016,
                     Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
+                    Amount = 5
                 },
                 new BookItem()
                 {
@@ -244,7 +247,8 @@ namespace MVC_projekt.Migrations
                     ISBN = 8370541291,
                     Publisher = "SuperNowa",
                     ReleaseDate = 1999,
-                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl)
+                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
+                    Amount = 10
                 },
                 new BookItem()
                 {
@@ -256,7 +260,8 @@ namespace MVC_projekt.Migrations
                     ISBN = 83705412911,
                     Publisher = "Wydawnictwo Isa",
                     ReleaseDate = 2001,
-                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryZ)
+                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryZ),
+                    Amount = 14
                 }
             };
 

@@ -8,6 +8,10 @@ namespace MVC_projekt.Models
 {
     public class Author
     {
+        public Author()
+        {
+            this.AuthorGroups = new HashSet<AuthorGroup>();
+        }
 
         public int AuthorID { get; set; }
         public string Name { get; set; }

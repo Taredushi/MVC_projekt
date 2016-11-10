@@ -31,6 +31,22 @@ namespace MVC_projekt.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<SearchResult> SearchResults { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AuthorGroup>()
+                .HasOptional(d => d.BookItem)
+                .WithMany()
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<LabelGroup>()
+                .HasOptional(d => d.BookItem)
+                .WithMany()
+                .WillCascadeOnDelete(true);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

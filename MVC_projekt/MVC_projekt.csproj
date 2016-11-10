@@ -182,9 +182,9 @@
     <Compile Include="Migrations\201611080005032_init.Designer.cs">
       <DependentUpon>201611080005032_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611101337480_bookitem.cs" />
-    <Compile Include="Migrations\201611101337480_bookitem.Designer.cs">
-      <DependentUpon>201611101337480_bookitem.cs</DependentUpon>
+    <Compile Include="Migrations\201611102341451_bookItem.cs" />
+    <Compile Include="Migrations\201611102341451_bookItem.Designer.cs">
+      <DependentUpon>201611102341451_bookItem.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\View\AccountViewModels.cs" />
@@ -298,12 +298,13 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611080005032_init.resx">
       <DependentUpon>201611080005032_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611101337480_bookitem.resx">
-      <DependentUpon>201611101337480_bookitem.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611102341451_bookItem.resx">
+      <DependentUpon>201611102341451_bookItem.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

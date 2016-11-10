@@ -11,12 +11,20 @@ namespace MVC_projekt.Models
 {
     public class BookItem
     {
+        public BookItem()
+        {
+            this.Attachments = new HashSet<Attachment>();
+            this.Books = new HashSet<Book>();
+            this.LabelGroups = new List<LabelGroup>();
+        }
+
         [Key]
         public int BookItemID { get; set; }
         public string Title { get; set; }
         [Index(IsUnique = true)]
         public long ISBN { get; set; }
         public int Amount { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Descryption { get; set; }
         public string Publisher { get; set; }
         public int ReleaseDate { get; set; }

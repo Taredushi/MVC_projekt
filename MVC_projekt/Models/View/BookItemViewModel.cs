@@ -31,13 +31,14 @@ namespace MVC_projekt.Models
         public int CategoryID { get; set; }
         [Display(Name = "Category")]
         public Category Category { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Descryption { get; set; }
         [Required]
         [Display(Name = "Author")]
-        public int[] SelectedAuthors { get; set; }
+        public List<int> SelectedAuthors { get; set; }
         [Required]
         [Display(Name = "Label")]
-        public int[] SelectedLabels { get; set; }
+        public List<int> SelectedLabels { get; set; }
 
         [Display(Name = "Author")]
         public List<Author> Authors { get; set; }
