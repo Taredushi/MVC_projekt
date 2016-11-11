@@ -18,7 +18,9 @@ namespace MVC_projekt.Controllers
         // GET: BookItems
         public ActionResult Index()
         {
-            return View(db.BookItems.ToList());
+            var bookItemList = db.BookItems.ToList();
+            IEnumerable<BookItemViewModel> bookViewList = bookItemList.Select(GetViewModel).ToList();
+            return View(bookViewList);
         }
 
         // GET: BookItems/Details/5
@@ -37,18 +39,13 @@ namespace MVC_projekt.Controllers
             return View(bookItem);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         // GET: BookItems/Create
         public ActionResult Create()
         {
-            var authors = from a in db.Authors
-                          select new SelectListItem
-                          {
-                              Value = a.AuthorID.ToString(),
-                              Text = a.Name + " " + a.Surname
-                          };
 
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
-            ViewBag.Authors = new SelectList(authors, "Value", "Text");
+            ViewBag.Authors = new SelectList(GetAuthorsFromDb(), "Value", "Text");
             ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
             return View();
         }
@@ -66,20 +63,14 @@ namespace MVC_projekt.Controllers
                 return RedirectToAction("Index");
             }
 
-            var authors = from a in db.Authors
-                          select new SelectListItem
-                          {
-                              Value = a.AuthorID.ToString(),
-                              Text = a.Name + " " + a.Surname
-                          };
-
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
-            ViewBag.Authors = new SelectList(authors, "Value", "Text");
+            ViewBag.Authors = new SelectList(GetAuthorsFromDb(), "Value", "Text");
             ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
 
             return View(bookItem);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         // GET: BookItems/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -94,15 +85,8 @@ namespace MVC_projekt.Controllers
                 return HttpNotFound();
             }
 
-            var authors = from a in db.Authors
-                          select new SelectListItem
-                          {
-                              Value = a.AuthorID.ToString(),
-                              Text = a.Name + " " + a.Surname
-                          };
-
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
-            ViewBag.Authors = new SelectList(authors, "Value", "Text");
+            ViewBag.Authors = new SelectList(GetAuthorsFromDb(), "Value", "Text");
             ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
 
             return View(bookItem);
@@ -115,40 +99,58 @@ namespace MVC_projekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BookItemViewModel bookView)
         {
-            if (ModelState.IsValid)
+            try
             {
-                BookItem bookItem = EditBookItem(bookView);
-                db.Entry(bookItem).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    BookItem bookItem = EditBookItem(bookView);
+                    db.Entry(bookItem).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    throw null;
+                }
             }
+            catch (Exception)
+            {
 
-            var authors = from a in db.Authors
-                          select new SelectListItem
-                          {
-                              Value = a.AuthorID.ToString(),
-                              Text = a.Name + " " + a.Surname
-                          };
+                ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
+                ViewBag.Authors = new SelectList(GetAuthorsFromDb(), "Value", "Text");
+                ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
 
+                ViewBag.Error = true;
+                return View(bookView);
+            }
+            
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
-            ViewBag.Authors = new SelectList(authors, "Value", "Text");
+            ViewBag.Authors = new SelectList(GetAuthorsFromDb(), "Value", "Text");
             ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
+            ViewBag.Error = false;
 
             return View(bookView);
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         // GET: BookItems/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, bool? error)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookItem bookItem = db.BookItems.Find(id);
+            BookItemViewModel bookItem = GetViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id));
+
             if (bookItem == null)
             {
                 return HttpNotFound();
             }
+
+            if (error != null)
+            {
+                ViewBag.Error = true;
+            }
+
             return View(bookItem);
         }
 
@@ -157,9 +159,18 @@ namespace MVC_projekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            BookItem bookItem = db.BookItems.Single(x => x.BookItemID == id);
-            db.BookItems.Remove(bookItem);
-            db.SaveChanges();
+            try
+            {
+                BookItem bookItem = db.BookItems.Single(x => x.BookItemID == id);
+                db.BookItems.Remove(bookItem);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                
+                return RedirectToAction("Delete", new {id = id, error = true});
+            }
+            
             return RedirectToAction("Index");
         }
 
@@ -184,11 +195,14 @@ namespace MVC_projekt.Controllers
             bookView.Publisher = book.Publisher;
             bookView.ReleaseDate = book.ReleaseDate;
             bookView.Descryption = book.Descryption;
-            bookView.Category = db.Categories.Single(c => c.CategoryID == book.Category.CategoryID);
+            if (book.Category != null)
+            {
+                bookView.Category = db.Categories.Single(c => c.CategoryID == book.Category.CategoryID);
+                bookView.CategoryID = book.Category.CategoryID;
+            }
             bookView.Authors = db.Authors.Where(a => a.AuthorGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
             bookView.Labels = db.Labels.Where(a => a.LabelGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
             bookView.Amount = book.Amount;
-            bookView.CategoryID = book.Category.CategoryID;
             bookView.SelectedLabels = bookView.Labels.Select(x => x.LabelID).ToList();
             bookView.SelectedAuthors = bookView.Authors.Select(x => x.AuthorID).ToList();
 
@@ -295,6 +309,18 @@ namespace MVC_projekt.Controllers
 
 
             return existingBook;
+        }
+
+        private IQueryable<SelectListItem> GetAuthorsFromDb()
+        {
+            var authors = from a in db.Authors
+                          select new SelectListItem
+                          {
+                              Value = a.AuthorID.ToString(),
+                              Text = a.Surname + " " + a.Name
+                          };
+
+            return authors;
         }
         #endregion
     }

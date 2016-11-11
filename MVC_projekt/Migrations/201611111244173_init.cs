@@ -27,6 +27,7 @@ namespace MVC_projekt.Migrations
                         BookItemID = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         ISBN = c.Long(nullable: false),
+                        Amount = c.Int(nullable: false),
                         Descryption = c.String(),
                         Publisher = c.String(),
                         ReleaseDate = c.Int(nullable: false),
@@ -46,8 +47,8 @@ namespace MVC_projekt.Migrations
                         BookItem_BookItemID = c.Int(),
                     })
                 .PrimaryKey(t => t.AuthorGroupID)
-                .ForeignKey("dbo.Authors", t => t.Author_AuthorID)
-                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID)
+                .ForeignKey("dbo.Authors", t => t.Author_AuthorID, cascadeDelete: true)
+                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID, cascadeDelete: true)
                 .Index(t => t.Author_AuthorID)
                 .Index(t => t.BookItem_BookItemID);
             
@@ -212,8 +213,8 @@ namespace MVC_projekt.Migrations
                         Label_LabelID = c.Int(),
                     })
                 .PrimaryKey(t => t.LabelGroupID)
-                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID)
-                .ForeignKey("dbo.Labels", t => t.Label_LabelID)
+                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID, cascadeDelete: true)
+                .ForeignKey("dbo.Labels", t => t.Label_LabelID, cascadeDelete: true)
                 .Index(t => t.BookItem_BookItemID)
                 .Index(t => t.Label_LabelID);
             

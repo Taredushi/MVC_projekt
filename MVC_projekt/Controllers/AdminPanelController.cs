@@ -9,13 +9,10 @@ namespace MVC_projekt.Controllers
 {
     public class AdminPanelController : Controller
     {
+        [Authorize(Roles = "Admin")]
         // GET: AdminPanel
         public ActionResult Index()
         {
-            if (User.IsInRole("Admin"))
-            {
-                ViewBag.Role = "Admin";
-            }
             return View();
         }
     }

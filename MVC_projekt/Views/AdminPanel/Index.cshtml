@@ -6,12 +6,9 @@
 }
 
 <div class="list-group" style="margin-top:10px ">
-    @if (ViewBag.Role.Equals("Admin"))
-    {
-        <a href="@Url.Action("Index","User")" class="list-group-item">Users</a>
-    }
     <a href="@Url.Action("Index","Authors")" class="list-group-item">Writers</a>
     <a href="@Url.Action("Index","Labels")" class="list-group-item">Labels</a>
     <a href="@Url.Action("Index","AdminPanel")" class="list-group-item">Categories</a>
-    <a href="@Url.Action("Index","BookItems")" class="list-group-item">Books</a>
+    <a href="@Url.Action("Index", "BookItems")" class="list-group-item">Books</a>
+    <a href="@Url.Action("Index", "User")" class="list-group-item">Users</a>
 </div>

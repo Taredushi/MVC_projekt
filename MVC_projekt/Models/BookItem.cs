@@ -15,7 +15,7 @@ namespace MVC_projekt.Models
         {
             this.Attachments = new HashSet<Attachment>();
             this.Books = new HashSet<Book>();
-            this.LabelGroups = new List<LabelGroup>();
+            //this.LabelGroups = new HashSet<LabelGroup>();
         }
 
         [Key]
@@ -24,7 +24,6 @@ namespace MVC_projekt.Models
         [Index(IsUnique = true)]
         public long ISBN { get; set; }
         public int Amount { get; set; }
-        [DataType(DataType.MultilineText)]
         public string Descryption { get; set; }
         public string Publisher { get; set; }
         public int ReleaseDate { get; set; }
