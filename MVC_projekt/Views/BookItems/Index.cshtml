@@ -1,27 +1,36 @@
-﻿@model IEnumerable<MVC_projekt.Models.BookItemViewModel>
-
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MVC_projekt.Models.BookItemViewModel>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Books";
 }
 
-<h2>Index</h2>
+
+<h2>Books</h2>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-warning" })
+    </p>
+}
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Authors)
+            @Html.DisplayNameFor(model => model[0].Authors)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model[0].Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ISBN)
+            @Html.DisplayNameFor(model => model[0].ISBN)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Publisher)
+            @Html.DisplayNameFor(model => model[0].Publisher)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
+            @Html.DisplayNameFor(model => model[0].ReleaseDate)
         </th>
         <th></th>
         <th></th>
@@ -66,10 +75,10 @@
     }
 
 </table>
-@if (User.IsInRole("Admin") || User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Add New", "Create", null, new {@class = "btn btn-warning"})
-    </p>
-}
+
+<div>
+    <br/>
+    @Html.PagedListPager(Model, page=>Url.Action("Index", new {page}))
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+</div>
 

@@ -13,6 +13,7 @@ namespace MVC_projekt.Models
             this.Orders = new HashSet<Order>();
         }
         public int BookID { get; set; }
+        public bool Returned { get; set; }
 
         public virtual BookItem BookItem { get; set; }
         public virtual ICollection<Booking> Bookings { get; set; }

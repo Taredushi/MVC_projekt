@@ -35,6 +35,5 @@ namespace MVC_projekt.Models
         {
             return new ApplicationDbContext();
         }
-
     }
 }

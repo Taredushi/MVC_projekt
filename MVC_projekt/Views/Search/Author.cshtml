@@ -1,0 +1,60 @@
+﻿@using MVC_projekt.Controllers
+@using PagedList.Mvc
+@model PagedList.IPagedList<MVC_projekt.Models.AuthorViewModel>
+@{
+    ViewBag.Title = "Search";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h2>Search Author</h2>
+
+@Html.ActionLink("Author", "Author", new { id = 1 }, new { @class = "btn btn-default" })
+@Html.ActionLink("Title", "Index", new { id = 2 }, new { @class = "btn btn-default" })
+@Html.ActionLink("ISBN", "Index", new { id = 3 }, new { @class = "btn btn-default" })
+@Html.ActionLink("Category", "Index", new { id = 4 }, new { @class = "btn btn-default" })
+@Html.ActionLink("Label", "Index", new { id = 5 }, new { @class = "btn btn-default" })
+
+
+<p>
+    <br />
+</p>
+    @using (Html.BeginForm())
+    {
+<p>
+    Find: @Html.TextBox("SearchString")
+    <input type="submit" value="Search" name="submit" class="btn btn-default" />
+    &emsp;
+    <input type="submit" value="Save search result" name="submit" class="btn btn-info" />
+</p>
+    }
+<br />
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model[0].FullName)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+                @Html.ActionLink(item.BooksNumber.ToString(), "Books", "Search", new {id=item.ID}, new {@class = "badge"})
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    <br />
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+</div>
+
+
+

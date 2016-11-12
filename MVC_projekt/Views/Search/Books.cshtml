@@ -1,0 +1,76 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<MVC_projekt.Models.BookItemViewModel>
+
+@{
+    ViewBag.Title = "Books";
+}
+
+<h2>@ViewBag.Author</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].ISBN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Publisher)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].ReleaseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Amount)
+        </th>
+        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+        {
+            <th></th>
+            <th></th>
+            <th></th>
+        }
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISBN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Publisher)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableNumber)/
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new {id = item.ID, authorID = ViewBag.AuthorID }, new {@class = "btn btn-default"})
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new {id = item.ID, authorID = ViewBag.AuthorID }, new {@class = "btn btn-info"})
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new {id = item.ID, authorID = ViewBag.AuthorID }, new {@class = "btn btn-danger"})
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+
+<div>
+    <br />
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+</div>
