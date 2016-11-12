@@ -8,6 +8,8 @@
 
 <h2>Books</h2>
 
+@Html.Partial("_SearchPartial")
+
 @if (User.IsInRole("Admin") || User.IsInRole("Admin"))
 {
     <p>
@@ -59,13 +61,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ReleaseDate)
                 </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
+                </td>
                 @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
-                    </td>
-                    <td>
-                        @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
                     </td>
                     <td>
                         @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })

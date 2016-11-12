@@ -1,13 +1,13 @@
 ﻿@using MVC_projekt.Controllers
 @using PagedList.Mvc
-@model PagedList.IPagedList<MVC_projekt.Models.TitleViewModel>
+@model PagedList.IPagedList<MVC_projekt.Models.LabelViewModel>
 @{
     ViewBag.Title = "Search";
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<h2>Search Title</h2>
+<h2>Search Label</h2>
 
 @Html.Partial("_SearchPartial")
 
@@ -27,7 +27,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model[0].Title)
+            @Html.DisplayNameFor(model => model[0].Name)
         </th>
     </tr>
 
@@ -35,8 +35,8 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
-                @Html.ActionLink(item.TitlesNumber.ToString(), "BooksTitle", "Search", new { id = item.Title }, new { @class = "badge" })
+                @Html.DisplayFor(modelItem => item.Name)
+                @Html.ActionLink(item.BooksNumber.ToString(), "BooksLabel", new {id = item.ID}, new {@class = "badge"})
             </td>
         </tr>
     }
@@ -48,6 +48,3 @@
     @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 </div>
-
-
-

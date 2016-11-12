@@ -5,10 +5,10 @@ using System.Web;
 
 namespace MVC_projekt.Models
 {
-    public class TitleViewModel
+    public class LabelViewModel
     {
         public int ID { get; set; }
-        public string Title { get; set; }
+        public string Name { get; set; }
         public int BooksNumber { get; set; }
     }
 }

@@ -191,21 +191,23 @@ namespace MVC_projekt.Models.Helpers
             TitleViewModel titleView = new TitleViewModel()
             {
                 Title = book.Key,
-                TitlesNumber = book.Count()
+                BooksNumber = book.Count()
             };
 
             return titleView;
         }
 
-        public IsbnViewModel GetTitleViewModel(BookItem book, ApplicationDbContext db)
+        public LabelViewModel GetLabelViewModel(Label label, ApplicationDbContext db)
         {
-            IsbnViewModel isbnView = new IsbnViewModel()
+            LabelViewModel labelView = new LabelViewModel()
             {
-                ISBN = book.ISBN,
-                BookssNumber = 1
+                ID = label.LabelID,
+                Name = label.Name,
+                BooksNumber = db.BookItems
+                    .Count(a => a.LabelGroups.Any(x => x.Label.LabelID == label.LabelID))
             };
 
-            return isbnView;
+            return labelView;
         }
     }
 }

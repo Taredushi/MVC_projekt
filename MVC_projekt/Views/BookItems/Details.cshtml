@@ -90,8 +90,6 @@
     </dl>
 </div>
 &nbsp;
-<p>
-    @Html.ActionLink("Back to List", "Index", null, new {@class="btn btn-primary"})
-    &emsp;
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new {@class = "btn btn-warning"})
-</p>
+<div>
+    <a href="@Request.UrlReferrer" class="btn btn-primary" title="Back to list">Back to list</a>
+</div>

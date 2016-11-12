@@ -7,7 +7,7 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<h2>Search Title</h2>
+<h2>Search ISBN</h2>
 
 @Html.Partial("_SearchPartial")
 
@@ -41,9 +41,9 @@
         <th>
             @Html.DisplayNameFor(model => model[0].Amount)
         </th>
+        <th></th>
         @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
         {
-            <th></th>
             <th></th>
             <th></th>
         }
@@ -69,8 +69,17 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.ID, authorID = ViewBag.AuthorID }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Details", "Details", new {id = item.ID}, new {@class = "btn btn-info"})
             </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
+                </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                    </td>
+            }
         </tr>
     }
 

@@ -36,7 +36,7 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FullName)
-                @Html.ActionLink(item.BooksNumber.ToString(), "BooksAuthor", "Search", new {id=item.ID}, new {@class = "badge"})
+                @Html.ActionLink(item.BooksNumber.ToString(), "BooksAuthor", new {id = item.ID}, new {@class = "badge"})
             </td>
         </tr>
     }

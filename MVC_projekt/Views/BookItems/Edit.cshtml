@@ -113,7 +113,7 @@ else if (ViewBag.Error == false)
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index", null, new {@class="btn btn-primary"})
+    <a href="@Request.UrlReferrer" class="btn btn-primary" title="Back to list">Back to list</a>
 </div>
 
 @section Scripts {
