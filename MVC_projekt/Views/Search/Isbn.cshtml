@@ -1,15 +1,28 @@
-﻿@using PagedList.Mvc
+﻿@using MVC_projekt.Controllers
+@using PagedList.Mvc
 @model PagedList.IPagedList<MVC_projekt.Models.BookItemViewModel>
-
 @{
-    ViewBag.Title = "Books";
+    ViewBag.Title = "Search";
 }
-<br/>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h2>Search Title</h2>
+
 @Html.Partial("_SearchPartial")
 
-<h2>@ViewBag.Category</h2>
 
-
+@using (Html.BeginForm())
+{
+    <p>
+        Find: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" name="submit" class="btn btn-default" />
+        &emsp;
+        <input type="submit" value="Save search result" name="submit" class="btn btn-info" />
+    </p>
+}
+<br />
+<br />
 
 <table class="table">
     <tr>
@@ -64,7 +77,10 @@
 </table>
 
 <div>
-    <br/>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
+    <br />
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 </div>
+
+
+

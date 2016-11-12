@@ -185,5 +185,27 @@ namespace MVC_projekt.Models.Helpers
 
             return authorView;
         }
+
+        public TitleViewModel GetTitleViewModel(IGrouping<string, BookItem> book, ApplicationDbContext db)
+        {
+            TitleViewModel titleView = new TitleViewModel()
+            {
+                Title = book.Key,
+                TitlesNumber = book.Count()
+            };
+
+            return titleView;
+        }
+
+        public IsbnViewModel GetTitleViewModel(BookItem book, ApplicationDbContext db)
+        {
+            IsbnViewModel isbnView = new IsbnViewModel()
+            {
+                ISBN = book.ISBN,
+                BookssNumber = 1
+            };
+
+            return isbnView;
+        }
     }
 }

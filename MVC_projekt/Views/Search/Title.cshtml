@@ -1,13 +1,13 @@
 ﻿@using MVC_projekt.Controllers
 @using PagedList.Mvc
-@model PagedList.IPagedList<MVC_projekt.Models.AuthorViewModel>
+@model PagedList.IPagedList<MVC_projekt.Models.TitleViewModel>
 @{
     ViewBag.Title = "Search";
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<h2>Search Author</h2>
+<h2>Search Title</h2>
 
 @Html.Partial("_SearchPartial")
 
@@ -20,14 +20,14 @@
         &emsp;
         <input type="submit" value="Save search result" name="submit" class="btn btn-info" />
     </p>
-}    
+}
 <br />
 <br />
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model[0].FullName)
+            @Html.DisplayNameFor(model => model[0].Title)
         </th>
     </tr>
 
@@ -35,8 +35,8 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-                @Html.ActionLink(item.BooksNumber.ToString(), "BooksAuthor", "Search", new {id=item.ID}, new {@class = "badge"})
+                @Html.DisplayFor(modelItem => item.Title)
+                @Html.ActionLink(item.TitlesNumber.ToString(), "BooksTitle", "Search", new { id = item.Title }, new { @class = "badge" })
             </td>
         </tr>
     }
