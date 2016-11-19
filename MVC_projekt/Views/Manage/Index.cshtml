@@ -1,4 +1,5 @@
-﻿@model MVC_projekt.Models.IndexViewModel
+﻿@using MVC_projekt.Models
+@model MVC_projekt.Models.IndexViewModel
 @{
     ViewBag.Title = "Konto";
 }
@@ -84,6 +85,14 @@
                         }
             </dd>*@
         <dt>Opłaty:</dt>
+        <dd></dd>
+        <dt>Search:</dt>
+        @foreach (SearchResult item in ViewBag.Search)
+        {
+            <dd>
+                @Html.DisplayFor(x => item.URL)
+            </dd>
+        }
 
     </dl>
 </div>

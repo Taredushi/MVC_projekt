@@ -10,6 +10,8 @@ namespace MVC_projekt.Models
         public int SearchResultID { get; set; }
 
         public string URL { get; set; }
+
+        public string ApplicationUserID { get; set; }
         public virtual ApplicationUser Account { get; set; }
     }
 }

@@ -12,14 +12,17 @@
 @Html.Partial("_SearchPartial")
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Isbn", "BookItems", FormMethod.Get))
 {
     <p>
         Find: @Html.TextBox("SearchString")
         <input type="submit" value="Search" name="submit" class="btn btn-default" />
-        &emsp;
-        <input type="submit" value="Save search result" name="submit" class="btn btn-info" />
+
     </p>
+}
+@if (User.Identity.IsAuthenticated)
+{
+    @Html.ActionLink("Save search result", "Isbn", new { save = true }, new { @class = "btn btn-info" })
 }
 <br />
 <br />

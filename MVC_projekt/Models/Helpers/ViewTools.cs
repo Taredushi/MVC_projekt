@@ -4,34 +4,14 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace MVC_projekt.Models.Helpers
 {
     public class ViewTools
     {
-        public BookItemViewModel GetViewModel(BookItem book, ApplicationDbContext db)
-        {
-
-            BookItemViewModel bookView = new BookItemViewModel();
-            bookView.ID = book.BookItemID;
-            bookView.Title = book.Title;
-            bookView.ISBN = book.ISBN;
-            bookView.Publisher = book.Publisher;
-            bookView.ReleaseDate = book.ReleaseDate;
-            bookView.Descryption = book.Descryption;
-            if (book.Category != null)
-            {
-                bookView.Category = db.Categories.Single(c => c.CategoryID == book.Category.CategoryID);
-                bookView.CategoryID = book.Category.CategoryID;
-            }
-            bookView.Authors = db.Authors.Where(a => a.AuthorGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
-            bookView.Labels = db.Labels.Where(a => a.LabelGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
-            bookView.Amount = book.Amount;
-            bookView.SelectedLabels = bookView.Labels.Select(x => x.LabelID).ToList();
-            bookView.SelectedAuthors = bookView.Authors.Select(x => x.AuthorID).ToList();
-
-            return bookView;
-        }
 
         public void CreateBookItem(BookItemViewModel bookView, ApplicationDbContext db)
         {
@@ -208,6 +188,24 @@ namespace MVC_projekt.Models.Helpers
             };
 
             return labelView;
+        }
+
+        public void SaveSearch(string userId, string url, ApplicationDbContext db)
+        {
+            if (!db.SearchResults.Any(x => x.URL.Equals(url) && x.Account.Id.Equals(userId)))
+            {
+                var user = db.Users.Find(userId);
+
+                SearchResult sr = new SearchResult()
+                {
+                    Account = user,
+                    URL = url
+                };
+
+                db.SearchResults.Add(sr);
+                db.SaveChanges();
+            }
+
         }
     }
 }

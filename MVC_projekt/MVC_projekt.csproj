@@ -190,6 +190,10 @@
     <Compile Include="Migrations\201611171434082_init.Designer.cs">
       <DependentUpon>201611171434082_init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611191431174_search.cs" />
+    <Compile Include="Migrations\201611191431174_search.Designer.cs">
+      <DependentUpon>201611191431174_search.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Helpers\ViewTools.cs" />
     <Compile Include="Models\View\AccountViewModels.cs" />
@@ -317,6 +321,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611171434082_init.resx">
       <DependentUpon>201611171434082_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611191431174_search.resx">
+      <DependentUpon>201611191431174_search.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

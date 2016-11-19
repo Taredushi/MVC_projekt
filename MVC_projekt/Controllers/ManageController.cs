@@ -73,6 +73,7 @@ namespace MVC_projekt.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
             };
+            ViewBag.Search = UserManager.FindById(userId).SearchResults.ToList();
             return View(model);
         }
 

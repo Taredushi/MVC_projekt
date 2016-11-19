@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MVC_projekt.Models;
 using MVC_projekt.Models.Helpers;
 using PagedList;
@@ -96,7 +97,7 @@ namespace MVC_projekt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookItemViewModel bookItem = vt.GetViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
+            BookItemViewModel bookItem = vt.GetBookViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
             
 
             if (bookItem == null)
@@ -206,23 +207,23 @@ namespace MVC_projekt.Controllers
 
         #region Search
 
-        public ActionResult Author(int? page, string searchString, string submit)
+        public ActionResult Author(int? page, string searchString, string submit, bool? save)
         {
             int currentPage = page ?? 1;
             int onPage = 5;
 
-            if (!string.IsNullOrEmpty(submit))
+            if (!string.IsNullOrEmpty(submit) && !string.IsNullOrEmpty(searchString))
             {
-                if (submit.StartsWith("Search") && !string.IsNullOrEmpty(searchString))
-                {
-                    var author = db.Authors.Where(x => (x.Name.ToLower().Contains(searchString.ToLower()) || x.Surname.ToLower().Contains(searchString.ToLower())) && x.AuthorGroups.Any()).ToList();
-                    var authorSearchView = author.Select(a => vt.GetAuthorViewModel(a, db)).OrderBy(x => x.FullName).ToList();
-                    return View(authorSearchView.ToPagedList<AuthorViewModel>(currentPage, onPage));
-                }
-                else if (submit.StartsWith("Save"))
-                {
-                    //add save search result
-                }
+                var author = db.Authors.Where(x => (x.Name.ToLower().Contains(searchString.ToLower()) || x.Surname.ToLower().Contains(searchString.ToLower())) && x.AuthorGroups.Any()).ToList();
+                var authorSearchView = author.Select(a => vt.GetAuthorViewModel(a, db)).OrderBy(x => x.FullName).ToList();
+                return View(authorSearchView.ToPagedList<AuthorViewModel>(currentPage, onPage));
+            }
+            if (save != null)
+            {
+                string url = Request.UrlReferrer.ToString();
+                string userId = User.Identity.GetUserId();
+                vt.SaveSearch(userId, url, db);
+                return Redirect(url);
             }
 
             var authors = db.Authors.Where(x => x.AuthorGroups.Any()).ToList();
@@ -232,27 +233,28 @@ namespace MVC_projekt.Controllers
         }
 
         //Get: Title
-        public ActionResult Title(int? page, string searchString, string submit)
+        public ActionResult Title(int? page, string searchString, string submit, bool? save)
         {
             int currentPage = page ?? 1;
             int onPage = 5;
 
-            if (!string.IsNullOrEmpty(submit))
+            if (!string.IsNullOrEmpty(submit) && !string.IsNullOrEmpty(searchString))
             {
-                if (submit.StartsWith("Search") && !string.IsNullOrEmpty(searchString))
-                {
-                    var book =
+                var book =
                         db.BookItems.Where(x => x.Title.ToUpper().Contains(searchString.ToUpper()))
                             .GroupBy(x => x.Title)
                             .ToList();
-                    var bookView = book.Select(a => vt.GetTitleViewModel(a, db)).OrderBy(x => x.Title).ToList();
-                    return View(bookView.ToPagedList<TitleViewModel>(currentPage, onPage));
-                }
-                else if (submit.StartsWith("Save"))
-                {
-                    //add save search result
-                }
+                var bookView = book.Select(a => vt.GetTitleViewModel(a, db)).OrderBy(x => x.Title).ToList();
+                return View(bookView.ToPagedList<TitleViewModel>(currentPage, onPage));
             }
+            if (save != null)
+            {
+                string url = Request.UrlReferrer.ToString();
+                string userId = User.Identity.GetUserId();
+                vt.SaveSearch(userId, url, db);
+                return Redirect(url);
+            }
+
 
             var books = db.BookItems.GroupBy(x => x.Title).ToList();
             var booksView = books.Select(a => vt.GetTitleViewModel(a, db)).OrderBy(x => x.Title).ToList();
@@ -261,24 +263,24 @@ namespace MVC_projekt.Controllers
         }
 
         //Get: Isbn
-        public ActionResult Isbn(int? id, int? page, string searchString, string submit)
+        public ActionResult Isbn(int? id, int? page, string searchString, string submit, bool? save)
         {
             int currentPage = page ?? 1;
             int onPage = 5;
 
-            if (!string.IsNullOrEmpty(submit))
+            if (!string.IsNullOrEmpty(submit) && !string.IsNullOrEmpty(searchString))
             {
-                if (submit.StartsWith("Search") && !string.IsNullOrEmpty(searchString))
-                {
-                    var book =
+                var book =
                         db.BookItems.Where(x => x.ISBN.ToString().Contains(searchString)).ToList();
-                    var bookView = book.Select(a => vt.GetBookViewModel(a, db)).OrderBy(x => x.ISBN).ToList();
-                    return View(bookView.ToPagedList<BookItemViewModel>(currentPage, onPage));
-                }
-                else if (submit.StartsWith("Save"))
-                {
-                    //add save search result
-                }
+                var bookView = book.Select(a => vt.GetBookViewModel(a, db)).OrderBy(x => x.ISBN).ToList();
+                return View(bookView.ToPagedList<BookItemViewModel>(currentPage, onPage));
+            }
+            if (save != null)
+            {
+                string url = Request.UrlReferrer.ToString();
+                string userId = User.Identity.GetUserId();
+                vt.SaveSearch(userId, url, db);
+                return Redirect(url);
             }
 
             var books = db.BookItems.ToList();
@@ -287,23 +289,23 @@ namespace MVC_projekt.Controllers
             return View(booksView.ToPagedList<BookItemViewModel>(currentPage, onPage));
         }
 
-        public ActionResult Label(int? page, string searchString, string submit)
+        public ActionResult Label(int? page, string searchString, string submit, bool? save)
         {
             int currentPage = page ?? 1;
             int onPage = 5;
 
-            if (!string.IsNullOrEmpty(submit))
+            if (!string.IsNullOrEmpty(submit) && !string.IsNullOrEmpty(searchString))
             {
-                if (submit.StartsWith("Search") && !string.IsNullOrEmpty(searchString))
-                {
-                    var label = db.Labels.Where(x => (x.Name.ToLower().Contains(searchString.ToLower()) && x.LabelGroups.Any())).ToList();
-                    var labelSearchView = label.Select(a => vt.GetLabelViewModel(a, db)).OrderBy(x => x.Name).ToList();
-                    return View(labelSearchView.ToPagedList<LabelViewModel>(currentPage, onPage));
-                }
-                else if (submit.StartsWith("Save"))
-                {
-                    //add save search result
-                }
+                var label = db.Labels.Where(x => (x.Name.ToLower().Contains(searchString.ToLower()) && x.LabelGroups.Any())).ToList();
+                var labelSearchView = label.Select(a => vt.GetLabelViewModel(a, db)).OrderBy(x => x.Name).ToList();
+                return View(labelSearchView.ToPagedList<LabelViewModel>(currentPage, onPage));
+            }
+            if (save != null)
+            {
+                string url = Request.UrlReferrer.ToString();
+                string userId = User.Identity.GetUserId();
+                vt.SaveSearch(userId, url, db);
+                return Redirect(url);
             }
 
             var labels = db.Labels.Where(x => x.LabelGroups.Any()).ToList();
