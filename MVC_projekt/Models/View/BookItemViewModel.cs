@@ -58,5 +58,7 @@ namespace MVC_projekt.Models
         [Display(Name = "Label")]
         public List<Label> Labels { get; set; }
 
+        public string PreviousPage { get; set; }
+
     }
 }

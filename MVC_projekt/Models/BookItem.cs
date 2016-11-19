@@ -11,12 +11,6 @@ namespace MVC_projekt.Models
 {
     public class BookItem
     {
-        public BookItem()
-        {
-            this.Attachments = new HashSet<Attachment>();
-            this.Books = new HashSet<Book>();
-            //this.LabelGroups = new HashSet<LabelGroup>();
-        }
 
         [Key]
         public int BookItemID { get; set; }
@@ -26,9 +20,12 @@ namespace MVC_projekt.Models
         public int Amount { get; set; }
         public string Descryption { get; set; }
         public string Publisher { get; set; }
+        [Display(Name = "Released")]
         public int ReleaseDate { get; set; }
 
+        public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
+
         public virtual ICollection<Book> Books { get; set; }
         public virtual ICollection<Attachment> Attachments { get; set; }
         public virtual ICollection<LabelGroup> LabelGroups { get; set; }

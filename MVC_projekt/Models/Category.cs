@@ -8,11 +8,10 @@ namespace MVC_projekt.Models
 {
     public class Category
     {
-        public Category()
-        {
-            this.BookItem = new HashSet<BookItem>();
-        }
+
         public int CategoryID { get; set; }
+
+        [Display(Name = "Category")]
         public string Name { get; set; }
 
         public virtual ICollection<BookItem> BookItem { get; set; }

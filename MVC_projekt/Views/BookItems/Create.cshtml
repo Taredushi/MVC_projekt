@@ -5,6 +5,15 @@
     ViewBag.Title = "Create";
 }
 
+
+@if (ViewBag.Error == true)
+{
+    <div class="alert alert-danger" role="alert">
+        Book already exists! <br />
+        Try again.
+    </div>
+}
+
 <h2>Add</h2>
 
 @using (Html.BeginForm()) 

@@ -24,11 +24,9 @@ namespace MVC_projekt.Controllers
             int currentPage = page ?? 1;
             int onPage = 5;
 
-            var bookItemList = db.BookItems.ToList();
-            List<BookItemViewModel> bookViewList = bookItemList.Select(book => vt.GetViewModel(book, db))
-                .OrderBy(x => x.ID).ToList();
+            List<BookItem> bookItemList = db.BookItems.OrderBy(x=>x.BookItemID).ToList();
 
-            return View(bookViewList.ToPagedList<BookItemViewModel>(currentPage, onPage));
+            return View(bookItemList.ToPagedList<BookItem>(currentPage, onPage));
         }
 
         // GET: BookItems/Details/5
@@ -38,7 +36,7 @@ namespace MVC_projekt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookItemViewModel bookItem = vt.GetViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
+            BookItem bookItem = db.BookItems.Find(id);
 
             if (bookItem == null)
             {
@@ -67,8 +65,20 @@ namespace MVC_projekt.Controllers
         {
             if (ModelState.IsValid)
             {
-                vt.CreateBookItem(bookItem, db);
-                return RedirectToAction("Index");
+                if (!db.BookItems.Any(b => b.ISBN == bookItem.ISBN))
+                {
+                    vt.CreateBookItem(bookItem, db);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Error = true;
+                    ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
+                    ViewBag.Authors = new SelectList(vt.GetAuthorsFromDb(db), "Value", "Text");
+                    ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
+
+                    return View(bookItem);
+                }
             }
 
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
@@ -87,12 +97,14 @@ namespace MVC_projekt.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             BookItemViewModel bookItem = vt.GetViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
+            
 
             if (bookItem == null)
             {
                 return HttpNotFound();
             }
 
+            bookItem.PreviousPage = Request.UrlReferrer.ToString();
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
             ViewBag.Authors = new SelectList(vt.GetAuthorsFromDb(db), "Value", "Text");
             ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
@@ -148,7 +160,7 @@ namespace MVC_projekt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookItemViewModel bookItem = vt.GetViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
+            BookItem bookItem = db.BookItems.Find(id);
 
             if (bookItem == null)
             {

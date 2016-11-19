@@ -95,12 +95,13 @@ else if (ViewBag.Error == false)
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.SelectedLabels, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.SelectedLabels, htmlAttributes: new {@class = "control-label col-md-2"})
                 <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.SelectedLabels, ViewBag.Labels as SelectList, new { @class = "select-state", multiple = "multiple", style = "width:300px;" })
-                    @Html.ValidationMessageFor(model => model.SelectedLabels, "", new { @class = "text-danger" })
+                    @Html.ListBoxFor(model => model.SelectedLabels, ViewBag.Labels as SelectList, new {@class = "select-state", multiple = "multiple", style = "width:300px;"})
+                    @Html.ValidationMessageFor(model => model.SelectedLabels, "", new {@class = "text-danger"})
                 </div>
             </div>
+            @Html.HiddenFor(model => model.PreviousPage, Model.PreviousPage)
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -113,7 +114,7 @@ else if (ViewBag.Error == false)
 }
 
 <div>
-    <a href="@Request.UrlReferrer" class="btn btn-primary" title="Back to list">Back to list</a>
+    <a href="@Model.PreviousPage" class="btn btn-primary" title="Back to list">Back to list</a>
 </div>
 
 @section Scripts {

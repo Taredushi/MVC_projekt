@@ -7,11 +7,6 @@ namespace MVC_projekt.Models
 {
     public class Book
     {
-        public Book()
-        {
-            this.Bookings = new HashSet<Booking>();
-            this.Orders = new HashSet<Order>();
-        }
         public int BookID { get; set; }
         public bool Returned { get; set; }
 

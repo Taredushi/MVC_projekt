@@ -1,12 +1,12 @@
 ﻿@using PagedList.Mvc
-@model PagedList.IPagedList<MVC_projekt.Models.BookItemViewModel>
+@model PagedList.IPagedList<MVC_projekt.Models.BookItem>
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
 @{
-    ViewBag.Title = "Books";
+    ViewBag.Title = "Index";
 }
 
-
-<h2>Books</h2>
+<h2>Index</h2>
 
 @Html.Partial("_SearchPartial")
 
@@ -20,7 +20,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model[0].Authors)
+            @Html.DisplayNameFor(model => model[0].AuthorGroups.Single(x=>x.Author.FullName != null).Author.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model[0].Title)
@@ -29,58 +29,60 @@
             @Html.DisplayNameFor(model => model[0].ISBN)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model[0].Amount)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model[0].Publisher)
         </th>
         <th>
             @Html.DisplayNameFor(model => model[0].ReleaseDate)
         </th>
-        <th></th>
-        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model[0].Category.Name)
+        </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @foreach (var arg in item.AuthorGroups)
+            {
+                @Html.DisplayFor(modelItem => arg.Author.FullName)
+                <br/>
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ISBN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Publisher)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReleaseDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Category.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.BookItemID }, new { @class = "btn btn-info" })
+        </td>
+        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
             <td>
-                @foreach (var author in item.Authors)
-                {
-                    @author.FullName
-                    <br/>
-                }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ISBN)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Publisher)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReleaseDate)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-info" })
-                </td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
+                @Html.ActionLink("Edit", "Edit", new { id = item.BookItemID }, new { @class = "btn btn-default" })
+            </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.BookItemID }, new { @class = "btn btn-danger" })
                     </td>
-                    <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-                    </td>
-                }
-                </tr>
-    }
+        }
+    </tr>
+}
 
 </table>
-
-<div>
-    <br/>
-    @Html.PagedListPager(Model, page=>Url.Action("Index", new {page}))
-    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-</div>
-

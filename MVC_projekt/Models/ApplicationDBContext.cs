@@ -13,9 +13,9 @@ namespace MVC_projekt.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            Database.SetInitializer<ApplicationDbContext>(null);
-            Configuration.ProxyCreationEnabled = false;
-            Configuration.LazyLoadingEnabled = false;
+            //Database.SetInitializer<ApplicationDbContext>(null);
+            //Configuration.ProxyCreationEnabled = false;
+            //Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Attachment> Attachments { get; set; }

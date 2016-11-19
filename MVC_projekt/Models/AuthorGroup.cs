@@ -12,8 +12,11 @@ namespace MVC_projekt.Models
     {
         public int AuthorGroupID { get; set; }
         
-        public Author Author { get; set; }
+        public int AuthorID { get; set; }
+        public virtual Author Author { get; set; }
         
-        public BookItem BookItem { get; set; }
+
+        public int BookItemID { get; set; }
+        public virtual BookItem BookItem { get; set; }
     }
 }

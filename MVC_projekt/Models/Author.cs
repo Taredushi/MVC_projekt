@@ -9,15 +9,13 @@ namespace MVC_projekt.Models
 {
     public class Author
     {
-        public Author()
-        {
-            this.AuthorGroups = new HashSet<AuthorGroup>();
-        }
 
         public int AuthorID { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+
         [NotMapped]
+        [Display(Name = "Author")]
         public string FullName {
             get { return this.Surname + " " + this.Name; } }
 

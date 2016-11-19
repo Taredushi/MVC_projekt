@@ -31,26 +31,26 @@ namespace MVC_projekt.Migrations
                         Descryption = c.String(),
                         Publisher = c.String(),
                         ReleaseDate = c.Int(nullable: false),
-                        Category_CategoryID = c.Int(),
+                        CategoryID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.BookItemID)
-                .ForeignKey("dbo.Categories", t => t.Category_CategoryID)
+                .ForeignKey("dbo.Categories", t => t.CategoryID, cascadeDelete: true)
                 .Index(t => t.ISBN, unique: true)
-                .Index(t => t.Category_CategoryID);
+                .Index(t => t.CategoryID);
             
             CreateTable(
                 "dbo.AuthorGroups",
                 c => new
                     {
                         AuthorGroupID = c.Int(nullable: false, identity: true),
-                        Author_AuthorID = c.Int(),
-                        BookItem_BookItemID = c.Int(),
+                        AuthorID = c.Int(nullable: false),
+                        BookItemID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.AuthorGroupID)
-                .ForeignKey("dbo.Authors", t => t.Author_AuthorID, cascadeDelete: true)
-                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID, cascadeDelete: true)
-                .Index(t => t.Author_AuthorID)
-                .Index(t => t.BookItem_BookItemID);
+                .ForeignKey("dbo.Authors", t => t.AuthorID, cascadeDelete: true)
+                .ForeignKey("dbo.BookItems", t => t.BookItemID, cascadeDelete: true)
+                .Index(t => t.AuthorID)
+                .Index(t => t.BookItemID);
             
             CreateTable(
                 "dbo.Authors",
@@ -67,6 +67,7 @@ namespace MVC_projekt.Migrations
                 c => new
                     {
                         BookID = c.Int(nullable: false, identity: true),
+                        Returned = c.Boolean(nullable: false),
                         BookItem_BookItemID = c.Int(),
                     })
                 .PrimaryKey(t => t.BookID)
@@ -183,14 +184,12 @@ namespace MVC_projekt.Migrations
                 c => new
                     {
                         SearchResultID = c.Int(nullable: false, identity: true),
+                        URL = c.String(),
                         Account_Id = c.String(maxLength: 128),
-                        BookItem_BookItemID = c.Int(),
                     })
                 .PrimaryKey(t => t.SearchResultID)
                 .ForeignKey("dbo.AspNetUsers", t => t.Account_Id)
-                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID)
-                .Index(t => t.Account_Id)
-                .Index(t => t.BookItem_BookItemID);
+                .Index(t => t.Account_Id);
             
             CreateTable(
                 "dbo.Categories",
@@ -213,8 +212,8 @@ namespace MVC_projekt.Migrations
                         Label_LabelID = c.Int(),
                     })
                 .PrimaryKey(t => t.LabelGroupID)
-                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID, cascadeDelete: true)
-                .ForeignKey("dbo.Labels", t => t.Label_LabelID, cascadeDelete: true)
+                .ForeignKey("dbo.BookItems", t => t.BookItem_BookItemID)
+                .ForeignKey("dbo.Labels", t => t.Label_LabelID)
                 .Index(t => t.BookItem_BookItemID)
                 .Index(t => t.Label_LabelID);
             
@@ -245,10 +244,9 @@ namespace MVC_projekt.Migrations
             DropForeignKey("dbo.LabelGroups", "Label_LabelID", "dbo.Labels");
             DropForeignKey("dbo.LabelGroups", "BookItem_BookItemID", "dbo.BookItems");
             DropForeignKey("dbo.Categories", "Parent_CategoryID", "dbo.Categories");
-            DropForeignKey("dbo.BookItems", "Category_CategoryID", "dbo.Categories");
+            DropForeignKey("dbo.BookItems", "CategoryID", "dbo.Categories");
             DropForeignKey("dbo.Books", "BookItem_BookItemID", "dbo.BookItems");
             DropForeignKey("dbo.Bookings", "Book_BookID", "dbo.Books");
-            DropForeignKey("dbo.SearchResults", "BookItem_BookItemID", "dbo.BookItems");
             DropForeignKey("dbo.SearchResults", "Account_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Orders", "Book_BookID", "dbo.Books");
@@ -257,14 +255,13 @@ namespace MVC_projekt.Migrations
             DropForeignKey("dbo.Fees", "ApplicationUser_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Bookings", "ApplicationUser_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AuthorGroups", "BookItem_BookItemID", "dbo.BookItems");
-            DropForeignKey("dbo.AuthorGroups", "Author_AuthorID", "dbo.Authors");
+            DropForeignKey("dbo.AuthorGroups", "BookItemID", "dbo.BookItems");
+            DropForeignKey("dbo.AuthorGroups", "AuthorID", "dbo.Authors");
             DropForeignKey("dbo.Attachments", "BookItem_BookItemID", "dbo.BookItems");
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.LabelGroups", new[] { "Label_LabelID" });
             DropIndex("dbo.LabelGroups", new[] { "BookItem_BookItemID" });
             DropIndex("dbo.Categories", new[] { "Parent_CategoryID" });
-            DropIndex("dbo.SearchResults", new[] { "BookItem_BookItemID" });
             DropIndex("dbo.SearchResults", new[] { "Account_Id" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
@@ -277,9 +274,9 @@ namespace MVC_projekt.Migrations
             DropIndex("dbo.Bookings", new[] { "Book_BookID" });
             DropIndex("dbo.Bookings", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.Books", new[] { "BookItem_BookItemID" });
-            DropIndex("dbo.AuthorGroups", new[] { "BookItem_BookItemID" });
-            DropIndex("dbo.AuthorGroups", new[] { "Author_AuthorID" });
-            DropIndex("dbo.BookItems", new[] { "Category_CategoryID" });
+            DropIndex("dbo.AuthorGroups", new[] { "BookItemID" });
+            DropIndex("dbo.AuthorGroups", new[] { "AuthorID" });
+            DropIndex("dbo.BookItems", new[] { "CategoryID" });
             DropIndex("dbo.BookItems", new[] { "ISBN" });
             DropIndex("dbo.Attachments", new[] { "BookItem_BookItemID" });
             DropTable("dbo.AspNetRoles");

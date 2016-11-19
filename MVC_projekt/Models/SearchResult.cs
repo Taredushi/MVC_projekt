@@ -9,7 +9,7 @@ namespace MVC_projekt.Models
     {
         public int SearchResultID { get; set; }
 
-        public virtual BookItem BookItem { get; set; }
+        public string URL { get; set; }
         public virtual ApplicationUser Account { get; set; }
     }
 }

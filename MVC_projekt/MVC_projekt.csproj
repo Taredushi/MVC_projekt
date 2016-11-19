@@ -186,13 +186,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611111244173_init.cs" />
-    <Compile Include="Migrations\201611111244173_init.Designer.cs">
-      <DependentUpon>201611111244173_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611112323422_book.cs" />
-    <Compile Include="Migrations\201611112323422_book.Designer.cs">
-      <DependentUpon>201611112323422_book.cs</DependentUpon>
+    <Compile Include="Migrations\201611171434082_init.cs" />
+    <Compile Include="Migrations\201611171434082_init.Designer.cs">
+      <DependentUpon>201611171434082_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Helpers\ViewTools.cs" />
@@ -299,16 +295,16 @@
     <Content Include="Views\Authors\Edit.cshtml" />
     <Content Include="Views\Authors\Index.cshtml" />
     <Content Include="Views\BookItems\Create.cshtml" />
-    <Content Include="Views\BookItems\Delete.cshtml" />
-    <Content Include="Views\BookItems\Details.cshtml" />
     <Content Include="Views\BookItems\Edit.cshtml" />
-    <Content Include="Views\BookItems\Index.cshtml" />
     <Content Include="Views\BookItems\Author.cshtml" />
     <Content Include="Views\BookItems\Books.cshtml" />
     <Content Include="Views\BookItems\_SearchPartial.cshtml" />
     <Content Include="Views\BookItems\Isbn.cshtml" />
     <Content Include="Views\BookItems\Title.cshtml" />
     <Content Include="Views\BookItems\Label.cshtml" />
+    <Content Include="Views\BookItems\Index.cshtml" />
+    <Content Include="Views\BookItems\Details.cshtml" />
+    <Content Include="Views\BookItems\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -319,11 +315,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611111244173_init.resx">
-      <DependentUpon>201611111244173_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611112323422_book.resx">
-      <DependentUpon>201611112323422_book.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611171434082_init.resx">
+      <DependentUpon>201611171434082_init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
