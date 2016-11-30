@@ -12,7 +12,7 @@
 @Html.Partial("_SearchPartial")
 
 
-@using (Html.BeginForm("Title", "BookItems", FormMethod.Get))
+@using (Html.BeginForm("Title", "Search", FormMethod.Get))
 {
     <p>
         Find: @Html.TextBox("SearchString")
@@ -48,7 +48,7 @@
 
 <div>
     <br />
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", "BookItems", new { page }))
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 </div>
 

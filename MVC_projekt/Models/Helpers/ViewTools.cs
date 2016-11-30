@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using MVC_projekt.Models.View;
 
 namespace MVC_projekt.Models.Helpers
 {
@@ -207,5 +209,69 @@ namespace MVC_projekt.Models.Helpers
             }
 
         }
+
+        public List<CategoryViewModel> GetCategoryList_WithChildren(ApplicationDbContext db)
+        {
+            var parents = db.Categories.Where(x => x.Parent == null);
+
+            List<CategoryViewModel> list = new List<CategoryViewModel>();
+
+            foreach (var parent in parents)
+            {
+                CategoryViewModel cat = new CategoryViewModel();
+                cat.ID = parent.CategoryID;
+                cat.text = parent.Name;
+                cat.nodes = GetCategory_Children(db, parent.CategoryID);
+                cat.tags[0] = parent.BookItem.Count;
+                cat.tags[0] += GetCategoryBooksNumber(cat.nodes);
+
+                if (parent.BookItem.Any())
+                {
+                    cat.href = "CategorySearch?id=" + cat.ID;
+                }
+
+                list.Add(cat);
+            }
+            return list;
+        }
+
+        private List<CategoryViewModel> GetCategory_Children(ApplicationDbContext db, int id)
+        {
+            List<CategoryViewModel> list = new List<CategoryViewModel>();
+
+            var parents = db.Categories.Where(x => x.Parent.CategoryID == id);
+
+            foreach (var parent in parents)
+            {
+                CategoryViewModel cat = new CategoryViewModel();
+                cat.ID = parent.CategoryID;
+                cat.text = parent.Name;
+                cat.tags[0] = parent.BookItem.Count;
+                cat.nodes = GetCategory_Children(db, parent.CategoryID);
+                cat.tags[0] += GetCategoryBooksNumber(cat.nodes);
+
+                if (parent.BookItem.Any())
+                {
+                    cat.href = "CategorySearch?id=" + cat.ID;
+                }
+
+                list.Add(cat);
+            }
+
+            return list;
+        }
+
+        private int GetCategoryBooksNumber(List<CategoryViewModel> list)
+        {
+            int number = 0;
+
+            foreach (var category in list)
+            {
+                number += category.tags[0];
+                number += GetCategoryBooksNumber(category.nodes);
+            }
+            return number;
+        }
+
     }
 }

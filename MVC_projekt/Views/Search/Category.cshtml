@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Category";
+}
+
+<h2>Category</h2>
+
+@Html.Partial("_SearchPartial")
+
+<p>
+    <table>
+        <tr>
+            <th>
+                <input type="text" class="form-control" id="input-search" placeholder="Type to search..." value="">
+            </th>
+            
+            <th>&emsp;</th>
+
+            <th>
+                <button type="button" class="btn btn-success" id="btn-expand-all">Expand All</button>
+            </th>
+
+            <th>&emsp;</th>
+
+            <th>
+                <button type="button" class="btn btn-danger" id="btn-collapse-all">Collapse All</button>
+            </th>
+        </tr>
+    </table>
+</p>
+
+<p>
+    <div id="treeview" class=""></div>
+</p>
+
+
+@section Scripts {
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-treeview.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+
+
+    <script type="text/javascript">
+
+        var json = @Html.Raw(Json.Encode(ViewBag.Js));
+        var $tree = $('#treeview').treeview({
+            showTags: true,
+            enableLinks: true,
+            highlightSelected: false,
+            selectable: false,
+            data: json
+        });
+
+        var search = function(e) {
+            var pattern = $('#input-search').val();
+            var options = {
+                ignoreCase: true,
+                revealResults: true
+            };
+            var results = $tree.treeview('search', [ pattern, options ]);
+            var output = '<p>' + results.length + ' matches found</p>';
+            $.each(results, function (index, result) {
+                output += '<p>- ' + result.text + '</p>';
+            });
+            $('#search-output').html(output);
+        }
+
+        $('#btn-search').on('click', search);
+        $('#input-search').on('keyup', search);
+        $('#btn-clear-search').on('click', function (e) {
+            tree.treeview('clearSearch');
+            $('#input-search').val('');
+            $('#search-output').html('');
+        });
+
+        $('#btn-expand-all').on('click', function (e) {
+            var levels = $('#select-expand-all-levels').val();
+            $tree.treeview('expandAll', { levels: levels, silent: $('#chk-expand-silent').is(':checked') });
+        });
+        $('#btn-collapse-all').on('click', function (e) {
+            $tree.treeview('collapseAll', { silent: $('#chk-expand-silent').is(':checked') });
+        });
+
+    </script>
+}
+

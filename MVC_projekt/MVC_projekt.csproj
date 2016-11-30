@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44380</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -182,6 +182,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LabelsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -204,6 +205,7 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\BookItem.cs" />
+    <Compile Include="Models\View\AdvancedSearchViewModel.cs" />
     <Compile Include="Models\View\AuthorViewModel.cs" />
     <Compile Include="Models\View\BookItemViewModel.cs" />
     <Compile Include="Models\Category.cs" />
@@ -211,10 +213,10 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Label.cs" />
     <Compile Include="Models\LabelGroup.cs" />
+    <Compile Include="Models\View\CategoryViewModel.cs" />
     <Compile Include="Models\View\ManageViewModels.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\SearchResult.cs" />
-    <Compile Include="Models\View\SearchViewModel.cs" />
     <Compile Include="Models\View\LabelViewModel.cs" />
     <Compile Include="Models\View\TitleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -225,6 +227,10 @@
     <Content Include="App_Data\MVC_projekt_log.ldf">
       <DependentUpon>MVC_projekt.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap-treeview.css" />
+    <Content Include="Content\bootstrap-treeview.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
@@ -233,17 +239,29 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Icon.png" />
+    <Content Include="Scripts\bootstrap-treeview.js" />
+    <Content Include="Scripts\bootstrap-treeview.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\selectize.js" />
@@ -300,23 +318,20 @@
     <Content Include="Views\Authors\Index.cshtml" />
     <Content Include="Views\BookItems\Create.cshtml" />
     <Content Include="Views\BookItems\Edit.cshtml" />
-    <Content Include="Views\BookItems\Author.cshtml" />
-    <Content Include="Views\BookItems\Books.cshtml" />
-    <Content Include="Views\BookItems\_SearchPartial.cshtml" />
-    <Content Include="Views\BookItems\Isbn.cshtml" />
-    <Content Include="Views\BookItems\Title.cshtml" />
-    <Content Include="Views\BookItems\Label.cshtml" />
+    <Content Include="Views\Search\Author.cshtml" />
+    <Content Include="Views\Search\Books.cshtml" />
+    <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\Search\Isbn.cshtml" />
+    <Content Include="Views\Search\Title.cshtml" />
+    <Content Include="Views\Search\Label.cshtml" />
     <Content Include="Views\BookItems\Index.cshtml" />
     <Content Include="Views\BookItems\Details.cshtml" />
     <Content Include="Views\BookItems\Delete.cshtml" />
+    <Content Include="Views\Search\Category.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611171434082_init.resx">
@@ -345,7 +360,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>36222</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:36222/</IISUrl>
+          <IISUrl>https://localhost:44380/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,37 +1,36 @@
 ﻿@using MVC_projekt.Controllers
 @using PagedList.Mvc
-@model PagedList.IPagedList<MVC_projekt.Models.AuthorViewModel>
+@model PagedList.IPagedList<MVC_projekt.Models.LabelViewModel>
 @{
     ViewBag.Title = "Search";
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<h2>Search Author</h2>
+<h2>Search Label</h2>
 
 @Html.Partial("_SearchPartial")
 
 
-@using (Html.BeginForm("Author", "BookItems",FormMethod.Get))
+@using (Html.BeginForm("Label", "Search", FormMethod.Get))
 {
     <p>
         Find: @Html.TextBox("SearchString")
         <input type="submit" value="Search" name="submit" class="btn btn-default" />
-        
+
     </p>
 }
 @if (User.Identity.IsAuthenticated)
 {
-    @Html.ActionLink("Save search result", "Author", new { save = true }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Save search result", "Label", new { save = true }, new { @class = "btn btn-info" })
 }
-
 <br />
 <br />
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model[0].FullName)
+            @Html.DisplayNameFor(model => model[0].Name)
         </th>
     </tr>
 
@@ -39,8 +38,8 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-                @Html.ActionLink(item.BooksNumber.ToString(), "BooksAuthor", new {id = item.ID}, new {@class = "badge"})
+                @Html.DisplayFor(modelItem => item.Name)
+                @Html.ActionLink(item.BooksNumber.ToString(), "BooksLabel", new {id = item.ID}, new {@class = "badge"})
             </td>
         </tr>
     }
@@ -49,9 +48,6 @@
 
 <div>
     <br />
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", "BookItems", new { page }))
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 </div>
-
-
-

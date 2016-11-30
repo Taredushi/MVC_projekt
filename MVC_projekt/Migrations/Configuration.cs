@@ -208,13 +208,14 @@ namespace MVC_projekt.Migrations
                     {
                         Name = "Polska",
                         Parent = context.Categories.Single(c=>c.Name == "Fantastyka")
-                    }
+                    },
                 };
 
                 foreach (var cat in categories)
                 {
                     context.Set<Category>().AddOrUpdate(cat);
                 }
+
 
                 context.SaveChanges();
             }

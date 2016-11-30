@@ -12,7 +12,7 @@
 @Html.Partial("_SearchPartial")
 
 
-@using (Html.BeginForm("Isbn", "BookItems", FormMethod.Get))
+@using (Html.BeginForm("Isbn", "Search", FormMethod.Get))
 {
     <p>
         Find: @Html.TextBox("SearchString")
@@ -72,15 +72,15 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new {id = item.ID}, new {@class = "btn btn-info"})
+                @Html.ActionLink("Details", "Details", "BookItems", new {id = item.ID}, new {@class = "btn btn-info"})
             </td>
             @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
+                    @Html.ActionLink("Edit", "Edit", "BookItems", new { id = item.ID }, new { @class = "btn btn-default" })
                 </td>
                     <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("Delete", "Delete", "BookItems", new { id = item.ID }, new { @class = "btn btn-danger" })
                     </td>
             }
         </tr>
@@ -90,7 +90,7 @@
 
 <div>
     <br />
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", "BookItems", new { page }))
     Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 </div>
 
