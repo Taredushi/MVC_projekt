@@ -1,0 +1,41 @@
+﻿@using PagedList.Mvc
+@model IEnumerable<MVC_projekt.Models.Order>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            Available on
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDate + new TimeSpan(30))
+            </td>
+        </tr>
+    }
+    @if (!Model.Any() || (Model.Count() < ViewBag.Max))
+    {
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                @Html.ActionLink("Order", "Order", new {id = ViewBag.ID}, new {@class = "btn btn-default"})
+            </td>
+        </tr>
+        
+    }
+
+</table>

@@ -47,6 +47,8 @@ namespace MVC_projekt.Controllers
             {
                 return HttpNotFound();
             }
+            var av = bookItem.Amount - db.Orders.Count(o => o.BookItemID == bookItem.BookItemID && !o.Returned);
+            ViewBag.Available = av + "/" + bookItem.Amount;
             return View(bookItem);
         }
 

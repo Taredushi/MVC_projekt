@@ -151,7 +151,7 @@ namespace MVC_projekt.Models.Helpers
             bookView.Amount = book.Amount;
             bookView.SelectedLabels = bookView.Labels.Select(x => x.LabelID).ToList();
             bookView.SelectedAuthors = bookView.Authors.Select(x => x.AuthorID).ToList();
-            bookView.AvailableNumber = book.Amount - db.Orders.Count(o => o.Book.BookID == book.BookItemID && o.Book.Returned);
+            bookView.AvailableNumber = book.Amount - db.Orders.Count(o => o.BookItemID == book.BookItemID && o.Returned);
             return bookView;
         }
 

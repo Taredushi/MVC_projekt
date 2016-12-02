@@ -58,6 +58,19 @@ namespace MVC_projekt.Controllers
             return View(label);
         }
 
+        public JsonResult Add(string name)
+        {
+            if (!db.Labels.Any(x => x.Name.ToLower().Equals(name.ToLower())))
+            {
+                db.Labels.Add(new Label() { Name = name });
+                db.SaveChanges();
+
+                var label = db.Labels.Single(x => x.Name.Equals(name));
+                return Json(label);
+            }
+            return null;
+        }
+
         // GET: Labels/Edit/5
         public ActionResult Edit(int? id)
         {

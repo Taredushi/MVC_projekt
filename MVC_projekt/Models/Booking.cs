@@ -10,7 +10,10 @@ namespace MVC_projekt.Models
         public int BookingID { get; set; }
         public DateTime Date { get; set; }
 
+        public string ApplicationUserID { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual Book Book { get; set; }
+
+        public int BookItemID { get; set; }
+        public virtual BookItem BookItem { get; set; }
     }
 }

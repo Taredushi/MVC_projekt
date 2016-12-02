@@ -58,6 +58,19 @@ namespace MVC_projekt.Controllers
             return View(author);
         }
 
+        public JsonResult Add(string name, string surname)
+        {
+            if (!db.Authors.Any(x => x.Name.ToLower().Equals(name.ToLower()) && x.Surname.ToLower().Equals(surname.ToLower())))
+            {
+                db.Authors.Add(new Author() { Name = name, Surname = surname });
+                db.SaveChanges();
+
+                var author = db.Authors.Single(x => x.Name.Equals(name) && x.Surname.Equals(surname));
+                return Json(author);
+            }
+            return null;
+        }
+
         // GET: Authors/Edit/5
         public ActionResult Edit(int? id)
         {

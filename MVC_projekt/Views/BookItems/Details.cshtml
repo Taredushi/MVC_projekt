@@ -37,15 +37,7 @@
         <dd>
             @Html.DisplayFor(model => model.ISBN)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Descryption)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Descryption)
-        </dd>
-
+        
         <dt>
             @Html.DisplayNameFor(model => model.Publisher)
         </dt>
@@ -69,13 +61,20 @@
         <dd>
             @Html.DisplayFor(model => model.Category.Name)
         </dd>
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.Descryption)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descryption)
+        </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.Amount)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Amount)
+           @Html.ActionLink((string)ViewBag.Available, "Index", "Orders", new { id = Model.BookItemID }, null)
         </dd>
 
     </dl>

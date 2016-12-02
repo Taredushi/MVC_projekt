@@ -26,7 +26,8 @@ namespace MVC_projekt.Models
         public int CategoryID { get; set; }
         public virtual Category Category { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Booking> Bookings { get; set; }
         public virtual ICollection<Attachment> Attachments { get; set; }
         public virtual ICollection<LabelGroup> LabelGroups { get; set; }
         public virtual ICollection<AuthorGroup> AuthorGroups { get; set; }
