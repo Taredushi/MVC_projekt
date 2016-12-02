@@ -10,7 +10,7 @@
             @Html.DisplayNameFor(model => model.OrderDate)
         </th>
         <th>
-            Available on
+            @Html.DisplayNameFor(model => model.AvailableOn)
         </th>
         <th></th>
     </tr>
@@ -22,14 +22,13 @@
                 @Html.DisplayFor(modelItem => item.OrderDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderDate + new TimeSpan(30))
+                @Html.DisplayFor(modelItem => item.AvailableOn)
             </td>
         </tr>
     }
     @if (!Model.Any() || (Model.Count() < ViewBag.Max))
     {
         <tr>
-            <td></td>
             <td></td>
             <td>
                 @Html.ActionLink("Order", "Order", new {id = ViewBag.ID}, new {@class = "btn btn-default"})
@@ -39,3 +38,5 @@
     }
 
 </table>
+
+<a href="@Request.UrlReferrer" class="btn btn-primary" title="Back to list">Back to list</a>

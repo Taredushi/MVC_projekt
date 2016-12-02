@@ -13,6 +13,7 @@ namespace MVC_projekt.Models
         public string Source { get; set; }
         public string Descryption { get; set; }
 
+        public int BookItemID { get; set; }
         public virtual BookItem BookItem { get; set; }
     }
 }

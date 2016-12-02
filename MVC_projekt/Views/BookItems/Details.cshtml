@@ -81,5 +81,5 @@
 </div>
 &nbsp;
 <div>
-    <a href="@Request.UrlReferrer" class="btn btn-primary" title="Back to list">Back to list</a>
+    @Html.ActionLink("Back to list", "Index", null, new { @class = "btn btn-info" })
 </div>

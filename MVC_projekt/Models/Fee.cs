@@ -12,9 +12,11 @@ namespace MVC_projekt.Models
         public int FeeID { get; set; }
 
         [Display(Name = "Data wystawienia")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Kwota")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public double Amount { get; set; }
 
         [Display(Name = "Stan")]

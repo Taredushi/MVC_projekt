@@ -15,6 +15,7 @@ namespace MVC_projekt.Models
         public string Name { get; set; }
 
         public virtual ICollection<BookItem> BookItem { get; set; }
+
         public virtual Category Parent { get; set; }
     }
 }

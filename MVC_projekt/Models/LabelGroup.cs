@@ -9,7 +9,10 @@ namespace MVC_projekt.Models
     {
         public int LabelGroupID { get; set; }
 
+        public int BookItemID { get; set; }
         public virtual BookItem BookItem { get; set; }
+
+        public int LabelID { get; set; }
         public virtual Label Label { get; set; }
     }
 }

@@ -24,7 +24,8 @@ namespace MVC_projekt.Controllers
                 var orderList = db.Orders.Where(x => x.BookItemID == id && !x.Returned).ToList();
 
                 var book = db.BookItems.Single(x => x.BookItemID == id);
-                ViewBag.Title = book.Title;
+                string author = book.AuthorGroups.Aggregate("", (current, arg) => current + (arg.Author.FullName + " "));
+                ViewBag.Title = author + " / " + book.Title;
                 ViewBag.Max = book.Amount;
                 ViewBag.ID = id;
                 return View(orderList.ToPagedList<Order>(currentPage, onPage));
