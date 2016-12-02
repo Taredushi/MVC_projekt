@@ -44,7 +44,7 @@ namespace MVC_projekt.Controllers
             CartTools ct = new CartTools();
             ct.Order(this.HttpContext);
 
-            return RedirectToAction("Index", true);
+            return RedirectToAction("Index", new {message = true});
         }
     }
 }
