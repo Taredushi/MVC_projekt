@@ -8,11 +8,13 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using MVC_projekt.Classes;
 using MVC_projekt.Models;
 
 namespace MVC_projekt.Controllers
 {
     [Authorize]
+    [Localization("pl")]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;

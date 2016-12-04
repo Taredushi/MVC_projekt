@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using MVC_projekt.Classes;
 using MVC_projekt.Models;
 using MVC_projekt.Models.Helpers;
 using MVC_projekt.Models.View;
@@ -15,15 +16,13 @@ using PagedList;
 
 namespace MVC_projekt.Controllers
 {
-    [RoutePrefix("Books")]
-    [Route("{action}")]
+    [Localization("pl")]
     public class BookItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ViewTools vt = new ViewTools();
 
         // GET: BookItems
-        [Route]
         public ActionResult Index(int? page)
         {
             int currentPage = page ?? 1;
@@ -47,8 +46,8 @@ namespace MVC_projekt.Controllers
             {
                 return HttpNotFound();
             }
-            var av = bookItem.Amount - db.Orders.Count(o => o.BookItemID == bookItem.BookItemID && !o.Returned);
-            ViewBag.Available = av + "/" + bookItem.Amount;
+            var av = bookItem.Number - db.Orders.Count(o => o.BookItemID == bookItem.BookItemID && !o.Returned);
+            ViewBag.Available = av + "/" + bookItem.Number;
             return View(bookItem);
         }
 

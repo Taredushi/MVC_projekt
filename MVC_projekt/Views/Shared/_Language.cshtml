@@ -1,0 +1,28 @@
+﻿@using MVC_projekt.Models.Helpers
+@Styles.Render("~/Content/css")
+
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        @if (Request.Cookies["Language"] != null && !string.IsNullOrEmpty(Request.Cookies["Language"].Value))
+        {
+            if (Request.Cookies.Get("Language").Value == "en")
+            {
+                <a href="/pl">
+                    <img src="@Url.Content("~/Images/pl.png")" />
+                </a>
+            }
+            if (Request.Cookies.Get("Language").Value == "pl")
+            {
+                <a href="/en">
+                    <img src="@Url.Content("~/Images/gb.png")" />
+                </a>
+            }
+        }
+        else
+        {
+            <a href="/en">
+                <img src="@Url.Content("~/Images/gb.png")" />
+            </a>
+        }
+    </li>
+</ul>

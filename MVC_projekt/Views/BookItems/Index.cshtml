@@ -5,15 +5,13 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Index</h2>
-
+<br/>
 @Html.Partial("_SearchPartial")
 
 @if (User.IsInRole("Admin") || User.IsInRole("Admin"))
 {
     <p>
-        @Html.ActionLink("Add New", "Create", null, new { @class = "btn btn-warning" })
+        @Html.ActionLink(@Resources.Global.Add, "Create", null, new { @class = "btn btn-warning" })
     </p>
 }
 
@@ -29,7 +27,7 @@
             @Html.DisplayNameFor(model => model[0].ISBN)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].Amount)
+            @Html.DisplayNameFor(model => model[0].Number)
         </th>
         <th>
             @Html.DisplayNameFor(model => model[0].Publisher)
@@ -59,7 +57,7 @@
             @Html.DisplayFor(modelItem => item.ISBN)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Amount)
+            @Html.DisplayFor(modelItem => item.Number)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Publisher)
@@ -71,15 +69,15 @@
             @Html.DisplayFor(modelItem => item.Category.Name)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id = item.BookItemID }, new { @class = "btn btn-info" })
+            @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.BookItemID }, new { @class = "btn btn-info" })
         </td>
         @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.BookItemID }, new { @class = "btn btn-default" })
+                @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.BookItemID }, new { @class = "btn btn-default" })
             </td>
                     <td>
-                        @Html.ActionLink("Delete", "Delete", new { id = item.BookItemID }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink(@Resources.Global.Delete, "Delete", new { id = item.BookItemID }, new { @class = "btn btn-danger" })
                     </td>
         }
     </tr>

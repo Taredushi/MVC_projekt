@@ -13,8 +13,7 @@ using PagedList;
 
 namespace MVC_projekt.Controllers
 {
-    [RoutePrefix("Book")]
-    [Route("{action}")]
+
     public class SearchController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

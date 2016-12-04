@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using MVC_projekt.Classes;
 
 namespace MVC_projekt
 {
@@ -7,7 +8,8 @@ namespace MVC_projekt
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            //filters.Add(new HandleErrorAttribute());
+            filters.Add(new LocalizationAttribute("pl"), 0);
         }
     }
 }

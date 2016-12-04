@@ -1,4 +1,7 @@
-﻿using Microsoft.Owin;
+﻿using System;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(MVC_projekt.Startup))]

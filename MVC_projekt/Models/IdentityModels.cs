@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Resources;
 
 namespace MVC_projekt.Models
 {
@@ -12,10 +13,12 @@ namespace MVC_projekt.Models
     public class ApplicationUser : IdentityUser
     {
 
-        [Required(ErrorMessage = "Imię jest wymagane")]
+        [Required(ErrorMessageResourceName = "FirstNameValidationError", ErrorMessageResourceType = typeof(Global))]
+        [Display(Name = "FirstName", ResourceType = typeof(Global))]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Nazwisko jest wymagane")]
+        [Required(ErrorMessageResourceName = "SurnameValidationError", ErrorMessageResourceType = typeof(Global))]
+        [Display(Name = "Surname", ResourceType = typeof(Global))]
         public string Surname { get; set; }
 
         public virtual ICollection<Fee> Fees { get; set; }
