@@ -8,11 +8,13 @@ using Microsoft.AspNet.Identity;
 using MVC_projekt.Models;
 using MVC_projekt.Models.Helpers;
 using Microsoft.AspNet.Identity.EntityFramework;
+using MVC_projekt.Classes;
 using PagedList;
 
 namespace MVC_projekt.Controllers
 {
     [Authorize]
+    [Localization("pl")]
     public class CartController : Controller
     {
         // GET: Cart

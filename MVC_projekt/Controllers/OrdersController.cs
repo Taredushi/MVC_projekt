@@ -26,7 +26,7 @@ namespace MVC_projekt.Controllers
                 var book = db.BookItems.Single(x => x.BookItemID == id);
                 string author = book.AuthorGroups.Aggregate("", (current, arg) => current + (arg.Author.FullName + " "));
                 ViewBag.Title = author + " / " + book.Title;
-                ViewBag.Max = book.Amount;
+                ViewBag.Max = book.Number;
                 ViewBag.ID = id;
                 return View(orderList.ToPagedList<Order>(currentPage, onPage));
             }

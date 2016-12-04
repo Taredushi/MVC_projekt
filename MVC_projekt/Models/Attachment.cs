@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using Resources;
 
 namespace MVC_projekt.Models
 {
@@ -11,6 +12,8 @@ namespace MVC_projekt.Models
 
         public int AttachmentID { get; set; }
         public string Source { get; set; }
+
+        [Display(Name = "Descryption", ResourceType = typeof(Global))]
         public string Descryption { get; set; }
 
         public int BookItemID { get; set; }

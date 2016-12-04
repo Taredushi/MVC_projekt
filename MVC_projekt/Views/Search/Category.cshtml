@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Category";
+    ViewBag.Title = Resources.Global.Category;
 }
 
-<h2>Category</h2>
+<h2>@Resources.Global.Category</h2>
 
 @Html.Partial("_SearchPartial")
 
@@ -11,19 +11,19 @@
     <table>
         <tr>
             <th>
-                <input type="text" class="form-control" id="input-search" placeholder="Type to search..." value="">
+                <input type="text" class="form-control" id="input-search">
             </th>
             
             <th>&emsp;</th>
 
             <th>
-                <button type="button" class="btn btn-success" id="btn-expand-all">Expand All</button>
+                <button type="button" class="btn btn-success" id="btn-expand-all">@Resources.Global.Expand</button>
             </th>
 
             <th>&emsp;</th>
 
             <th>
-                <button type="button" class="btn btn-danger" id="btn-collapse-all">Collapse All</button>
+                <button type="button" class="btn btn-danger" id="btn-collapse-all">@Resources.Global.Collapse</button>
             </th>
         </tr>
     </table>

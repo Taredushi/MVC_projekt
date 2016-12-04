@@ -61,7 +61,7 @@ namespace MVC_projekt.Models.Helpers
 
                 foreach (var book in _booksList)
                 {
-                    var av = book.Amount - db.Orders.Count(o => o.BookItemID == book.BookItemID && !o.Returned);
+                    var av = book.Number - db.Orders.Count(o => o.BookItemID == book.BookItemID && !o.Returned);
                     if (av > 0)
                     {
                         var order = new Order();

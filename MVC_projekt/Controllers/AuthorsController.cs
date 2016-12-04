@@ -6,10 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC_projekt.Classes;
 using MVC_projekt.Models;
 
 namespace MVC_projekt.Controllers
 {
+    [Localization("pl")]
     public class AuthorsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

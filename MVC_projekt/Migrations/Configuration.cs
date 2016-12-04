@@ -238,7 +238,7 @@ namespace MVC_projekt.Migrations
                     Publisher = "Fabryka Slow",
                     ReleaseDate = 2016,
                     Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
-                    Amount = 5
+                    Number = 5
                 },
                 new BookItem()
                 {
@@ -249,7 +249,7 @@ namespace MVC_projekt.Migrations
                     Publisher = "SuperNowa",
                     ReleaseDate = 1999,
                     Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
-                    Amount = 10
+                    Number = 10
                 },
                 new BookItem()
                 {
@@ -262,7 +262,7 @@ namespace MVC_projekt.Migrations
                     Publisher = "Wydawnictwo Isa",
                     ReleaseDate = 2001,
                     Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryZ),
-                    Amount = 14
+                    Number = 14
                 }
             };
 

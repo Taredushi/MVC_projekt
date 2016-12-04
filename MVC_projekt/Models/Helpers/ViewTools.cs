@@ -25,7 +25,7 @@ namespace MVC_projekt.Models.Helpers
                 Publisher = bookView.Publisher,
                 ReleaseDate = bookView.ReleaseDate,
                 Category = db.Categories.Find(bookView.CategoryID),
-                Amount = bookView.Amount
+                Number = bookView.Number
             };
 
             db.Set<BookItem>().AddOrUpdate(bookItem);
@@ -67,7 +67,7 @@ namespace MVC_projekt.Models.Helpers
             existingBook.Descryption = bookView.Descryption;
             existingBook.Publisher = bookView.Publisher;
             existingBook.Category = db.Categories.Find(bookView.CategoryID);
-            existingBook.Amount = bookView.Amount;
+            existingBook.Number = bookView.Number;
 
             //Update AuthorGroup Table
             List<int> oldAuthorGroupID = db.Authors.Where(a => a.AuthorGroups.Any(g => g.BookItem.BookItemID == existingBook.BookItemID)).Select(x => x.AuthorID).ToList();
@@ -148,10 +148,10 @@ namespace MVC_projekt.Models.Helpers
                 db.Authors.Where(a => a.AuthorGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
             bookView.Labels =
                 db.Labels.Where(a => a.LabelGroups.Any(g => g.BookItem.BookItemID == book.BookItemID)).ToList();
-            bookView.Amount = book.Amount;
+            bookView.Number = book.Number;
             bookView.SelectedLabels = bookView.Labels.Select(x => x.LabelID).ToList();
             bookView.SelectedAuthors = bookView.Authors.Select(x => x.AuthorID).ToList();
-            bookView.AvailableNumber = book.Amount - db.Orders.Count(o => o.BookItemID == book.BookItemID && o.Returned);
+            bookView.AvailableNumber = book.Number - db.Orders.Count(o => o.BookItemID == book.BookItemID && o.Returned);
             return bookView;
         }
 

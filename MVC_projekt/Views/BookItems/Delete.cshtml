@@ -1,19 +1,19 @@
 ﻿@model MVC_projekt.Models.BookItem
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = @Resources.Global.Delete;
 }
 
-<h2>Delete</h2>
+<h2>@Resources.Global.Delete</h2>
 
 @if (ViewBag.Blad == true)
 {
     <div class="alert alert-danger" role="alert">
-        Wystąpił błąd podczas usuwania.<br /> Spróbuj ponownie.
+        @Resources.Global.DeleteError
     </div>
 }
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>@Resources.Global.DeleteConfirmation</h3>
 <div>
     <hr />
     <dl class="dl-horizontal">
@@ -78,11 +78,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => model.Number)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Amount)
+            @Html.DisplayFor(model => model.Number)
         </dd>
 
     </dl>
@@ -92,8 +92,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <a href="@Request.UrlReferrer" class="btn btn-primary" title="Back to list">Back to list</a>
-            <input type="submit" name="delete" value="Delete" class="btn btn-danger col-md-offset-5" />
+            <a href="@Request.UrlReferrer" class="btn btn-primary">@Resources.Global.BackButton</a>
+            <input type="submit" name="delete" value=@Resources.Global.Delete class="btn btn-danger col-md-offset-5" />
         </div>
     }
 </div>

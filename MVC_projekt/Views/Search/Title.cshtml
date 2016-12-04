@@ -2,7 +2,7 @@
 @using PagedList.Mvc
 @model PagedList.IPagedList<MVC_projekt.Models.TitleViewModel>
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = @Resources.Global.Search;
 }
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
@@ -16,13 +16,13 @@
 {
     <p>
         Find: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" name="submit" class="btn btn-default" />
+        <input type="submit" value=@Resources.Global.Search name="submit" class="btn btn-default" />
 
     </p>
 }
 @if (User.Identity.IsAuthenticated)
 {
-    @Html.ActionLink("Save search result", "Title", new { save = true }, new { @class = "btn btn-info" })
+    @Html.ActionLink(@Resources.Global.SaveSearchButton, "Title", new { save = true }, new { @class = "btn btn-info" })
 }
 <br />
 <br />

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using MVC_projekt.Classes;
 
 namespace MVC_projekt.Controllers
 {
+    [Localization("pl")]
     public class AdminPanelController : Controller
     {
         [Authorize(Roles = "Admin")]

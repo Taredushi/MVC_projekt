@@ -1,13 +1,12 @@
 ﻿@model MVC_projekt.Models.BookItem
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = @Resources.Global.Details;
 }
 
-<h2>Details</h2>
+<h2>@Resources.Global.Details</h2>
 
 <div>
-    <h4>BookItem</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -71,7 +70,7 @@
 @if (User.Identity.IsAuthenticated)
 {
         <dt>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => model.Number)
         </dt>
 
         <dd>
@@ -82,5 +81,5 @@
 </div>
 &nbsp;
 <div>
-    @Html.ActionLink("Back to list", "Index", null, new { @class = "btn btn-info" })
+    @Html.ActionLink(@Resources.Global.BackButton, "Index", null, new { @class = "btn btn-info" })
 </div>
