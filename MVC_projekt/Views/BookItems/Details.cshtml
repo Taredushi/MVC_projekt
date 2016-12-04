@@ -68,7 +68,8 @@
         <dd>
             @Html.DisplayFor(model => model.Descryption)
         </dd>
-
+@if (User.Identity.IsAuthenticated)
+{
         <dt>
             @Html.DisplayNameFor(model => model.Amount)
         </dt>
@@ -76,7 +77,7 @@
         <dd>
            @Html.ActionLink((string)ViewBag.Available, "Index", "Orders", new { id = Model.BookItemID }, null)
         </dd>
-
+}
     </dl>
 </div>
 &nbsp;

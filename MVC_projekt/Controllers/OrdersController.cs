@@ -33,7 +33,7 @@ namespace MVC_projekt.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "Admin, User, Employee")]
         public ActionResult Order(int? id)
         {
             if (id != null)
