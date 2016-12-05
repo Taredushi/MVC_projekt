@@ -80,6 +80,7 @@ namespace MVC_projekt.Controllers
         [AllowAnonymous]
         public ActionResult Create()
         {
+            ViewBag.Roles = new SelectList(new ApplicationDbContext().Roles, "Name","Name");
             return View();
         }
 
@@ -92,11 +93,13 @@ namespace MVC_projekt.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Name = model.Name, Surname = model.Surname };
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
+                UserManager.AddToRole(user.Id, model.Role);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
+                    ViewBag.Roles = new SelectList(new ApplicationDbContext().Roles, "Name", "Name");
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -107,7 +110,7 @@ namespace MVC_projekt.Controllers
                 }
                 //AddErrors(result);
             }
-
+            ViewBag.Roles = new SelectList(new ApplicationDbContext().Roles, "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
