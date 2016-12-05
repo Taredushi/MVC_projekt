@@ -1,11 +1,56 @@
-﻿@{
+﻿@model List<MVC_projekt.Models.BookItem>
+@{
     ViewBag.Title = "Home Page";
 }
+
+<link href="~/Content/carousel.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
 
 <div class="jumbotron">
     <h1>Bogdaniec Library</h1>
     <p class="lead">Bogdaniec is new library in Bialystok University of Technologies. Here you can find books for every programmer. We also have books for normal people :)</p>
-    <p><a href="/Books" class="btn btn-primary btn-lg">Our books &raquo;</a></p>
+    <p>@Html.ActionLink("Our books", "Index", "BookItems", null, new { @class = "btn btn-primary btn-lg" })</p>
+</div>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <li data-target="#myCarousel" data-slide-to="@i" class="@(i == 0 ? "active" : string.Empty)"></li>
+        }
+    </ol>
+    <div class="carousel-inner" role="listbox">
+        @for (int i = 0; i < Model.Count(); i++)
+        {
+            <div class="item @(i == 0 ? "active" : string.Empty)">
+                <div class="container">
+                    <div class="col-lg-offset-2" style="padding-top: 20px">
+                        @if (Model[i].Attachments.Any() && Model[i].Attachments.Single(x => x.Descryption.Equals("cover")) != null)
+                        {
+                            <img src=@Model[i].Attachments.Single(x => x.Descryption.Equals("cover")).Source alt=@Model[i].BookItemID height="250">
+                        }
+                    </div>
+                    <div class="carousel-caption col-lg-offset-2">
+                        <h2>@Model[i].Title</h2>
+                        <br />
+                        <p>
+                            @Model[i].ShortDescryption
+                        </p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
 
 <div class="row">
@@ -19,3 +64,6 @@
         <p><a class="btn btn-default" href="/Account/Login">Log in &raquo;</a></p>
     </div>
 </div>
+
+<script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>

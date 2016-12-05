@@ -25,7 +25,8 @@ namespace MVC_projekt.Models.Helpers
                 Publisher = bookView.Publisher,
                 ReleaseDate = bookView.ReleaseDate,
                 Category = db.Categories.Find(bookView.CategoryID),
-                Number = bookView.Number
+                Number = bookView.Number,
+                AddDate = DateTime.Now
             };
 
             db.Set<BookItem>().AddOrUpdate(bookItem);

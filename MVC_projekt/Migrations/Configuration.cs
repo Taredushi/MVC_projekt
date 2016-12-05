@@ -42,6 +42,7 @@ namespace MVC_projekt.Migrations
             SeedBooks(context);
             SeedAuthorGroups(context);
             SeedLabels(context);
+            SeedAttachment(context);
         }
 
         private void SeedRoles(MVC_projekt.Models.ApplicationDbContext context)
@@ -190,10 +191,10 @@ namespace MVC_projekt.Migrations
         }
 
         private void SeedCategory(ApplicationDbContext context)
-        {
-            var parent = new Category(){ Name = "Fantastyka" };
+        {         
             if (context.Categories.FirstOrDefault(x => x.Name.Equals("Fantastyka")) == null)
             {
+                var parent = new Category() { Name = "Fantastyka" };
                 context.Set<Category>().AddOrUpdate(parent);
                 context.SaveChanges();
 
@@ -202,12 +203,12 @@ namespace MVC_projekt.Migrations
                     new Category()
                     {
                         Name = "Zagraniczna",
-                        Parent = context.Categories.Single(c=>c.Name == "Fantastyka")
+                        ParentID = 1
                     },
                     new Category()
                     {
                         Name = "Polska",
-                        Parent = context.Categories.Single(c=>c.Name == "Fantastyka")
+                        ParentID = 1
                     },
                 };
 
@@ -215,17 +216,12 @@ namespace MVC_projekt.Migrations
                 {
                     context.Set<Category>().AddOrUpdate(cat);
                 }
-
-
                 context.SaveChanges();
             }
         }
 
         private void SeedBooks(MVC_projekt.Models.ApplicationDbContext context)
         {
-            var categoryPl = context.Set<Category>().FirstOrDefault(c => c.Name == "Polska").CategoryID;
-            var categoryZ = context.Set<Category>().FirstOrDefault(c => c.Name == "Zagraniczna").CategoryID;
-
             //dodanie do BookItem
             var books = new List<BookItem>()
             {
@@ -237,8 +233,9 @@ namespace MVC_projekt.Migrations
                     ISBN = 9788360505113,
                     Publisher = "Fabryka Slow",
                     ReleaseDate = 2016,
-                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
-                    Number = 5
+                    CategoryID = 1,
+                    Number = 5,
+                    AddDate = DateTime.Now.AddDays(-2)
                 },
                 new BookItem()
                 {
@@ -248,8 +245,9 @@ namespace MVC_projekt.Migrations
                     ISBN = 8370541291,
                     Publisher = "SuperNowa",
                     ReleaseDate = 1999,
-                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryPl),
-                    Number = 10
+                    CategoryID = 2,
+                    Number = 10,
+                    AddDate = DateTime.Now
                 },
                 new BookItem()
                 {
@@ -261,8 +259,21 @@ namespace MVC_projekt.Migrations
                     ISBN = 83705412911,
                     Publisher = "Wydawnictwo Isa",
                     ReleaseDate = 2001,
-                    Category = context.Categories.FirstOrDefault(c=>c.CategoryID == categoryZ),
-                    Number = 14
+                    CategoryID = 3,
+                    Number = 14,
+                    AddDate = DateTime.Now.AddDays(-1)
+                },
+                new BookItem()
+                {
+                    BookItemID = 4,
+                    Title = "Tekst",
+                    Descryption = "brak",
+                    ISBN = 83705000000,
+                    Publisher = "Test",
+                    ReleaseDate = 2001,
+                    CategoryID = 1,
+                    Number = 14,
+                    AddDate = DateTime.Now.AddMonths(-1)
                 }
             };
 
@@ -282,8 +293,8 @@ namespace MVC_projekt.Migrations
                 var ag = new AuthorGroup()
                 {
                     AuthorGroupID = i,
-                    Author = context.Authors.Single(a => a.AuthorID == i),
-                    BookItem = context.BookItems.Single(a => a.BookItemID == i)
+                    AuthorID = i,
+                    BookItemID = i
                 };
                 context.Set<AuthorGroup>().AddOrUpdate(ag);
             }
@@ -304,6 +315,36 @@ namespace MVC_projekt.Migrations
             context.SaveChanges();
         }
 
+        private void SeedAttachment(ApplicationDbContext context)
+        {
+            List<Attachment> attachments = new List<Attachment>()
+            {
+                new Attachment()
+                {
+                    BookItemID = 1,
+                    Descryption = "cover",
+                    Source = "http://ecsmedia.pl/c/jakub-wedrowycz-tom-5-wieszac-kazdy-moze-b-iext43247760.jpg"
+                },
+                new Attachment()
+                {
+                    BookItemID = 2,
+                    Descryption = "cover",
+                    Source = "http://ecsmedia.pl/c/wiedzmin-tom-7-pani-jeziora-b-iext38703095.jpg"
+                },
+                new Attachment()
+                {
+                    BookItemID = 3,
+                    Descryption = "cover",
+                    Source = "http://ecsmedia.pl/c/starcraft-krucjata-liberty-ego-b-iext44612239.jpg"
+                }
+            };
+
+            foreach (var arg in attachments)
+            {
+                context.Set<Attachment>().AddOrUpdate(arg);
+            }
+            context.SaveChanges();
+        }
 
     }
 }

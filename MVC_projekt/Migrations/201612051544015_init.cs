@@ -27,10 +27,11 @@ namespace MVC_projekt.Migrations
                         BookItemID = c.Int(nullable: false, identity: true),
                         Title = c.String(),
                         ISBN = c.Long(nullable: false),
-                        Amount = c.Int(nullable: false),
+                        Number = c.Int(nullable: false),
                         Descryption = c.String(),
                         Publisher = c.String(),
                         ReleaseDate = c.Int(nullable: false),
+                        AddDate = c.DateTime(nullable: false),
                         CategoryID = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.BookItemID)

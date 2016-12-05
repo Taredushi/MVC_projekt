@@ -1,5 +1,6 @@
 ﻿ using System;
-using System.Collections.Generic;
+ using System.Collections;
+ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -7,12 +8,14 @@ using System.Web;
 using System.Web.Mvc;
  using System.Web.Routing;
  using MVC_projekt.Classes;
+ using MVC_projekt.Models;
 
 namespace MVC_projekt.Controllers
 {
     [Localization("pl")]
     public class HomeController : BaseController
     {
+        ApplicationDbContext db = new ApplicationDbContext();
 
         public ActionResult Index()
         {
@@ -28,7 +31,9 @@ namespace MVC_projekt.Controllers
                 Session["Language"] = url;
             }
 
-            return View();
+            var latestBooks = db.BookItems.OrderByDescending(d => d.AddDate).Take(3).ToList();
+
+            return View(latestBooks);
         }
 
         public ActionResult Contact()

@@ -123,6 +123,9 @@
   <data name="AddBookError" xml:space="preserve">
     <value>Książka już istnieje!</value>
   </data>
+  <data name="AddDate" xml:space="preserve">
+    <value>Data dodania</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Kwota</value>
     <comment>Fee</comment>
@@ -223,7 +226,7 @@
     <value>Zarejestruj</value>
   </data>
   <data name="Released" xml:space="preserve">
-    <value>Data wydania</value>
+    <value>Rok wydania</value>
     <comment>BookItem</comment>
   </data>
   <data name="ReturnDate" xml:space="preserve">

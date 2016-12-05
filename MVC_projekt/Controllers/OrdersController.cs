@@ -9,6 +9,7 @@ using PagedList;
 
 namespace MVC_projekt.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -33,7 +34,7 @@ namespace MVC_projekt.Controllers
 
             return View();
         }
-        [Authorize(Roles = "Admin, User, Employee")]
+        
         public ActionResult Order(int? id)
         {
             if (id != null)

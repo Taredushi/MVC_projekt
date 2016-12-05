@@ -67,16 +67,22 @@
         <dd>
             @Html.DisplayFor(model => model.Descryption)
         </dd>
-@if (User.Identity.IsAuthenticated)
-{
+        
         <dt>
             @Html.DisplayNameFor(model => model.Number)
         </dt>
-
-        <dd>
-           @Html.ActionLink((string)ViewBag.Available, "Index", "Orders", new { id = Model.BookItemID }, null)
-        </dd>
-}
+        @if (User.Identity.IsAuthenticated)
+        {
+            <dd>
+                @Html.ActionLink((string) ViewBag.Available, "Index", "Orders", new {id = Model.BookItemID}, null)
+            </dd>
+        }
+        else
+        {
+            <dd>
+                @ViewBag.Available
+            </dd>
+        }
     </dl>
 </div>
 &nbsp;

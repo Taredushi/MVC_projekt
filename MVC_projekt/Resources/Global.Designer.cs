@@ -79,6 +79,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data dodania.
+        /// </summary>
+        public static string AddDate {
+            get {
+                return ResourceManager.GetString("AddDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kwota.
         /// </summary>
         public static string Amount {
@@ -349,7 +358,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data wydania.
+        ///   Looks up a localized string similar to Rok wydania.
         /// </summary>
         public static string Released {
             get {

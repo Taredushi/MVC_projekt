@@ -123,6 +123,9 @@
   <data name="AddBookError" xml:space="preserve">
     <value>Book already exists!</value>
   </data>
+  <data name="AddDate" xml:space="preserve">
+    <value>Add Date</value>
+  </data>
   <data name="Amount" xml:space="preserve">
     <value>Amount</value>
     <comment>Fee</comment>

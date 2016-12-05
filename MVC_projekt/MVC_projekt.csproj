@@ -191,13 +191,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612021913489_init.cs" />
-    <Compile Include="Migrations\201612021913489_init.Designer.cs">
-      <DependentUpon>201612021913489_init.cs</DependentUpon>
+    <Compile Include="Migrations\201612051544015_init.cs" />
+    <Compile Include="Migrations\201612051544015_init.Designer.cs">
+      <DependentUpon>201612051544015_init.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201612041657400_language.cs" />
-    <Compile Include="Migrations\201612041657400_language.Designer.cs">
-      <DependentUpon>201612041657400_language.cs</DependentUpon>
+    <Compile Include="Migrations\201612052129402_category.cs" />
+    <Compile Include="Migrations\201612052129402_category.Designer.cs">
+      <DependentUpon>201612052129402_category.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Helpers\CartTools.cs" />
@@ -247,6 +247,7 @@
     <Content Include="Content\bootstrap-treeview.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\carousel.css" />
     <Content Include="Content\chosen-sprite%402x.png" />
     <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
@@ -403,11 +404,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201612021913489_init.resx">
-      <DependentUpon>201612021913489_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612051544015_init.resx">
+      <DependentUpon>201612051544015_init.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201612041657400_language.resx">
-      <DependentUpon>201612041657400_language.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201612052129402_category.resx">
+      <DependentUpon>201612052129402_category.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Global.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -12,9 +12,9 @@
 }
 <h2>Add</h2>
 
-@Html.AntiForgeryToken()
 @using (Html.BeginForm())
 {
+    @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <h4>Book</h4>
         <hr />
