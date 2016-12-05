@@ -8,8 +8,8 @@ namespace MVC_projekt
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //filters.Add(new HandleErrorAttribute());
-            filters.Add(new LocalizationAttribute("pl"), 0);
+            filters.Add(new HandleErrorAttribute());
+            filters.Add(new LocalizationAttribute("en"), 0);
         }
     }
 }
