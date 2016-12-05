@@ -3,15 +3,17 @@
 
 <ul class="nav navbar-nav navbar-right">
     <li>
-        @if (Request.Cookies["Language"] != null && !string.IsNullOrEmpty(Request.Cookies["Language"].Value))
+        @if (Session["Language"] != null)
         {
-            if (Request.Cookies.Get("Language").Value == "en")
+            var aa = Session["Language"].ToString();
+
+            if (Session["Language"].ToString().Equals("en"))
             {
                 <a href="/pl">
                     <img src="@Url.Content("~/Images/pl.png")" />
                 </a>
             }
-            if (Request.Cookies.Get("Language").Value == "pl")
+            if (Session["Language"].ToString().Equals("pl"))
             {
                 <a href="/en">
                     <img src="@Url.Content("~/Images/gb.png")" />

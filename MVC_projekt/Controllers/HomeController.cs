@@ -17,11 +17,16 @@ namespace MVC_projekt.Controllers
         public ActionResult Index()
         {
             var url = Request.RawUrl.Replace("/", "");
-            HttpCookie cookie = new HttpCookie("Language");
+            url = string.IsNullOrEmpty(url) ? "pl" : url;
 
-            cookie.Value = string.IsNullOrEmpty(url) ? "pl" : url;
-
-            Response.SetCookie(cookie);
+            if (Session["Language"] == null)
+            {
+                Session.Add("Language", url);
+            }
+            else
+            {
+                Session["Language"] = url;
+            }
 
             return View();
         }
