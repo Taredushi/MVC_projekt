@@ -130,9 +130,15 @@
     <value>Amount</value>
     <comment>Fee</comment>
   </data>
+  <data name="Attachments" xml:space="preserve">
+    <value>Additional content</value>
+  </data>
   <data name="Author" xml:space="preserve">
     <value>Author</value>
     <comment>Author</comment>
+  </data>
+  <data name="Availability" xml:space="preserve">
+    <value>Availability</value>
   </data>
   <data name="AvailableOn" xml:space="preserve">
     <value>Available On</value>
@@ -208,6 +214,9 @@
     <value>Number</value>
     <comment>BookItem</comment>
   </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
   <data name="OrderDate" xml:space="preserve">
     <value>Order Date</value>
     <comment>Order</comment>
@@ -222,6 +231,9 @@
   <data name="Publisher" xml:space="preserve">
     <value>Publisher</value>
     <comment>BookItem</comment>
+  </data>
+  <data name="Queue" xml:space="preserve">
+    <value>Book</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>

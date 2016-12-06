@@ -29,7 +29,7 @@
                     <div class="col-lg-offset-2" style="padding-top: 20px">
                         @if (Model[i].Attachments.Any() && Model[i].Attachments.Single(x => x.Descryption.Equals("cover")) != null)
                         {
-                            <img src=@Model[i].Attachments.Single(x => x.Descryption.Equals("cover")).Source alt=@Model[i].BookItemID height="250">
+                            <img src=@Model[i].Attachments.Single(x => x.Descryption.Equals("cover")).Source class="img-rounded" alt=@Model[i].BookItemID height="250">
                         }
                     </div>
                     <div class="carousel-caption col-lg-offset-2">

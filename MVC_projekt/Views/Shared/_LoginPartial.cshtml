@@ -1,14 +1,28 @@
 ﻿@using Microsoft.AspNet.Identity
+@using MVC_projekt.Models
 
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new {title = "Manage"})
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li>
+                <a href="@Url.Action("Index", "Cart")">
+                    @if (Session["cart"] != null)
+                    {
+                        var items = (List<BookItem>)Session["cart"];
+                        <span class="badge nav">@items.Count</span>
+                    }
+                    else
+                    {
+                        <span class="badge nav">0</span>
+                    }
+                </a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">@Resources.Global.LogOff</a></li>
         </ul>
@@ -17,7 +31,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink(Resources.Global.Register, "Register", "Account", routeValues: null, htmlAttributes: new {id = "registerLink"})</li>
-        <li>@Html.ActionLink(Resources.Global.LogIn, "Login", "Account", routeValues: null, htmlAttributes: new {id = "loginLink"})</li>
+        <li>@Html.ActionLink(Resources.Global.Register, "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink(Resources.Global.LogIn, "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
     </ul>
 }

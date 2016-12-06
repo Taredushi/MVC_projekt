@@ -185,7 +185,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LabelsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -241,6 +240,7 @@
     <Content Include="App_Data\MVC_projekt_log.ldf">
       <DependentUpon>MVC_projekt.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\BookDetails.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap-treeview.css" />
@@ -251,8 +251,10 @@
     <Content Include="Content\chosen-sprite%402x.png" />
     <Content Include="Content\chosen-sprite.png" />
     <Content Include="Content\chosen.css" />
+    <Content Include="Content\lightbox.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\selectize.default.css" />
+    <Content Include="Content\tabs.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -301,6 +303,10 @@
     <Content Include="Icon.png" />
     <Content Include="Images\gb.png" />
     <Content Include="Images\pl.png" />
+    <Content Include="img\close.png" />
+    <Content Include="img\loading.gif" />
+    <Content Include="img\next.png" />
+    <Content Include="img\prev.png" />
     <Content Include="Scripts\bootstrap-treeview.js" />
     <Content Include="Scripts\bootstrap-treeview.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -311,6 +317,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="sass\_variables.sass" />
+    <Content Include="sass\screen.sass" />
+    <Content Include="sass\lightbox.sass" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\chosen.jquery.js" />
@@ -327,6 +336,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\lightbox-2.6.js" />
+    <Content Include="Scripts\lightbox-2.6.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\npm.js" />
     <Content Include="Scripts\respond.js" />
@@ -396,7 +407,6 @@
     <Content Include="Views\BookItems\Delete.cshtml" />
     <Content Include="Views\Search\Category.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
-    <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Shared\_Language.cshtml" />
   </ItemGroup>
   <ItemGroup>

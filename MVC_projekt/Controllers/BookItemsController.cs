@@ -47,7 +47,7 @@ namespace MVC_projekt.Controllers
                 return HttpNotFound();
             }
             var av = bookItem.Number - db.Orders.Count(o => o.BookItemID == bookItem.BookItemID && !o.Returned);
-            ViewBag.Available = av + "/" + bookItem.Number;
+            ViewBag.Available = av;
             return View(bookItem);
         }
 
@@ -198,6 +198,18 @@ namespace MVC_projekt.Controllers
             
             return RedirectToAction("Index");
         }
+
+        #region Order
+        [HttpPost]
+        public ActionResult Order(int id)
+        {
+            CartTools ct = new CartTools();
+            ct.AddToCart(this.HttpContext, id);
+
+            return RedirectToAction("Details", new {id});
+        }
+
+        #endregion
 
         protected override void Dispose(bool disposing)
         {

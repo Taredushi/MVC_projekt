@@ -1,91 +1,210 @@
-﻿@model MVC_projekt.Models.BookItem
+﻿@using Microsoft.AspNet.Identity
+@using MVC_projekt.Models
+@model MVC_projekt.Models.BookItem
 
 @{
-    ViewBag.Title = @Resources.Global.Details;
+    ViewBag.Title = Model.Title;
 }
+
+<link href="~/Content/lightbox.css" rel="stylesheet" />
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/tabs.css" rel="stylesheet" />
 
 <h2>@Resources.Global.Details</h2>
 
-<div>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AuthorGroups.Single(x => x.Author.FullName != null).Author.FullName)
-        </dt>
+<div class="nav-tabs"></div>
 
-        <dd>
-            @foreach (var arg in Model.AuthorGroups)
-            {
-                @Html.DisplayFor(modelItem => arg.Author.FullName)
-                <br />
-            }
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.Publisher)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Publisher)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Category)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Category.Name)
-        </dd>
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.Descryption)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Descryption)
-        </dd>
-        
-        <dt>
-            @Html.DisplayNameFor(model => model.Number)
-        </dt>
-        @if (User.Identity.IsAuthenticated)
+<div class="row" style="margin-top: 10px">
+    <div class="col-md-3" style="padding-left: 5%">
+        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.Descryption.Equals("cover")) != null)
         {
-            <dd>
-                @Html.ActionLink((string) ViewBag.Available, "Index", "Orders", new {id = Model.BookItemID}, null)
-            </dd>
+            <a href=@Model.Attachments.Single(x => x.Descryption.Equals("cover")).Source data-lightbox="image-1">
+                <img class="example-image" src=@Model.Attachments.Single(x => x.Descryption.Equals("cover")).Source alt=@Model.BookItemID width="200">
+            </a>
         }
-        else
-        {
-            <dd>
-                @ViewBag.Available
-            </dd>
-        }
-    </dl>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table-striped table-details" style="padding-top: 5%">
+            <tr>
+                <td style="text-align: right">
+                    <b>
+                        @Html.DisplayNameFor(model => model.Title):&emsp;
+                    </b>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Title)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <b>
+                        @Html.DisplayNameFor(model => model.AuthorGroups.Single(x => x.Author.FullName != null).Author.FullName):&emsp;
+                    </b>
+                </td>
+                <td>
+                    @foreach (var arg in Model.AuthorGroups)
+                    {
+                        @Html.DisplayFor(modelItem => arg.Author.FullName)
+                        <br />
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <b>
+                        @Html.DisplayNameFor(model => model.Publisher):&emsp;
+                    </b>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Publisher)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <b>
+                        @Html.DisplayNameFor(model => model.ReleaseDate):&emsp;
+                    </b>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.ReleaseDate)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <b>
+                        @Html.DisplayNameFor(model => model.ISBN):&emsp;
+                    </b>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.ISBN)
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: right">
+                    <b>
+                        @Html.DisplayNameFor(model => model.Category):&emsp;
+                    </b>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Category.Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <b>
+                        @Html.DisplayNameFor(model => model.Number):&emsp;
+                    </b>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Number)
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
-&nbsp;
+
+<div class="container" style="margin-top: 20px">
+    <div class="row">
+        <div style="padding-left: 5%; padding-right: 5%">
+            <div class="card">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tabs-1" role="tab" data-toggle="tab">@Resources.Global.Descryption</a></li>
+                    <li role="presentation"><a href="#tabs-2" role="tab" data-toggle="tab">@Resources.Global.Attachments</a></li>
+                    <li role="presentation"><a href="#tabs-3" role="tab" data-toggle="tab">@Resources.Global.Availability <span class="badge">@ViewBag.Available</span></a></li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div role="tabpanel" class="tab-pane active" id="tabs-1">
+                        <p>@Html.DisplayFor(model => model.Descryption)</p>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane " id="tabs-2">
+
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="tabs-3">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (Model.Orders.All(x => x.Returned) || (Model.Orders.Count(x => !x.Returned) < Model.Number))
+                            {
+                                <p><button type="button" id="addOrder" class="btn btn-default btn-sm">@Resources.Global.Order</button></p>
+                            }
+                        }
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Orders.Single(x => x.OrderDate != null).OrderDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Orders.Single(x => x.AvailableOn != null).AvailableOn)
+                                </th>
+                                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                                {
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Orders.Single(x => x.ApplicationUserID != null).ApplicationUser.UserName)
+                                    </th>
+                                }
+                            </tr>
+                            @foreach (Order order in Model.Orders.Where(x => !x.Returned))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.OrderDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => order.AvailableOn)
+                                    </td>
+                                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                                    {
+                                        <td>
+                                            @Html.DisplayFor(modelItem => order.ApplicationUser.UserName)
+                                        </td>
+                                    }
+
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="nav-tabs"></div>
+    &nbsp;
 <div>
     @Html.ActionLink(@Resources.Global.BackButton, "Index", null, new { @class = "btn btn-info" })
 </div>
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/lightbox-2.6.js")" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+        $(function() {
+            $("#tabs").tabs().addClass("ui-tabs-vertical ui-helper-clearfix");
+            $("#tabs li").removeClass("ui-corner-top").addClass("ui-corner-right");
+        });
+
+        $("#addOrder")
+            .click(
+                function() {
+                    $.post("/BookItems/Order",
+                        { id: @Model.BookItemID },
+                        function() {
+                            history.back();
+                        });
+                });
+    </script>
+
+}

@@ -213,7 +213,7 @@ namespace MVC_projekt.Models.Helpers
 
         public List<CategoryViewModel> GetCategoryList_WithChildren(ApplicationDbContext db)
         {
-            var parents = db.Categories.Where(x => x.Parent == null);
+            var parents = db.Categories.Where(x => x.ParentID == 0);
 
             List<CategoryViewModel> list = new List<CategoryViewModel>();
 
@@ -240,7 +240,7 @@ namespace MVC_projekt.Models.Helpers
         {
             List<CategoryViewModel> list = new List<CategoryViewModel>();
 
-            var parents = db.Categories.Where(x => x.Parent.CategoryID == id);
+            var parents = db.Categories.Where(x => x.ParentID == id);
 
             foreach (var parent in parents)
             {
