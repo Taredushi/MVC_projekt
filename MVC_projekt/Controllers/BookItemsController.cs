@@ -209,6 +209,14 @@ namespace MVC_projekt.Controllers
             return RedirectToAction("Details", new {id});
         }
 
+        [HttpPost]
+        public ActionResult ReturnOrder(int id)
+        {
+            CartTools ct = new CartTools();
+            ct.ReturnOrder(id);
+
+            return RedirectToAction("Index");
+        }
         #endregion
 
         protected override void Dispose(bool disposing)

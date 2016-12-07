@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -87,6 +88,16 @@ namespace MVC_projekt.Models.Helpers
             var user = db.Users.Single(x=>x.Id.Equals(userID)).Orders.Where(x=>x.BookItemID == bookID && !x.Returned);
 
             return user.Any();
+        }
+
+        public void ReturnOrder(int orderId)
+        {
+            var order = db.Orders.Single(x => x.OrderID == orderId);
+            order.Returned = true;
+            order.ReturnDate = DateTime.Now;
+
+            db.Orders.AddOrUpdate(order);
+            db.SaveChanges();
         }
     }
 }

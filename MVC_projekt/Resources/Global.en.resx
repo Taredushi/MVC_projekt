@@ -140,6 +140,9 @@
   <data name="Availability" xml:space="preserve">
     <value>Availability</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
   <data name="AvailableOn" xml:space="preserve">
     <value>Available On</value>
     <comment>Order</comment>
@@ -241,6 +244,9 @@
   <data name="Released" xml:space="preserve">
     <value>Released</value>
     <comment>BookItem</comment>
+  </data>
+  <data name="Return" xml:space="preserve">
+    <value>Return</value>
   </data>
   <data name="ReturnDate" xml:space="preserve">
     <value>Return Date</value>

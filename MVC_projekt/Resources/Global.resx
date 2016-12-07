@@ -140,6 +140,9 @@
   <data name="Availability" xml:space="preserve">
     <value>Dostępność</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Dostępne egzemplarze</value>
+  </data>
   <data name="AvailableOn" xml:space="preserve">
     <value>Dostępny</value>
     <comment>Order</comment>
@@ -240,6 +243,9 @@
   <data name="Released" xml:space="preserve">
     <value>Rok wydania</value>
     <comment>BookItem</comment>
+  </data>
+  <data name="Return" xml:space="preserve">
+    <value>Zwróć</value>
   </data>
   <data name="ReturnDate" xml:space="preserve">
     <value>Data zwrotu</value>
