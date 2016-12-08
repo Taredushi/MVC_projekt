@@ -235,17 +235,6 @@
                     $("#orderTab").load("@Request.Url #orderTab");
                 });
         });
-
-        @*$("button#returnOrder")
-            .click(
-                function() {
-                    $.post("/BookItems/ReturnOrder",
-                        { id: $(this).closest("td").prev("#oid").find("#order_OrderID").val() },
-                        function() {
-                            $(this).closest("tr").remove();
-                            $("#ordersTable").load("@Request.Url #ordersTable");
-                        });
-                });*@
     </script>
 
 }

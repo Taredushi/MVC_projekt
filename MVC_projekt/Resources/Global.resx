@@ -150,6 +150,9 @@
   <data name="BackButton" xml:space="preserve">
     <value>Powrót</value>
   </data>
+  <data name="Books" xml:space="preserve">
+    <value>Katalog Książek</value>
+  </data>
   <data name="Category" xml:space="preserve">
     <value>Kategoria</value>
     <comment>Category</comment>
@@ -159,6 +162,9 @@
   </data>
   <data name="ConfirmPassword" xml:space="preserve">
     <value>Potwierdź hasło</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Kontakt</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Dodaj</value>

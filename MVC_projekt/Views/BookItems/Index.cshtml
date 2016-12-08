@@ -24,12 +24,6 @@
             @Html.DisplayNameFor(model => model[0].Title)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model[0].ISBN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model[0].Number)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model[0].Publisher)
         </th>
         <th>
@@ -39,48 +33,53 @@
             @Html.DisplayNameFor(model => model[0].Category.Name)
         </th>
         <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @foreach (var arg in item.AuthorGroups)
-            {
-                @Html.DisplayFor(modelItem => arg.Author.FullName)
-                <br/>
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ISBN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Number)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Publisher)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ReleaseDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Category.Name)
-        </td>
-        <td>
-            @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.BookItemID }, new { @class = "btn btn-info" })
-        </td>
         @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-            <td>
-                @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.BookItemID }, new { @class = "btn btn-default" })
-            </td>
-                    <td>
-                        @Html.ActionLink(@Resources.Global.Delete, "Delete", new { id = item.BookItemID }, new { @class = "btn btn-danger" })
-                    </td>
+        {
+            <th></th>
+            <th></th>
         }
     </tr>
-}
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @foreach (var arg in item.AuthorGroups)
+                {
+                    @Html.DisplayFor(modelItem => arg.Author.FullName)
+                    <br/>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Publisher)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReleaseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.BookItemID }, new { @class = "btn btn-info" })
+            </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <td>
+                    @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.BookItemID }, new { @class = "btn btn-default" })
+                </td>
+                <td>
+                    @Html.ActionLink(@Resources.Global.Delete, "Delete", new { id = item.BookItemID }, new { @class = "btn btn-danger" })
+                </td>
+            }
+        </tr>
+    }
 
 </table>
+
+<div>
+    <br />
+    @Html.PagedListPager(Model, page => Url.Action("Index", "BookItems", new { page }))
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+</div>

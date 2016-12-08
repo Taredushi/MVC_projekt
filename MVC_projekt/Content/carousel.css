@@ -3,13 +3,19 @@
 
 /* Carousel base class */
 .carousel {
-  height: 300px;
-  margin-bottom: 20px;
+  height: 320px;
+  margin-top: 12px;
+    margin-bottom: 1px;
+
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  height: 300px;
-  background-color: #777;
+  height: 320px;
+  background-color: #778899;
 }
 
+.nowosc {
+    color: coral;
+    font-family: Monotype Corsiva;
+}

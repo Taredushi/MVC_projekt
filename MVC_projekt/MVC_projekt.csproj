@@ -302,6 +302,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Icon.png" />
     <Content Include="Images\gb.png" />
+    <Content Include="Images\logo.jpg" />
     <Content Include="Images\pl.png" />
     <Content Include="img\close.png" />
     <Content Include="img\loading.gif" />

@@ -108,6 +108,49 @@
             </div>
         </div>
         <div class="form-group">
+            @Html.Label("Okładka", new {@class= "control-label col-md-2" })
+            <div class="col-md-10">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.TextBox("Cover")
+                        </td>
+                        <td>
+                            &emsp;
+                        </td>
+                        <td>
+                            <button id="addLabel" class="btn btn-block">Wybierz</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.Label("Załączniki", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <table>
+                    <tr>
+                        <td>
+                            @Html.TextBox("Cover")
+                        </td>
+                        <td>
+                            &emsp;
+                        </td>
+                        <td>
+                            <button id="addLabel" class="btn btn-block">Wybierz</button>
+                        </td>
+                        <td>
+                            &emsp;
+                        </td>
+                        <td>
+                            <button id="addLabel" class="glyphicon-plus btn btn-block"></button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-success" />
             </div>
