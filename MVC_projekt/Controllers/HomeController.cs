@@ -7,8 +7,8 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
  using System.Web.Routing;
- using MVC_projekt.Classes;
  using MVC_projekt.Models;
+ using MVC_projekt.Models.Classes;
 
 namespace MVC_projekt.Controllers
 {

@@ -8,8 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using MVC_projekt.Classes;
 using MVC_projekt.Models;
+using MVC_projekt.Models.Classes;
 
 namespace MVC_projekt.Controllers
 {

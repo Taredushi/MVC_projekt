@@ -17,14 +17,13 @@
 
 <div class="row" style="margin-top: 10px">
     <div class="col-md-3" style="padding-left: 5%">
-        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.Descryption.Equals("cover")) != null)
+        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.FileType == FileType.Cover) != null)
         {
-            <a href=@Model.Attachments.Single(x => x.Descryption.Equals("cover")).Source data-lightbox="image-1">
-                <img class="example-image" src=@Model.Attachments.Single(x => x.Descryption.Equals("cover")).Source alt=@Model.BookItemID width="200">
+            <a href="@Url.Content(Model.Attachments.Single(x => x.FileType == FileType.Cover).Source)" data-lightbox="image-1">
+                <img class="example-image img-rounded" src="@Url.Content(Model.Attachments.Single(x => x.FileType == FileType.Cover).Source)" alt=@Model.BookItemID width="200">
             </a>
         }
     </div>
-
     <div class="col-md-6">
         <table class="table-striped table-details" style="padding-top: 5%">
             <tr>
@@ -128,7 +127,36 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane " id="tabs-2">
-
+                        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.FileType == FileType.TableOfContents) != null)
+                        {
+                            <div>
+                                <h3><b>@Resources.Global.TableOfContents:</b></h3>
+                                <a href="@Url.Content(Model.Attachments.Single(x => x.FileType == FileType.TableOfContents).Source)" data-lightbox="image-1">
+                                    <img class="example-image img-rounded" src="@Url.Content(Model.Attachments.Single(x => x.FileType == FileType.TableOfContents).Source)" alt=@Model.BookItemID width="400">
+                                </a>
+                            </div>
+                        }
+                        <hr/>
+                        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.FileType == FileType.Attachment) != null)
+                        {
+                            <div>
+                                <h3><b>@Html.DisplayName(Resources.Global.Attachments):</b></h3>
+                                <br/>
+                            </div>
+                            foreach (var file in Model.Attachments)
+                            {
+                                if (file.FileType == FileType.Attachment)
+                                {
+                                    <div class="col-md-10">
+                                        <span style="white-space: pre-line; word-wrap: normal"> @file.Descryption</span>
+                                        <hr />
+                                    </div>
+                                    <div class="col-md-2">
+                                        @Html.ActionLink("Download", "Download", new { filename = file.FileName, bookID = Model.BookItemID.ToString(), source = file.Source }, new { @class = "btn btn-default" })
+                                    </div>
+                                }
+                            }
+                        }
                     </div>
 
                     <div role="tabpanel" class="tab-pane" id="tabs-3">

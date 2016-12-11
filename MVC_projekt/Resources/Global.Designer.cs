@@ -196,6 +196,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Okładka.
+        /// </summary>
+        public static string Cover {
+            get {
+                return ResourceManager.GetString("Cover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dodaj.
         /// </summary>
         public static string Create {
@@ -475,6 +484,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wybierz.
+        /// </summary>
+        public static string SelectOption {
+            get {
+                return ResourceManager.GetString("SelectOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zatwierdź.
         /// </summary>
         public static string Submit {
@@ -507,6 +525,24 @@ namespace Resources {
         public static string SurnameValidationError {
             get {
                 return ResourceManager.GetString("SurnameValidationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spis treści.
+        /// </summary>
+        public static string TableOfContents {
+            get {
+                return ResourceManager.GetString("TableOfContents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spis treści powinien mieć jedno z następujących rozszerzeń: jpg, png, bmp.
+        /// </summary>
+        public static string TableOfContentsError {
+            get {
+                return ResourceManager.GetString("TableOfContentsError", resourceCulture);
             }
         }
         

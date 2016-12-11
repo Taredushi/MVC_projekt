@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services.Description;
-using MVC_projekt.Classes;
+using MVC_projekt.Models.Classes;
 
 namespace MVC_projekt.Controllers
 {

@@ -6,8 +6,8 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using MVC_projekt.Classes;
 using MVC_projekt.Models;
+using MVC_projekt.Models.Classes;
 
 namespace MVC_projekt.Controllers
 {

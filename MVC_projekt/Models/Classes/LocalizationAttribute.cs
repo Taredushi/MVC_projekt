@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading;
-using System.Web;
 using System.Web.Mvc;
 
-namespace MVC_projekt.Classes
+namespace MVC_projekt.Models.Classes
 {
     public class LocalizationAttribute : ActionFilterAttribute
     {

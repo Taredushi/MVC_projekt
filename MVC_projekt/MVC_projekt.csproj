@@ -175,7 +175,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Classes\LocalizationAttribute.cs" />
+    <Compile Include="Migrations\201612111853355_attachment2.cs" />
+    <Compile Include="Migrations\201612111853355_attachment2.Designer.cs">
+      <DependentUpon>201612111853355_attachment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Classes\LocalizationAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminPanelController.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
@@ -198,7 +202,12 @@
     <Compile Include="Migrations\201612052129402_category.Designer.cs">
       <DependentUpon>201612052129402_category.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612091938284_attachment.cs" />
+    <Compile Include="Migrations\201612091938284_attachment.Designer.cs">
+      <DependentUpon>201612091938284_attachment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Classes\AttachmentFile.cs" />
     <Compile Include="Models\Helpers\CartTools.cs" />
     <Compile Include="Models\Helpers\ViewTools.cs" />
     <Compile Include="Models\View\AccountViewModels.cs" />
@@ -420,6 +429,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612052129402_category.resx">
       <DependentUpon>201612052129402_category.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612091938284_attachment.resx">
+      <DependentUpon>201612091938284_attachment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612111853355_attachment2.resx">
+      <DependentUpon>201612111853355_attachment2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Global.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -8,7 +8,7 @@ using Microsoft.AspNet.Identity;
 using MVC_projekt.Models;
 using MVC_projekt.Models.Helpers;
 using Microsoft.AspNet.Identity.EntityFramework;
-using MVC_projekt.Classes;
+using MVC_projekt.Models.Classes;
 using PagedList;
 
 namespace MVC_projekt.Controllers

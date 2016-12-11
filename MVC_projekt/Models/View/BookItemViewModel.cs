@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVC_projekt.Models.Classes;
 using Resources;
 
 namespace MVC_projekt.Models
@@ -63,6 +64,9 @@ namespace MVC_projekt.Models
 
         [Display(Name = "Label", ResourceType = typeof(Global))]
         public List<Label> Labels { get; set; }
+
+
+        public List<AttachmentFile> FileList { get; set; }
 
         public string PreviousPage { get; set; }
 

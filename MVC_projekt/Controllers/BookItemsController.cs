@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using MVC_projekt.Classes;
 using MVC_projekt.Models;
+using MVC_projekt.Models.Classes;
 using MVC_projekt.Models.Helpers;
 using MVC_projekt.Models.View;
 using PagedList;
@@ -65,13 +66,19 @@ namespace MVC_projekt.Controllers
         // POST: BookItems/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(BookItemViewModel bookItem)
+        public ActionResult Create(BookItemViewModel bookItem, HttpPostedFileBase cover, HttpPostedFileBase tableOfContents)
         {
+            var allowedExtensions = new[] {".jpg", ".png", ".bmp"};
+            if (!allowedExtensions.Contains(Path.GetExtension(tableOfContents.FileName)))
+            {
+                ModelState.AddModelError("Extension", @"Wrong table of contents extension");
+                ViewBag.TableOfContent = true;
+            }
             if (ModelState.IsValid)
             {
                 if (!db.BookItems.Any(b => b.ISBN == bookItem.ISBN))
                 {
-                    vt.CreateBookItem(bookItem, db);
+                    vt.CreateBookItem(bookItem, db, cover, tableOfContents);
                     return RedirectToAction("Index");
                 }
                 else
@@ -197,6 +204,15 @@ namespace MVC_projekt.Controllers
             }
             
             return RedirectToAction("Index");
+        }
+
+
+        public FileResult Download(string filename, string bookID, string source)
+        {
+            var directory = Path.Combine(Path.Combine("/Upload", bookID));
+            var filepath = Path.Combine(directory, source);
+            var contentType = "application/" + Path.GetExtension(filepath);
+            return File(filepath, contentType, filename);
         }
 
         #region Order

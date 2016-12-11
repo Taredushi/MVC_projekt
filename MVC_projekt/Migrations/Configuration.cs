@@ -321,20 +321,26 @@ namespace MVC_projekt.Migrations
             {
                 new Attachment()
                 {
+                    AttachmentID = 1,
                     BookItemID = 1,
                     Descryption = "cover",
+                    FileType = FileType.Cover,
                     Source = "http://ecsmedia.pl/c/jakub-wedrowycz-tom-5-wieszac-kazdy-moze-b-iext43247760.jpg"
                 },
                 new Attachment()
                 {
+                    AttachmentID = 2,
                     BookItemID = 2,
                     Descryption = "cover",
+                    FileType = FileType.Cover,
                     Source = "http://ecsmedia.pl/c/wiedzmin-tom-7-pani-jeziora-b-iext38703095.jpg"
                 },
                 new Attachment()
                 {
+                    AttachmentID = 3,
                     BookItemID = 3,
                     Descryption = "cover",
+                    FileType = FileType.Cover,
                     Source = "http://ecsmedia.pl/c/starcraft-krucjata-liberty-ego-b-iext44612239.jpg"
                 }
             };

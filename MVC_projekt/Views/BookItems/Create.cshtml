@@ -13,9 +13,15 @@
         @Resources.Global.AddBookError
     </div>
 }
+@if (ViewBag.TableofContent == true)
+{
+    <div class="alert alert-danger" role="alert">
+        @Resources.Global.TableOfContentsError;
+    </div>
+}
 <h2>Add</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "BookItems", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
@@ -37,7 +43,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Descryption, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Descryption, Resources.Global.Descryption, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Descryption, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Descryption, "", new { @class = "text-danger" })
@@ -65,7 +71,7 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.CategoryID, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CategoryID, Resources.Global.Category, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
@@ -108,54 +114,62 @@
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("Okładka", new {@class= "control-label col-md-2" })
+            @Html.Label(Resources.Global.Cover, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <table>
                     <tr>
                         <td>
-                            @Html.TextBox("Cover")
-                        </td>
-                        <td>
-                            &emsp;
-                        </td>
-                        <td>
-                            <button id="addLabel" class="btn btn-block">Wybierz</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.Label("Załączniki", new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <table>
-                    <tr>
-                        <td>
-                            @Html.TextBox("Cover")
-                        </td>
-                        <td>
-                            &emsp;
-                        </td>
-                        <td>
-                            <button id="addLabel" class="btn btn-block">Wybierz</button>
-                        </td>
-                        <td>
-                            &emsp;
-                        </td>
-                        <td>
-                            <button id="addLabel" class="glyphicon-plus btn btn-block"></button>
+                            <input type="file" id="Cover" name="cover" />
                         </td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
+            @Html.Label(Resources.Global.TableOfContents, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="file" id="TableOfContents" name="tableOfContents" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label(Resources.Global.Attachments, new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="attachmentGroup">
+                <table id="attachment">
+                    <tr>
+                        <td>
+                            @Html.EditorFor(model => model.FileList[0].Descryption, new { htmlAttributes = new { @class = "form-control", placeholder = Resources.Global.Descryption } })
+                        </td>
+                        <td>
+                            &emsp;
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => model.FileList[0].File, new { type = "file" })
+                        </td>
+                        <td>
+                            &emsp;
+                        </td>
+                    </tr>
+                </table>
+                <div class="col-md-2" style="margin-top: 20px">
+                    <div class="col-md-10">
+                        <button type="button" id="addFile" class="glyphicon-plus btn btn-block"></button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+            <div class="form-group" style="margin-top: 10%">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
 }
 
 <div id="dialogAuthor">
@@ -186,7 +200,7 @@
             </td>
         </tr>
     </table>
-    <br/>
+    <br />
     <button type="button" id="createAuthor" class="btn bg-success col-sm-offset-5">@Resources.Global.Submit</button>
 </div>
 
@@ -204,7 +218,7 @@
             </td>
         </tr>
     </table>
-    <br/>
+    <br />
     <button type="button" id="createLabel" class="btn bg-success col-sm-offset-5">@Resources.Global.Submit</button>
 </div>
 
@@ -216,7 +230,7 @@
 @section Scripts {
     <script src="@Url.Content("~/Scripts/chosen.jquery.js")" type="text/javascript"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
+
     <script>
 
         $(document)
@@ -305,6 +319,17 @@
                     function () {
                         addLabel();
                     });
+
+            @*Attachment Files*@
+
+            var i = 1;
+
+            $("#addFile").click(function () {
+                $("#attachment").append("<tr><td> <textarea class=\"form-control text-box multi-line\" id=\"FileList_" + i + "__Descryption\" name=\"FileList[" + i + "].Descryption\" placeholder=\"Opis\"></textarea>" +
+                    "</td><td> &emsp;</td>" +
+                    "<td><input id=\"FileList_" + i + "__File\" name=\"FileList[" + i + "].File\" type=\"file\" value=\"\"/></td> <td>&emsp;</td></tr>");
+                i = i + 1;
+            });
 
         });
     </script>

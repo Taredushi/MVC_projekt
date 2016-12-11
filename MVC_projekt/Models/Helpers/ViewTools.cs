@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using MVC_projekt.Models.Classes;
 using MVC_projekt.Models.View;
 
 namespace MVC_projekt.Models.Helpers
@@ -15,8 +17,9 @@ namespace MVC_projekt.Models.Helpers
     public class ViewTools
     {
 
-        public void CreateBookItem(BookItemViewModel bookView, ApplicationDbContext db)
+        public void CreateBookItem(BookItemViewModel bookView, ApplicationDbContext db, HttpPostedFileBase cover, HttpPostedFileBase tableOfContents)
         {
+
             BookItem bookItem = new BookItem()
             {
                 Title = bookView.Title,
@@ -58,6 +61,21 @@ namespace MVC_projekt.Models.Helpers
                 db.Set<LabelGroup>().AddOrUpdate(labelgroup);
             }
             db.SaveChanges();
+
+            if (cover != null)
+            {
+                AddAttachments_displayable(db, bookItem.BookItemID, cover, FileType.Cover);
+            }
+            if (tableOfContents != null)
+            {
+                AddAttachments_displayable(db, bookItem.BookItemID, tableOfContents, FileType.TableOfContents);
+            }
+
+            foreach (var file in bookView.FileList)
+            {
+                AddAttachments(db, bookItem.BookItemID, file, FileType.Attachment);
+            }
+
         }
 
         public BookItem EditBookItem(BookItemViewModel bookView, ApplicationDbContext db)
@@ -272,6 +290,61 @@ namespace MVC_projekt.Models.Helpers
                 number += GetCategoryBooksNumber(category.nodes);
             }
             return number;
+        }
+
+        private void AddAttachments_displayable(ApplicationDbContext db, int bookItemID, HttpPostedFileBase file, FileType type)
+        {
+            string directoryPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload"), bookItemID.ToString());
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            var fileName = file.FileName.Remove(file.FileName.LastIndexOf('.')) + "_" + bookItemID +
+                               Path.GetExtension(file.FileName);
+
+            var filePath = Path.Combine(directoryPath, fileName);
+
+            Attachment at = new Attachment()
+            {
+                FileType = type,
+                FileName = file.FileName,
+                BookItemID = bookItemID,
+                Source = "~/Upload/" + bookItemID + "/" + fileName
+            };
+
+            file.SaveAs(filePath);
+            db.Attachments.Add(at);
+            db.SaveChanges();
+
+        }
+
+        private void AddAttachments(ApplicationDbContext db, int bookItemID, AttachmentFile file, FileType type)
+        {
+            string directoryPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload"), bookItemID.ToString());
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            var fileName = file.File.FileName.Remove(file.File.FileName.LastIndexOf('.')) + "_" + bookItemID +
+                               Path.GetExtension(file.File.FileName);
+
+            var filePath = Path.Combine(directoryPath, fileName);
+
+            Attachment at = new Attachment()
+            {
+                FileType = type,
+                FileName = file.File.FileName,
+                BookItemID = bookItemID,
+                Source = filePath,
+                Descryption = file.Descryption
+            };
+
+            file.File.SaveAs(filePath);
+            db.Attachments.Add(at);
+            db.SaveChanges();
+
         }
 
     }
