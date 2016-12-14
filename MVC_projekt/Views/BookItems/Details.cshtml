@@ -17,7 +17,7 @@
 
 <div class="row" style="margin-top: 10px">
     <div class="col-md-3" style="padding-left: 5%">
-        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.FileType == FileType.Cover) != null)
+        @if (Model.Attachments.Any() && Model.Attachments.Any(x => x.FileType == FileType.Cover))
         {
             <a href="@Url.Content(Model.Attachments.Single(x => x.FileType == FileType.Cover).Source)" data-lightbox="image-1">
                 <img class="example-image img-rounded" src="@Url.Content(Model.Attachments.Single(x => x.FileType == FileType.Cover).Source)" alt=@Model.BookItemID width="200">
@@ -127,7 +127,7 @@
                     </div>
 
                     <div role="tabpanel" class="tab-pane " id="tabs-2">
-                        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.FileType == FileType.TableOfContents) != null)
+                        @if (Model.Attachments.Any() && Model.Attachments.Any(x => x.FileType == FileType.TableOfContents))
                         {
                             <div>
                                 <h3><b>@Resources.Global.TableOfContents:</b></h3>
@@ -137,7 +137,7 @@
                             </div>
                         }
                         <hr/>
-                        @if (Model.Attachments.Any() && Model.Attachments.Single(x => x.FileType == FileType.Attachment) != null)
+                        @if (Model.Attachments.Any() && Model.Attachments.Any(x => x.FileType == FileType.Attachment))
                         {
                             <div>
                                 <h3><b>@Html.DisplayName(Resources.Global.Attachments):</b></h3>

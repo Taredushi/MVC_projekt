@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using MVC_projekt.Models.View;
 
 namespace MVC_projekt.Models
 {
@@ -12,6 +13,9 @@ namespace MVC_projekt.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public List<BookStateViewModel> BookOrdered { get; set; }
+        public List<BookStateViewModel> BookBooked { get; set; }
+        public List<BookStateViewModel> BookHistory{ get; set; }
     }
 
     public class ManageLoginsViewModel

@@ -9,7 +9,14 @@
 
         <ul class="nav navbar-nav navbar-right" style="padding-top: 5px">
             <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "AdminPanel", routeValues: null, htmlAttributes: new { title = "Manage" })
+                }
+                else
+                {
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                }
             </li>
             <li>
                 <a href="@Url.Action("Index", "Cart")">

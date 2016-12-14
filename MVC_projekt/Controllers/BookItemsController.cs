@@ -195,6 +195,12 @@ namespace MVC_projekt.Controllers
             {
                 BookItem bookItem = db.BookItems.Single(x => x.BookItemID == id);
                 db.BookItems.Remove(bookItem);
+                var directory = Path.Combine(Path.Combine("/Upload", id.ToString()));
+                if (Directory.Exists(directory))
+                {
+                    Directory.Delete(directory);
+                }
+
                 db.SaveChanges();
             }
             catch (Exception)

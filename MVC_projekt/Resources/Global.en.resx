@@ -150,6 +150,15 @@
   <data name="BackButton" xml:space="preserve">
     <value>Back to List</value>
   </data>
+  <data name="BookBooked" xml:space="preserve">
+    <value>Booked</value>
+  </data>
+  <data name="BookHistory" xml:space="preserve">
+    <value>Order History</value>
+  </data>
+  <data name="BookOrderd" xml:space="preserve">
+    <value>Ordered</value>
+  </data>
   <data name="Books" xml:space="preserve">
     <value>Books Catalogue</value>
   </data>
@@ -199,6 +208,9 @@
   </data>
   <data name="Expand" xml:space="preserve">
     <value>Expand All</value>
+  </data>
+  <data name="Expire" xml:space="preserve">
+    <value>Due date</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>

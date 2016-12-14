@@ -1,11 +1,15 @@
 ﻿@using MVC_projekt.Models
+@using MVC_projekt.Models.View
 @model MVC_projekt.Models.IndexViewModel
 @{
     ViewBag.Title = "Konto";
 }
 
-<h2>@ViewBag.Title.</h2>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Content/tabs.css" rel="stylesheet" />
 
+<h2>@ViewBag.Title.</h2>
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
     <h4>Ustawienia konta</h4>
@@ -84,15 +88,104 @@
                             }
                         }
             </dd>*@
-        <dt>Opłaty:</dt>
         <dd></dd>
-        <dt>Search:</dt>
-        @foreach (SearchResult item in ViewBag.Search)
-        {
-            <dd>
-                @Html.DisplayFor(x => item.URL)
-            </dd>
-        }
-
     </dl>
+    <div class="container" style="margin-top: 20px">
+        <div class="row">
+            <div style="padding-left: 5%; padding-right: 5%">
+                <div class="card">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tabs-1" role="tab" data-toggle="tab">@Resources.Global.BookOrderd</a></li>
+                        @*<li role="presentation"><a href="#tabs-2" role="tab" data-toggle="tab">@Resources.Global.BookBooked</a></li>*@
+                        <li role="presentation"><a href="#tabs-3" role="tab" data-toggle="tab">@Resources.Global.BookHistory</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <div role="tabpanel" class="tab-pane active" id="tabs-1">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(book => book.BookOrdered[0].Authors[0].FullName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(book => book.BookOrdered[0].Title)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName(Resources.Global.OrderDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName(Resources.Global.Expire)
+                                    </th>
+                                </tr>
+                                @foreach (var book in Model.BookOrdered)
+                                {
+                                    <tr>
+                                        <td>
+                                            @foreach (var author in book.Authors)
+                                            { 
+                                                @Html.DisplayFor(model => author.FullName)
+                                                <br />
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => book.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => book.OrderDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => book.AvailableOn)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="tabs-3">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(book => book.BookOrdered[0].Authors[0].FullName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(book => book.BookOrdered[0].Title)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName(Resources.Global.OrderDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayName(Resources.Global.Expire)
+                                    </th>
+                                </tr>
+                                @foreach (var book in Model.BookHistory)
+                                {
+                                    <tr>
+                                        <td>
+                                            @foreach (var author in book.Authors)
+                                            {
+                                                @Html.DisplayFor(model => author.FullName)
+                                                <br />
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => book.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => book.OrderDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => book.AvailableOn)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

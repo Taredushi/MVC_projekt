@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC_projekt.Models;
+using MVC_projekt.Models.Helpers;
 
 namespace MVC_projekt.Controllers
 {
@@ -16,6 +17,7 @@ namespace MVC_projekt.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private BookTools _bookTools = new BookTools();
 
         public ManageController()
         {
@@ -72,6 +74,8 @@ namespace MVC_projekt.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                BookOrdered = _bookTools.GetOrderedBook(new ApplicationDbContext(), userId),
+                BookHistory = _bookTools.GetBookHistory(new ApplicationDbContext(), userId)
             };
             ViewBag.Search = UserManager.FindById(userId).SearchResults.ToList();
             return View(model);

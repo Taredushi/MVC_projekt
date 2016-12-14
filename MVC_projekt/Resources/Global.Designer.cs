@@ -151,6 +151,33 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Książki zarezerwowane.
+        /// </summary>
+        public static string BookBooked {
+            get {
+                return ResourceManager.GetString("BookBooked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Historia wypożyczeń.
+        /// </summary>
+        public static string BookHistory {
+            get {
+                return ResourceManager.GetString("BookHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Książki wypożyczone.
+        /// </summary>
+        public static string BookOrderd {
+            get {
+                return ResourceManager.GetString("BookOrderd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Katalog Książek.
         /// </summary>
         public static string Books {
@@ -291,6 +318,15 @@ namespace Resources {
         public static string Expand {
             get {
                 return ResourceManager.GetString("Expand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Termin zwrotu.
+        /// </summary>
+        public static string Expire {
+            get {
+                return ResourceManager.GetString("Expire", resourceCulture);
             }
         }
         

@@ -208,6 +208,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Classes\AttachmentFile.cs" />
+    <Compile Include="Models\Helpers\BookTools.cs" />
     <Compile Include="Models\Helpers\CartTools.cs" />
     <Compile Include="Models\Helpers\ViewTools.cs" />
     <Compile Include="Models\View\AccountViewModels.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Label.cs" />
     <Compile Include="Models\LabelGroup.cs" />
+    <Compile Include="Models\View\BookStateViewModel.cs" />
     <Compile Include="Models\View\CategoryViewModel.cs" />
     <Compile Include="Models\View\ManageViewModels.cs" />
     <Compile Include="Models\Order.cs" />

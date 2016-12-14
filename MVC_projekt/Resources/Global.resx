@@ -150,6 +150,15 @@
   <data name="BackButton" xml:space="preserve">
     <value>Powrót</value>
   </data>
+  <data name="BookBooked" xml:space="preserve">
+    <value>Książki zarezerwowane</value>
+  </data>
+  <data name="BookHistory" xml:space="preserve">
+    <value>Historia wypożyczeń</value>
+  </data>
+  <data name="BookOrderd" xml:space="preserve">
+    <value>Książki wypożyczone</value>
+  </data>
   <data name="Books" xml:space="preserve">
     <value>Katalog Książek</value>
   </data>
@@ -198,6 +207,9 @@
   </data>
   <data name="Expand" xml:space="preserve">
     <value>Rozwiń</value>
+  </data>
+  <data name="Expire" xml:space="preserve">
+    <value>Termin zwrotu</value>
   </data>
   <data name="FirstName" xml:space="preserve">
     <value>Imię</value>
