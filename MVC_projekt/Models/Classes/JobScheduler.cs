@@ -26,8 +26,17 @@ namespace MVC_projekt.Models.Classes
                   )
                 .Build();
 
+            ITrigger triggerB = TriggerBuilder.Create()
+                .WithDailyTimeIntervalSchedule
+                (s =>
+                        s.WithIntervalInHours(24)
+                            .OnEveryDay()
+                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(12, 0))
+                )
+                .Build();
+
             scheduler.ScheduleJob(job, trigger);
-            scheduler.ScheduleJob(jobB, trigger);
+            scheduler.ScheduleJob(jobB, triggerB);
         }
     }
 }
