@@ -341,7 +341,7 @@ namespace MVC_projekt.Models.Helpers
                 FileType = type,
                 FileName = fileName,
                 BookItemID = bookItemID,
-                Source = "~/Upload/Cover/" + bookItemID + "/" + fileName
+                Source = "~/Upload/" + bookItemID + "/Cover/" + fileName
             };
 
             file.SaveAs(filePath);

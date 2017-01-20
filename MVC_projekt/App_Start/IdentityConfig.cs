@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +19,27 @@ namespace MVC_projekt
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            try
+            {
+                var from = "ticketserviceZTP@gmail.com";
+
+                using (var mail = new MailMessage(from, message.Destination))
+                {
+                    mail.Subject = message.Subject;
+                    mail.Body = message.Body;
+
+                    using (var client = new SmtpClient())
+                    {
+                        client.SendMailAsync(mail);
+                    }
+                    return Task.FromResult(0);
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
         }
     }
 
@@ -38,6 +58,8 @@ namespace MVC_projekt
         public ApplicationUserManager(IUserStore<ApplicationUser> store)
             : base(store)
         {
+            this.UserTokenProvider = new TotpSecurityStampBasedTokenProvider<ApplicationUser, string>();
+            this.EmailService = new EmailService();
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
