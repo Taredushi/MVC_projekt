@@ -21,7 +21,7 @@
             <div class="item @(i == 0 ? "active" : string.Empty)">
                 <div class="container">
                     <div class="col-lg-offset-2" style="padding-top: 20px">
-                        @if (Model[i].Attachments.Any() && Model[i].Attachments.Single(x => x.FileType == FileType.Cover) != null)
+                        @if (Model[i].Attachments.Any() && Model[i].Attachments.FirstOrDefault(x => x.FileType == FileType.Cover) != null)
                         {
                             <img src=@Url.Content(Model[i].Attachments.Single(x => x.FileType == FileType.Cover).Source) class="img-rounded" alt=@Model[i].BookItemID height="250">
                         }

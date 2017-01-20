@@ -68,12 +68,6 @@ namespace MVC_projekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BookItemViewModel bookItem, HttpPostedFileBase cover, HttpPostedFileBase tableOfContents)
         {
-            var allowedExtensions = new[] {".jpg", ".png", ".bmp"};
-            if (!allowedExtensions.Contains(Path.GetExtension(tableOfContents.FileName)))
-            {
-                ModelState.AddModelError("Extension", @"Wrong table of contents extension");
-                ViewBag.TableOfContent = true;
-            }
             if (ModelState.IsValid)
             {
                 if (!db.BookItems.Any(b => b.ISBN == bookItem.ISBN))
@@ -107,7 +101,7 @@ namespace MVC_projekt.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            BookItemViewModel bookItem = vt.GetBookViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
+            BookEditViewModel bookItem = vt.GetBookEditViewModel(db.BookItems.Include(x => x.Category).Single(x => x.BookItemID == id), db);
             
 
             if (bookItem == null)
@@ -115,7 +109,14 @@ namespace MVC_projekt.Controllers
                 return HttpNotFound();
             }
 
-            bookItem.PreviousPage = Request.UrlReferrer.ToString();
+            if (Request.UrlReferrer != null)
+            {
+                bookItem.BookItemViewModel.PreviousPage = Request.UrlReferrer.ToString();
+            }
+            else
+            {
+                bookItem.BookItemViewModel.PreviousPage = Request.Url.GetLeftPart(UriPartial.Authority);
+            }
             ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
             ViewBag.Authors = new SelectList(vt.GetAuthorsFromDb(db), "Value", "Text");
             ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
@@ -129,19 +130,24 @@ namespace MVC_projekt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(BookItemViewModel bookView)
+        public ActionResult Edit(BookEditViewModel bookView, HttpPostedFileBase coverImg, HttpPostedFileBase tableOfContents)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    BookItem bookItem = vt.EditBookItem(bookView, db);
+                    BookItem bookItem = vt.EditBookItem(bookView, db, coverImg, tableOfContents);
                     db.Entry(bookItem).State = EntityState.Modified;
                     db.SaveChanges();
                 }
                 else
                 {
-                    throw null;
+                    ViewBag.CategoryID = new SelectList(db.Categories, "CategoryID", "Name");
+                    ViewBag.Authors = new SelectList(vt.GetAuthorsFromDb(db), "Value", "Text");
+                    ViewBag.Labels = new SelectList(db.Labels, "LabelID", "Name");
+                    ViewBag.Init = true;
+                    ViewBag.Error = true;
+                    return View(bookView);
                 }
             }
             catch (Exception)

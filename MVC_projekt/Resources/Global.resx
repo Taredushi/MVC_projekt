@@ -211,6 +211,12 @@
   <data name="Expire" xml:space="preserve">
     <value>Termin zwrotu</value>
   </data>
+  <data name="FileSize" xml:space="preserve">
+    <value>Za duży rozmiar pliku</value>
+  </data>
+  <data name="FileValid" xml:space="preserve">
+    <value>Niewłaściwe rozszerzenie pliku.</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>Imię</value>
   </data>

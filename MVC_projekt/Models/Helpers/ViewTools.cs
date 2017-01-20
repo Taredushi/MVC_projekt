@@ -4,6 +4,8 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
@@ -78,24 +80,24 @@ namespace MVC_projekt.Models.Helpers
 
         }
 
-        public BookItem EditBookItem(BookItemViewModel bookView, ApplicationDbContext db)
+        public BookItem EditBookItem(BookEditViewModel bookView, ApplicationDbContext db, HttpPostedFileBase cover, HttpPostedFileBase tableOfContents)
         {
-            var existingBook = db.BookItems.Single(x => x.BookItemID == bookView.ID);
-            existingBook.Title = bookView.Title;
-            existingBook.ISBN = bookView.ISBN;
-            existingBook.Descryption = bookView.Descryption;
-            existingBook.Publisher = bookView.Publisher;
-            existingBook.Category = db.Categories.Find(bookView.CategoryID);
-            existingBook.Number = bookView.Number;
+            var existingBook = db.BookItems.Single(x => x.BookItemID == bookView.BookItemViewModel.ID);
+            existingBook.Title = bookView.BookItemViewModel.Title;
+            existingBook.ISBN = bookView.BookItemViewModel.ISBN;
+            existingBook.Descryption = bookView.BookItemViewModel.Descryption;
+            existingBook.Publisher = bookView.BookItemViewModel.Publisher;
+            existingBook.Category = db.Categories.Find(bookView.BookItemViewModel.CategoryID);
+            existingBook.Number = bookView.BookItemViewModel.Number;
 
             //Update AuthorGroup Table
             List<int> oldAuthorGroupID = db.Authors.Where(a => a.AuthorGroups.Any(g => g.BookItem.BookItemID == existingBook.BookItemID)).Select(x => x.AuthorID).ToList();
-            var authorDiffAdd = bookView.SelectedAuthors.Except(oldAuthorGroupID);
-            var authorDiffDel = oldAuthorGroupID.Except(bookView.SelectedAuthors);
+            var authorDiffAdd = bookView.BookItemViewModel.SelectedAuthors.Except(oldAuthorGroupID);
+            var authorDiffDel = oldAuthorGroupID.Except(bookView.BookItemViewModel.SelectedAuthors);
 
             foreach (var arg in authorDiffDel)
             {
-                AuthorGroup delete = db.AuthorGroups.Single(x => x.Author.AuthorID == arg && x.BookItem.BookItemID == bookView.ID);
+                AuthorGroup delete = db.AuthorGroups.Single(x => x.Author.AuthorID == arg && x.BookItem.BookItemID == bookView.BookItemViewModel.ID);
                 db.AuthorGroups.Remove(delete);
             }
             db.SaveChanges();
@@ -112,12 +114,12 @@ namespace MVC_projekt.Models.Helpers
 
             //Update LabelGroupTable
             List<int> oldLabelGroupID = db.Labels.Where(a => a.LabelGroups.Any(g => g.BookItem.BookItemID == existingBook.BookItemID)).Select(x => x.LabelID).ToList();
-            var labelDiffAdd = bookView.SelectedLabels.Except(oldLabelGroupID);
-            var labelDiffDel = oldLabelGroupID.Except(bookView.SelectedLabels);
+            var labelDiffAdd = bookView.BookItemViewModel.SelectedLabels.Except(oldLabelGroupID);
+            var labelDiffDel = oldLabelGroupID.Except(bookView.BookItemViewModel.SelectedLabels);
 
             foreach (var arg in labelDiffDel)
             {
-                LabelGroup delete = db.LabelGroups.Single(x => x.Label.LabelID == arg && x.BookItem.BookItemID == bookView.ID);
+                LabelGroup delete = db.LabelGroups.Single(x => x.Label.LabelID == arg && x.BookItem.BookItemID == bookView.BookItemViewModel.ID);
                 db.LabelGroups.Remove(delete);
             }
             db.SaveChanges();
@@ -132,6 +134,35 @@ namespace MVC_projekt.Models.Helpers
             }
             db.SaveChanges();
 
+            if (cover != null)
+            {
+                DeleteCover_Table(db, bookView.BookItemViewModel.ID, FileType.Cover);
+                AddAttachments_displayable(db, bookView.BookItemViewModel.ID, cover, FileType.Cover);
+            }
+            if (tableOfContents != null)
+            {
+                DeleteCover_Table(db, bookView.BookItemViewModel.ID, FileType.TableOfContents);
+                AddAttachments_displayable(db, bookView.BookItemViewModel.ID, tableOfContents, FileType.TableOfContents);
+            }
+            if (bookView.Cover == null && cover == null)
+            {
+                DeleteCover_Table(db, bookView.BookItemViewModel.ID, FileType.Cover);
+            }
+            if (bookView.Table == null && tableOfContents == null)
+            {
+                DeleteCover_Table(db, bookView.BookItemViewModel.ID, FileType.TableOfContents);
+            }
+
+            DeleteOldFile(db, bookView.BookItemViewModel.ID, bookView.OldFiles);
+
+            if (bookView.BookItemViewModel.FileList != null)
+            {
+                foreach (var file in bookView.BookItemViewModel.FileList)
+                {
+                    AddAttachments(db, bookView.BookItemViewModel.ID, file, FileType.Attachment);
+                }
+
+            }
 
             return existingBook;
         }
@@ -294,7 +325,7 @@ namespace MVC_projekt.Models.Helpers
 
         private void AddAttachments_displayable(ApplicationDbContext db, int bookItemID, HttpPostedFileBase file, FileType type)
         {
-            string directoryPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload"), bookItemID.ToString());
+            string directoryPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload"), bookItemID.ToString(), "Cover");
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);
@@ -308,9 +339,9 @@ namespace MVC_projekt.Models.Helpers
             Attachment at = new Attachment()
             {
                 FileType = type,
-                FileName = file.FileName,
+                FileName = fileName,
                 BookItemID = bookItemID,
-                Source = "~/Upload/" + bookItemID + "/" + fileName
+                Source = "~/Upload/Cover/" + bookItemID + "/" + fileName
             };
 
             file.SaveAs(filePath);
@@ -335,7 +366,7 @@ namespace MVC_projekt.Models.Helpers
             Attachment at = new Attachment()
             {
                 FileType = type,
-                FileName = file.File.FileName,
+                FileName = fileName,
                 BookItemID = bookItemID,
                 Source = filePath,
                 Descryption = file.Descryption
@@ -347,5 +378,71 @@ namespace MVC_projekt.Models.Helpers
 
         }
 
+        public BookEditViewModel GetBookEditViewModel(BookItem book, ApplicationDbContext db)
+        {
+
+            BookEditViewModel bookView = new BookEditViewModel();
+            var item = GetBookViewModel(book, db);
+            bookView.BookItemViewModel = item;
+
+            foreach (var file in book.Attachments)
+            {
+                switch (file.FileType)
+                {
+                    case FileType.Cover:
+                        bookView.Cover = file;
+                        break;
+                    case FileType.TableOfContents:
+                        bookView.Table = file;
+                        break;
+                    case FileType.Attachment:
+                        bookView.OldFiles.Add(file);
+                        break;
+                }
+            }
+            return bookView;
+        }
+
+        private void DeleteCover_Table(ApplicationDbContext db, int id, FileType type)
+        {
+            if (db.Attachments.Any(x => x.BookItemID == id && x.FileType == type))
+            {
+                var item = db.Attachments.Single(x => x.BookItemID == id && x.FileType == type);
+                db.Attachments.Remove(item);
+
+                string directoryPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload"), id.ToString(), "Cover");
+                var filePath = Path.Combine(directoryPath, item.FileName);
+
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+            }
+        }
+
+        private void DeleteOldFile(ApplicationDbContext db, int id, List<Attachment> old)
+        {
+            string directoryPath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload"), id.ToString());
+            var files = Directory.GetFiles(directoryPath, "*", SearchOption.TopDirectoryOnly);
+
+            var oldFiles = old.Select(x => x.Source);
+
+            var delete = files.Except(oldFiles);
+
+            foreach (var arg in delete)
+            {
+                if (File.Exists(arg))
+                {
+                    File.Delete(arg);
+                }
+                if (db.Attachments.Any(x => x.BookItemID == id && x.Source == arg))
+                {
+                    var item = db.Attachments.Single(x => x.BookItemID == id && x.Source == arg);
+                    db.Attachments.Remove(item);
+                }
+            }
+
+        }
     }
 }

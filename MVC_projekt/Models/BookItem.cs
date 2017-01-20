@@ -36,12 +36,7 @@ namespace MVC_projekt.Models
         {
             get
             {
-                var text = Descryption.Length > 250 ? Descryption.Substring(0, 250) : Descryption;
-                if (!text.EndsWith("."))
-                {
-                    var index = text.LastIndexOf('.');
-                    text = text.Remove(index) + " [...]";
-                }
+                var text = Descryption.Length > 150 ? Descryption.Substring(0, 150) + " [...]" : Descryption;
                 return text;
             }
         }

@@ -325,7 +325,7 @@ namespace MVC_projekt.Migrations
                     BookItemID = 1,
                     Descryption = "cover",
                     FileType = FileType.Cover,
-                    Source = "~/Upload/1/jakub-wedrowycz-tom-5-wieszac-kazdy-moze-1.jpg"
+                    Source = "~/Upload/1/Cover/jakub-wedrowycz-tom-5-wieszac-kazdy-moze-1.jpg"
                 },
                 new Attachment()
                 {
@@ -333,7 +333,7 @@ namespace MVC_projekt.Migrations
                     BookItemID = 2,
                     Descryption = "cover",
                     FileType = FileType.Cover,
-                    Source = "~/Upload/2/wiedzmin-tom-7-pani-jeziora-2.jpg"
+                    Source = "~/Upload/2/Cover/wiedzmin-tom-7-pani-jeziora-2.jpg"
                 },
                 new Attachment()
                 {
@@ -341,7 +341,7 @@ namespace MVC_projekt.Migrations
                     BookItemID = 3,
                     Descryption = "cover",
                     FileType = FileType.Cover,
-                    Source = "~/Upload/3/starcraft-krucjata-liberty-ego-3.jpg"
+                    Source = "~/Upload/3/Cover/starcraft-krucjata-liberty-ego-3.jpg"
                 }
             };
 

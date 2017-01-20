@@ -119,7 +119,7 @@
                 <table>
                     <tr>
                         <td>
-                            <input type="file" id="Cover" name="cover" />
+                            <input type="file" id="Cover" name="cover" class="fileCheck"/>
                         </td>
                     </tr>
                 </table>
@@ -131,7 +131,7 @@
                 <table>
                     <tr>
                         <td>
-                            <input type="file" id="TableOfContents" name="tableOfContents" />
+                            <input type="file" id="TableOfContents" name="tableOfContents" class="fileCheck" />
                         </td>
                     </tr>
                 </table>
@@ -150,7 +150,7 @@
                             &emsp;
                         </td>
                         <td>
-                            @Html.TextBoxFor(model => model.FileList[0].File, new { type = "file" })
+                            @Html.TextBoxFor(model => model.FileList[0].File, new { type = "file", @class = "fileCheck"})
                         </td>
                         <td>
                             &emsp;
@@ -167,7 +167,7 @@
     </div>
             <div class="form-group" style="margin-top: 10%">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-success" />
+                    <input type="submit" value="Create" class="btn btn-success" id="upload"/>
                 </div>
             </div>
 }
@@ -327,11 +327,49 @@
             $("#addFile").click(function () {
                 $("#attachment").append("<tr><td> <textarea class=\"form-control text-box multi-line\" id=\"FileList_" + i + "__Descryption\" name=\"FileList[" + i + "].Descryption\" placeholder=\"Opis\"></textarea>" +
                     "</td><td> &emsp;</td>" +
-                    "<td><input id=\"FileList_" + i + "__File\" name=\"FileList[" + i + "].File\" type=\"file\" value=\"\"/></td> <td>&emsp;</td></tr>");
+                    "<td><input id=\"FileList_" + i + "__File\" name=\"FileList[" + i + "].File\" type=\"file\" class=\"fileCheck\" value=\"\"/></td> <td>&emsp;</td></tr>");
                 i = i + 1;
             });
 
         });
+
+        $(document)
+    .on('change',
+        '.fileCheck',
+        function () {
+            var submitEl = document.getElementById('upload');
+            if (this.files.length == 1) {
+                var img = this.files[0].size;
+                var imgsize = img / 1024;
+                if (imgsize > 4096) {
+                    submitEl.disabled = true;
+                    alert(" @Global.FileSize ");
+                } else {
+                    checkall();
+                }
+            } else {
+                checkall();
+            }
+        });
+
+
+        checkall = function () {
+            var all = true;
+            var submitEl = document.getElementById('upload');
+            $('.fileCheck')
+                .each(function () {
+                    if (this.files.length == 1) {
+                        if ((this.files[0].size / 1024) > 4096) {
+                            all = false;
+                        }
+                    }
+                });
+
+            if (all == true) {
+                submitEl.disabled = false;
+            }
+        }
+
     </script>
 
 }

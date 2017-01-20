@@ -1,0 +1,14 @@
+5_1
+
+create tablespace table
+datafile file
+size 100M
+segment space management auto;
+
+create tablespace table
+datafile file
+size 100M
+segment space management local uniform size 128k;
+
+5_2
+

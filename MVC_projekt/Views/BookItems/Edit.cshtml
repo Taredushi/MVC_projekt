@@ -1,4 +1,4 @@
-﻿@model MVC_projekt.Models.BookItemViewModel
+﻿@model MVC_projekt.Models.BookEditViewModel
 
 @{
     ViewBag.Title = @Resources.Global.Edit;
@@ -21,7 +21,7 @@ else if (ViewBag.Error == false)
 
 @if (ViewBag.Init == true)
 {
-    using (Html.BeginForm())
+    using (Html.BeginForm("Edit", "BookItems", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
 
@@ -29,90 +29,185 @@ else if (ViewBag.Error == false)
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
-                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.BookItemViewModel.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.ISBN, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.ISBN, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ISBN, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ISBN, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.BookItemViewModel.ISBN, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.ISBN, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Descryption, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.Descryption, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Descryption, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Descryption, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.BookItemViewModel.Descryption, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.Descryption, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Publisher, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.Publisher, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Publisher, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Publisher, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.BookItemViewModel.Publisher, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.Publisher, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.BookItemViewModel.ReleaseDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.ReleaseDate, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Number, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.Number, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+                    @Html.EditorFor(model => model.BookItemViewModel.Number, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.Number, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.CategoryID, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.CategoryID, "Category", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.CategoryID, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.SelectedAuthors, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BookItemViewModel.SelectedAuthors, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.SelectedAuthors, ViewBag.Authors as SelectList, new { @class = "select-state", multiple = "multiple", style = "width:300px;" })
-                    @Html.ValidationMessageFor(model => model.SelectedAuthors, "", new { @class = "text-danger" })
+                    @Html.ListBoxFor(model => model.BookItemViewModel.SelectedAuthors, ViewBag.Authors as SelectList, new { @class = "select-state", multiple = "multiple", style = "width:300px;" })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.SelectedAuthors, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.SelectedLabels, htmlAttributes: new {@class = "control-label col-md-2"})
+                @Html.LabelFor(model => model.BookItemViewModel.SelectedLabels, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.ListBoxFor(model => model.SelectedLabels, ViewBag.Labels as SelectList, new {@class = "select-state", multiple = "multiple", style = "width:300px;"})
-                    @Html.ValidationMessageFor(model => model.SelectedLabels, "", new {@class = "text-danger"})
+                    @Html.ListBoxFor(model => model.BookItemViewModel.SelectedLabels, ViewBag.Labels as SelectList, new { @class = "select-state", multiple = "multiple", style = "width:300px;" })
+                    @Html.ValidationMessageFor(model => model.BookItemViewModel.SelectedLabels, "", new { @class = "text-danger" })
                 </div>
             </div>
-            @Html.HiddenFor(model => model.PreviousPage, Model.PreviousPage)
+            @Html.HiddenFor(model => model.BookItemViewModel.PreviousPage, Model.BookItemViewModel.PreviousPage)
+
+            <div class="form-group">
+                @Html.Label(Resources.Global.Cover, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <table id="coverTable">
+                        <tr>
+                            @if (Model.Cover != null)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Cover.FileName, new { htmlAttributes = new { @class = "form-control" }, @readonly = true })
+                                </td>
+                                <td>
+                                    &emsp;
+                                </td>
+                                <td>
+                                    <button type="button" id="deletecover" class="glyphicon-minus btn btn-block"></button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <input type="file" id="Cover" name="coverImg" />
+                                </td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label(Resources.Global.TableOfContents, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <table id="contentsTable">
+                        <tr>
+                            @if (Model.Table != null)
+                            {
+                                <td>
+                                    @Html.TextBoxFor(model => model.Table.FileName, new { htmlAttributes = new { @class = "form-control" }, @readonly = true })
+                                    @Html.HiddenFor(model => model.Table.AttachmentID)
+                                </td>
+                                <td>
+                                    &emsp;
+                                </td>
+                                <td>
+                                    <button type="button" id="deletetable" class="glyphicon-minus btn btn-block"></button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <input type="file" id="TableOfContents" name="tableOfContents" />
+                                </td>
+                            }
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.Label(Resources.Global.Attachments, new { @class = "control-label col-md-2" })
+                <div class="col-md-10" id="attachmentGroup">
+                    <table id="attachment">
+                        @if (Model.OldFiles != null)
+                        {
+                            for (int j = 0; j < Model.OldFiles.Count; j++)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(model => model.OldFiles[j].Descryption, new { htmlAttributes = new { @class = "form-control", placeholder = Resources.Global.Descryption } })
+                                    </td>
+                                    <td>
+                                        &emsp;
+                                    </td>
+                                    <td>
+                                        @Html.TextBoxFor(model => model.OldFiles[j].FileName, new { htmlAttributes = new { @class = "form-control" }, @readonly = "true" })
+                                        @Html.HiddenFor(model => model.OldFiles[j].Source)
+                                        <input type="hidden" name="OldFiles.Index" value="@j" />
+                                    </td>
+                                    <td>
+                                        &emsp;
+                                    </td>
+                                    <td>
+                                        <button type="button" id="deleteAttachment" class="delAtt glyphicon-minus btn btn-block"></button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <div class="col-md-2" style="margin-top: 20px">
+                        <div class="col-md-10">
+                            <button type="button" id="addFile" class="glyphicon-plus btn btn-block"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value=@Resources.Global.Submit class="btn btn-success" />
+                    <input type="submit" value=@Resources.Global.Submit class="btn btn-success" id ="upload"/>
                 </div>
             </div>
         </div>
+        @Html.HiddenFor(model => model.BookItemViewModel.ID)
     }
 
 }
 
 <div>
-    <a href="@Model.PreviousPage" class="btn btn-primary">@Resources.Global.BackButton</a>
+    <a href="@Model.BookItemViewModel.PreviousPage" class="btn btn-primary">@Resources.Global.BackButton</a>
 </div>
 
 @section Scripts {
@@ -128,5 +223,70 @@ else if (ViewBag.Error == false)
                 delimiter: ',',
                 persist: false
             });
+
+        var i = 0;
+
+        $("#addFile").click(function () {
+            $("#attachment").append("<tr><td> <textarea class=\"form-control text-box multi-line\" id=\"FileList_" + i + "__Descryption\" name=\"BookItemViewModel.FileList[" + i + "].Descryption\" placeholder=\"Opis\"></textarea>" +
+                "</td><td> &emsp;</td>" +
+                "<td><input id=\"FileList_" + i + "__File\" name=\"BookItemViewModel.FileList[" + i + "].File\" type=\"file\" value=\"\" class=\"fileCheck\"/></td> <td>&emsp;</td></tr>");
+            i = i + 1;
+        });
+
+        $(".delAtt")
+            .click(function () {
+                $(this).closest("tr").remove();
+            });
+
+        $("#deletecover")
+            .click(function () {
+                $(this).closest("tr").remove();
+                $("#coverTable").append("<tr><td><input type=\"file\" id=\"Cover\" name=\"coverImg\" /></td></tr>");
+            });
+
+        $("#deletetable")
+            .click(function () {
+                $(this).closest("tr").remove();
+                $("#contentsTable").append("<tr><td><input type=\"file\" id=\"TableOfContents\" name=\"tableOfContents\" /></td></tr>");
+            });
+
+
+        $(document)
+            .on('change',
+                '.fileCheck',
+                function() {
+                    var submitEl = document.getElementById('upload');
+                    if (this.files.length == 1) {
+                        var img = this.files[0].size;
+                        var imgsize = img / 1024;
+                        if (imgsize > 4096) {
+                            submitEl.disabled = true;
+                            alert(" @Global.FileSize ");
+                        } else {
+                            checkall();
+                        }
+                    } else {
+                        checkall();
+                    }
+                });
+
+
+        checkall = function () {
+            var all = true;
+            var submitEl = document.getElementById('upload');
+            $('.fileCheck')
+                .each(function () {
+                    if (this.files.length == 1) {
+                        if ((this.files[0].size / 1024) > 4096) {
+                            all = false;
+                        }
+                    }
+                });
+
+            if (all == true) {
+                submitEl.disabled = false;
+            }
+        }
+
     </script>
 }

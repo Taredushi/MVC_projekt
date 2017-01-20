@@ -15,6 +15,7 @@ namespace MVC_projekt.Models
         {
             Authors = new List<Author>();
             Labels = new List<Label>();
+            FileList = new List<AttachmentFile>();
         }
 
         [Required]
@@ -70,5 +71,18 @@ namespace MVC_projekt.Models
 
         public string PreviousPage { get; set; }
 
+    }
+
+    public class BookEditViewModel
+    {
+        public BookItemViewModel BookItemViewModel { get; set; }
+        public List<Attachment> OldFiles { get; set; }
+        public Attachment Cover { get; set; }
+        public Attachment Table { get; set; }
+
+        public BookEditViewModel()
+        {
+            OldFiles = new List<Attachment>();
+        }
     }
 }

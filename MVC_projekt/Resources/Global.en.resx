@@ -212,6 +212,12 @@
   <data name="Expire" xml:space="preserve">
     <value>Due date</value>
   </data>
+  <data name="FileSize" xml:space="preserve">
+    <value>File is too large.</value>
+  </data>
+  <data name="FileValid" xml:space="preserve">
+    <value>File extension is invalid</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>First Name</value>
   </data>
