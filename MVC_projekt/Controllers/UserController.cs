@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC_projekt.Models;
-
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MVC_projekt.Controllers
 {
@@ -54,6 +54,8 @@ namespace MVC_projekt.Controllers
                 _userManager = value;
             }
         }
+
+        public IUserPasswordStore<ApplicationUser, string> Store { get; private set; }
 
         // GET: User
         public ActionResult Index()
@@ -100,11 +102,6 @@ namespace MVC_projekt.Controllers
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index");
                 }
@@ -135,16 +132,28 @@ namespace MVC_projekt.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ApplicationUser user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    if (user.Password != null)
+                    {
+                        UserManager.ChangePassword(user, user.Password);
+                    }
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch(Exception ex)
+            {
+                return View(user);
             }
 
             return View(user);
-        }
 
+        }
+        
         // GET: User/Delete/5
         public ActionResult Delete(string id)
         {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Resources;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MVC_projekt.Models
 {
@@ -20,6 +21,11 @@ namespace MVC_projekt.Models
         [Required(ErrorMessageResourceName = "SurnameValidationError", ErrorMessageResourceType = typeof(Global))]
         [Display(Name = "Surname", ResourceType = typeof(Global))]
         public string Surname { get; set; }
+
+
+        [Display(Name = "Password", ResourceType =typeof(Global))]
+        [NotMapped]
+        public string Password { get; set; }
 
         public virtual ICollection<Fee> Fees { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

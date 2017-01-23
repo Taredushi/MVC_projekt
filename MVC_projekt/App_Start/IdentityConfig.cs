@@ -62,6 +62,12 @@ namespace MVC_projekt
             this.EmailService = new EmailService();
         }
 
+        public Task<IdentityResult> ChangePassword(ApplicationUser user, string newPassword)
+        {
+            var store = Store as IUserPasswordStore<ApplicationUser, string>;
+            return UpdatePassword(store, user, newPassword);
+        }
+
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
