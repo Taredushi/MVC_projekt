@@ -1,0 +1,31 @@
+﻿@model MVC_projekt.Models.Category
+
+@{
+    ViewBag.Title = Global.Category;
+}
+
+<h2>@ViewBag.Title:</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName(Global.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayName(Global.ParentCategory)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Parent.Name)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink(Global.BackButton, "Index", null, new { @class = "btn btn-info" })
+    @Html.ActionLink(Global.Edit, "Edit", new { id = Model.CategoryID }, new { @class = "btn btn-info" })
+
+</p>

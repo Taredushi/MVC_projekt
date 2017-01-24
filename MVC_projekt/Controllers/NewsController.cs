@@ -60,6 +60,7 @@ namespace MVC_projekt.Controllers
         }
 
         // GET: News/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -79,6 +80,7 @@ namespace MVC_projekt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit([Bind(Include = "NewsID,Title,Descryption,AddDate")] News news)
         {
             if (ModelState.IsValid)

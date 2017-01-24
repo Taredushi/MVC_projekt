@@ -260,6 +260,9 @@
     <value>Opłacono</value>
     <comment>Fee</comment>
   </data>
+  <data name="ParentCategory" xml:space="preserve">
+    <value>Kategoria rodzic</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Hasło</value>
   </data>

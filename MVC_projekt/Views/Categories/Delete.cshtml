@@ -1,0 +1,31 @@
+﻿@model MVC_projekt.Models.Category
+
+@{
+    ViewBag.Title = Global.Delete;
+}
+
+<h2>@Global.Delete</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName(Global.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            @Html.ActionLink(Global.BackButton, "Index", null, new { @class = "btn btn-info" })
+            <input type="submit" value=@Global.Delete class="btn btn-danger" />
+        </div>
+    }
+</div>

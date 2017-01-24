@@ -1,32 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using MVC_projekt.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MVC_projekt.Controllers
 {
-    public class UserController : Controller
+    public class EmployeeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public UserController()
+        public EmployeeController()
         {
         }
 
-        public UserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public EmployeeController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -62,20 +59,21 @@ namespace MVC_projekt.Controllers
         public ActionResult Index()
         {
             var users = db.Users.Where(x => x.Roles.Any(r => r.RoleId != null));
-            List<ApplicationUser> userList = new List<ApplicationUser>();
-            var user = db.Roles.FirstOrDefault(x => x.Name.Equals("User"));
+            List<ApplicationUser> userList= new List<ApplicationUser>();
+            var employee = db.Roles.FirstOrDefault(x => x.Name.Equals("Employee"));
 
-            if (user != null)
+            if (employee != null)
             {
                 foreach (var u in users)
                 {
 
-                    if (u.Roles.Any(x => x.RoleId.Equals(user.Id)))
+                    if (u.Roles.Any(x => x.RoleId.Equals(employee.Id)))
                     {
                         userList.Add(u);
                     }
                 }
             }
+
             return View(userList);
         }
 
@@ -98,7 +96,7 @@ namespace MVC_projekt.Controllers
         [AllowAnonymous]
         public ActionResult Create()
         {
-            ViewBag.Role = new SelectList(new ApplicationDbContext().Roles, "Name","Name");
+            ViewBag.Role = new SelectList(new ApplicationDbContext().Roles, "Name", "Name");
             return View();
         }
 
@@ -111,10 +109,10 @@ namespace MVC_projekt.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Name = model.Name, Surname = model.Surname };
-                
+
                 var result = await UserManager.CreateAsync(user, model.Password);
-         
-                
+
+
                 if (result.Succeeded)
                 {
                     await UserManager.AddToRoleAsync(user.Id, model.Role);
@@ -153,7 +151,7 @@ namespace MVC_projekt.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
+
                     if (user.Password != null)
                     {
                         UserManager.ChangePassword(user, user.Password);
@@ -163,7 +161,7 @@ namespace MVC_projekt.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return View(user);
             }
@@ -171,7 +169,7 @@ namespace MVC_projekt.Controllers
             return View(user);
 
         }
-        
+
         // GET: User/Delete/5
         public ActionResult Delete(string id)
         {

@@ -11,7 +11,7 @@ namespace MVC_projekt.Controllers
     [Localization("pl")]
     public class AdminPanelController : Controller
     {
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Employee")]
         // GET: AdminPanel
         public ActionResult Index()
         {

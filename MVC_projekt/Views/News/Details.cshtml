@@ -37,6 +37,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = Model.NewsID }, new { @class = "btn btn-default" })
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = Model.NewsID }, new { @class = "btn btn-default" })
+    }
     <a href="/News" class="btn btn-primary">@Resources.Global.BackButton</a>
 </p>

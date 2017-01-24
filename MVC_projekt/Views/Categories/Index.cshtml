@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MVC_projekt.Models.Category>
+
+@{
+    ViewBag.Title = Global.Category;
+}
+
+<h2>@ViewBag.Title:</h2>
+
+<p>
+    @Html.ActionLink(Global.Create, "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName(Global.Name)
+        </th>
+        <th>
+            @Html.DisplayName(Global.ParentCategory)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Parent.Name)
+            </td>
+            <td>
+                @Html.ActionLink(Global.Edit, "Edit", new { id = item.CategoryID }, new { @class = "btn btn-info" })
+                @Html.ActionLink(Global.Details, "Details", new { id = item.CategoryID }, new { @class = "btn btn-info" })
+                @Html.ActionLink(Global.Delete, "Delete", new { id = item.CategoryID }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

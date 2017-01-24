@@ -466,6 +466,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kategoria rodzic.
+        /// </summary>
+        public static string ParentCategory {
+            get {
+                return ResourceManager.GetString("ParentCategory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Hasło.
         /// </summary>
         public static string Password {
