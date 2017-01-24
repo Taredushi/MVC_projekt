@@ -77,6 +77,7 @@ namespace MVC_projekt.Migrations
                     Surname = "Kowalski",
                     UserName = "admin",
                     Email = "admin@admin.net",
+                    EmailConfirmed = true,
                     PasswordHash = passwordHash.HashPassword("admin"),
                 };
 
@@ -96,6 +97,7 @@ namespace MVC_projekt.Migrations
                     Surname = "Nowak",
                     UserName = "bibliotekarz",
                     Email = "bibliotekarz@bibliotekarz.net",
+                      EmailConfirmed = true,
                     PasswordHash = passwordHash.HashPassword("bibliotekarz"),
                 };
 
@@ -115,6 +117,7 @@ namespace MVC_projekt.Migrations
                     Surname = "Zegarek",
                     UserName = "user",
                     Email = "user@user.net",
+                    EmailConfirmed = true,
                     PasswordHash = passwordHash.HashPassword("user"),
                 };
 

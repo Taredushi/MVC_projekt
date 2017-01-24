@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MVC_projekt.Models.News>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@Global.News</h2>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink(@Resources.Global.Add, "Create", null, new { @class = "btn btn-warning" })
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AddDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddDate)
+        </td>
+        <td>
+            @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.NewsID }, new { @class = "btn btn-info" })
+        </td>
+        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+        {
+            <td>
+                @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.NewsID }, new { @class = "btn btn-default" })
+            </td>
+                <td>
+                    @Html.ActionLink(@Resources.Global.Delete, "Delete", new { id = item.NewsID }, new { @class = "btn btn-danger" })
+                </td>
+        }
+    </tr>
+}
+
+</table>

@@ -32,8 +32,10 @@ namespace MVC_projekt.Controllers
             }
 
             var latestBooks = db.BookItems.OrderByDescending(d => d.AddDate).Take(3).ToList();
-
-            return View(latestBooks);
+            var latestMessage = db.News.OrderByDescending(d => d.AddDate).Take(3).ToList();
+            ViewBag.LatestBooks = latestBooks;
+            ViewBag.LatestMessage  = latestMessage;
+            return View();
         }
 
         public ActionResult Contact()

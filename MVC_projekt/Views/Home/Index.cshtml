@@ -1,7 +1,9 @@
 ﻿@using MVC_projekt.Models
-@model List<MVC_projekt.Models.BookItem>
+
 @{
     ViewBag.Title = "Home Page";
+    List<MVC_projekt.Models.News> latestMessage = ViewBag.LatestMessage;
+    List<MVC_projekt.Models.BookItem> latestBooks = ViewBag.LatestBooks;
 }
 
 <link href="~/Content/carousel.css" rel="stylesheet" />
@@ -10,28 +12,28 @@
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-        @for (int i = 0; i < Model.Count(); i++)
+        @for (int i = 0; i < latestBooks.Count(); i++)
             {
             <li data-target="#myCarousel" data-slide-to="@i" class="@(i == 0 ? "active" : string.Empty)"></li>
         }
     </ol>
     <div class="carousel-inner" role="listbox">
-        @for (int i = 0; i < Model.Count(); i++)
+        @for (int i = 0; i < latestBooks.Count(); i++)
             {
             <div class="item @(i == 0 ? "active" : string.Empty)">
                 <div class="container">
                     <div class="col-lg-offset-2" style="padding-top: 20px">
-                        @if (Model[i].Attachments.Any() && Model[i].Attachments.FirstOrDefault(x => x.FileType == FileType.Cover) != null)
+                        @if (latestBooks[i].Attachments.Any() && latestBooks[i].Attachments.FirstOrDefault(x => x.FileType == FileType.Cover) != null)
                         {
-                            <img src=@Url.Content(Model[i].Attachments.Single(x => x.FileType == FileType.Cover).Source) class="img-rounded" alt=@Model[i].BookItemID height="250">
+                            <img src=@Url.Content(latestBooks[i].Attachments.Single(x => x.FileType == FileType.Cover).Source) class="img-rounded" alt=@latestBooks[i].BookItemID height="250">
                         }
                     </div>
                     <div class="carousel-caption col-lg-offset-2">
                         <h1 class="nowosc">Nowość!!</h1>
-                        <h2>@Model[i].Title</h2>
-                        <br/>
+                        <h2>@latestBooks[i].Title</h2>
+                        <br />
                         <p>
-                            @Model[i].ShortDescryption
+                            @latestBooks[i].ShortDescryption
                         </p>
                     </div>
                 </div>
@@ -49,7 +51,8 @@
 </div>
 
 
-
+@if (!@Request.IsAuthenticated)
+{
 <div class="jumbotron">
     <h1>Bogdaniec Library</h1>
     <p class="lead">Bogdaniec is new library in Bialystok University of Technologies. Here you can find books for every programmer. We also have books for normal people :)</p>
@@ -66,9 +69,35 @@
     <div class="col-md-4">
         <h2>Getting started</h2>
         <p>Log in and enter the real world of magic</p>
-        <p><a class="btn btn-default" href="/Account/Login">Log in &raquo;</a></p>
+        <p>
+            <a class="btn btn-default" href="/Account/Login">Log in &raquo;</a>
+        </p>
     </div>
 </div>
+<br />
+}
+@if (@Request.IsAuthenticated)
+{
+    <div class="jumbotron">
+        <h1>@Global.News</h1>
+        <div class="row">
 
+            @for (int i = 0; i < latestMessage.Count(); i++)
+            {
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        
+                        <div class="panel-heading">@latestMessage[i].Title</div>
+                        <div class="panel-body">@latestMessage[i].ShortDescryption</div>
+                        <div class="panel-footer"><a  href="/News/Details/@latestMessage[i].NewsID">@Global.More</a></div>
+                    </div>
+                  
+                </div>
+            }
+
+        </div>
+    </div>
+
+}
 <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
 <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>

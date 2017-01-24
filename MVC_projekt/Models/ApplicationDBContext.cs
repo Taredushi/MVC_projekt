@@ -29,6 +29,8 @@ namespace MVC_projekt.Models
         public DbSet<LabelGroup> LabelGroups { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<SearchResult> SearchResults { get; set; }
+        public DbSet<News> News { get; set; }
+
 
         public static ApplicationDbContext Create()
         {

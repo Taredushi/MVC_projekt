@@ -1,0 +1,48 @@
+﻿@model MVC_projekt.Models.News
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>@Global.Delete</h2>
+
+<h3>@Global.DeleteConfirmation</h3>
+<div>
+    <h4>News</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descryption)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descryption)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink(Global.BackButton, "Index")
+        </div>
+    }
+</div>

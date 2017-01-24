@@ -124,6 +124,7 @@ namespace MVC_projekt.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Role = new SelectList(new ApplicationDbContext().Roles, "Name", "Name");
             return View(user);
         }
 
@@ -136,6 +137,7 @@ namespace MVC_projekt.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    
                     if (user.Password != null)
                     {
                         UserManager.ChangePassword(user, user.Password);

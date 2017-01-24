@@ -226,6 +226,7 @@
     <Compile Include="Models\Helpers\BookTools.cs" />
     <Compile Include="Models\Helpers\CartTools.cs" />
     <Compile Include="Models\Helpers\ViewTools.cs" />
+    <Compile Include="Models\News.cs" />
     <Compile Include="Models\View\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDBContext.cs" />
     <Compile Include="Models\Attachment.cs" />
