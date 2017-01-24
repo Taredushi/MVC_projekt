@@ -23,27 +23,28 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AddDate)
-        </td>
-        <td>
-            @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.NewsID }, new { @class = "btn btn-info" })
-        </td>
-        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-        {
+    @foreach (var item in Model)
+    {
+        <tr>
             <td>
-                @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.NewsID }, new { @class = "btn btn-default" })
+                @Html.DisplayFor(modelItem => item.Title)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddDate)
+            </td>
+            <td>
+                @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.NewsID }, new { @class = "btn btn-info" })
+            </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <td>
+                    @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.NewsID }, new { @class = "btn btn-default" })
+                </td>
                 <td>
                     @Html.ActionLink(@Resources.Global.Delete, "Delete", new { id = item.NewsID }, new { @class = "btn btn-danger" })
                 </td>
-        }
-    </tr>
-}
+            }
+        </tr>
+    }
 
 </table>

@@ -37,6 +37,6 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink(Global.Edit, "Edit", new { id = Model.NewsID }) |
-    @Html.ActionLink(Global.BackButton, "Index")
+    @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = Model.NewsID }, new { @class = "btn btn-default" })
+    <a href="/News" class="btn btn-primary">@Resources.Global.BackButton</a>
 </p>

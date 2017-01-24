@@ -4,10 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>@Global.Label</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink(@Resources.Global.Add, "Create", null, new { @class = "btn btn-warning" })
 </p>
 <table class="table">
     <tr>
@@ -17,17 +17,25 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.LabelID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.LabelID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.LabelID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink(@Resources.Global.Details, "Details", new { id = item.LabelID }, new { @class = "btn btn-info" })
+            </td>
+            @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+            {
+                <td>
+                    @Html.ActionLink(@Resources.Global.Edit, "Edit", new { id = item.LabelID }, new { @class = "btn btn-default" })
+                </td>
+                <td>
+                    @Html.ActionLink(@Resources.Global.Delete, "Delete", new { id = item.LabelID }, new { @class = "btn btn-danger" })
+                </td>
+            }
+        </tr>
+    }
 
 </table>

@@ -51,7 +51,7 @@
 </div>
 
 
-@if (!@Request.IsAuthenticated)
+@if (!@Request.IsAuthenticated || !latestMessage.Any())
 {
 <div class="jumbotron">
     <h1>Bogdaniec Library</h1>
@@ -76,7 +76,7 @@
 </div>
 <br />
 }
-@if (@Request.IsAuthenticated)
+@if (@Request.IsAuthenticated && latestMessage.Any())
 {
     <div class="jumbotron">
         <h1>@Global.News</h1>

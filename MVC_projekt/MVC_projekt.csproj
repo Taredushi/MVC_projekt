@@ -187,9 +187,14 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Migrations\201612111853355_attachment2.cs" />
     <Compile Include="Migrations\201612111853355_attachment2.Designer.cs">
       <DependentUpon>201612111853355_attachment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701240114015_news.cs" />
+    <Compile Include="Migrations\201701240114015_news.Designer.cs">
+      <DependentUpon>201701240114015_news.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Classes\JobScheduler.cs" />
     <Compile Include="Models\Classes\LocalizationAttribute.cs" />
@@ -348,6 +353,8 @@
     <Content Include="sass\_variables.sass" />
     <Content Include="sass\screen.sass" />
     <Content Include="sass\lightbox.sass" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -439,6 +446,11 @@
     <Content Include="Views\Search\Category.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
     <Content Include="Views\Shared\_Language.cshtml" />
+    <Content Include="Views\News\Create.cshtml" />
+    <Content Include="Views\News\Delete.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
+    <Content Include="Views\News\Edit.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -456,6 +468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201612111853355_attachment2.resx">
       <DependentUpon>201612111853355_attachment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701240114015_news.resx">
+      <DependentUpon>201701240114015_news.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Global.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

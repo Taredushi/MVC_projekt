@@ -4,11 +4,12 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h2>@Global.Delete</h2>
+
+<h3>@Global.DeleteConfirmation</h3>
 <div>
-    <h4>Author</h4>
+    <h4>@Global.Author</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -29,12 +30,13 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <a href="/Authors" class="btn btn-primary">@Resources.Global.BackButton</a>
         </div>
     }
 </div>
