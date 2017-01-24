@@ -297,6 +297,12 @@
   <data name="Search" xml:space="preserve">
     <value>Wyszukiwanie</value>
   </data>
+  <data name="SearchHistory" xml:space="preserve">
+    <value>Historia wyszukiwania</value>
+  </data>
+  <data name="SearchString" xml:space="preserve">
+    <value>Hasło wyszukiwania</value>
+  </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Wybierz</value>
   </data>

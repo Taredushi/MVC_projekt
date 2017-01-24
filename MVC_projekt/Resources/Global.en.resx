@@ -298,6 +298,12 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SearchHistory" xml:space="preserve">
+    <value>Search History</value>
+  </data>
+  <data name="SearchString" xml:space="preserve">
+    <value>Search String</value>
+  </data>
   <data name="SelectOption" xml:space="preserve">
     <value>Select Some Options</value>
   </data>

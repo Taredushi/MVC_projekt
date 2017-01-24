@@ -35,6 +35,12 @@ namespace MVC_projekt.Models.Helpers
             return list;
         }
 
+        public List<SearchResult> GetSearchHistory(ApplicationDbContext db, string userId)
+        {
+            var list = db.SearchResults.Where(x => x.ApplicationUserID.Equals(userId)).ToList();
+            return list;
+        }
+
         private BookStateViewModel GetBookStateViewModel(Order order)
         {
             var bsvm = new BookStateViewModel()

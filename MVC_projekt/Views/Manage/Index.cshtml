@@ -96,8 +96,8 @@
                 <div class="card">
                     <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#tabs-1" role="tab" data-toggle="tab">@Resources.Global.BookOrderd</a></li>
-                        @*<li role="presentation"><a href="#tabs-2" role="tab" data-toggle="tab">@Resources.Global.BookBooked</a></li>*@
-                        <li role="presentation"><a href="#tabs-3" role="tab" data-toggle="tab">@Resources.Global.BookHistory</a></li>
+                        <li role="presentation"><a href="#tabs-2" role="tab" data-toggle="tab">@Resources.Global.BookHistory</a></li>
+                        <li role="presentation"><a href="#tabs-3" role="tab" data-toggle="tab">@Resources.Global.SearchHistory</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -142,7 +142,7 @@
                             </table>
                         </div>
 
-                        <div role="tabpanel" class="tab-pane" id="tabs-3">
+                        <div role="tabpanel" class="tab-pane" id="tabs-2">
                             <table class="table">
                                 <tr>
                                     <th>
@@ -176,6 +176,37 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(model => book.AvailableOn)
+                                        </td>
+                                    </tr>
+                                    
+                                }
+                            </table>
+
+
+                        </div>
+                        
+                        <div role="tabpanel" class="tab-pane" id="tabs-3">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        @Global.Category
+                                    </th>
+                                    <th>
+                                        @Global.SearchString
+                                    </th>
+                                    <th></th>
+                                </tr>
+                                @foreach (var search in Model.SearchResults)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => search.SearchCategory)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => search.SearchString)
+                                        </td>
+                                        <td>
+                                            <a href="@search.URL" class="btn btn-primary">@Global.Search</a>
                                         </td>
                                     </tr>
                                 }

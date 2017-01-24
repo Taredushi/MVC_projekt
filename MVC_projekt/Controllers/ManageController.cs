@@ -75,7 +75,8 @@ namespace MVC_projekt.Controllers
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                 BookOrdered = _bookTools.GetOrderedBook(new ApplicationDbContext(), userId),
-                BookHistory = _bookTools.GetBookHistory(new ApplicationDbContext(), userId)
+                BookHistory = _bookTools.GetBookHistory(new ApplicationDbContext(), userId),
+                SearchResults = _bookTools.GetSearchHistory(new ApplicationDbContext(), userId)
             };
             ViewBag.Search = UserManager.FindById(userId).SearchResults.ToList();
             return View(model);

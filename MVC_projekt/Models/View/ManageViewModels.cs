@@ -16,6 +16,7 @@ namespace MVC_projekt.Models
         public List<BookStateViewModel> BookOrdered { get; set; }
         public List<BookStateViewModel> BookBooked { get; set; }
         public List<BookStateViewModel> BookHistory{ get; set; }
+        public List<SearchResult> SearchResults { get; set; }
     }
 
     public class ManageLoginsViewModel
